@@ -1,6 +1,7 @@
-package app.prismarine.server.net;
+package app.prismarine.server.net.packet;
 
-import app.prismarine.server.net.packet.Packet;
+import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.net.Connection;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -12,7 +13,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 	private final Connection connection;
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, Packet in, ByteBuf out) throws Exception {
+	protected void encode(ChannelHandlerContext ctx, Packet in, ByteBuf out) {
 
 		System.out.println("OUT: " + in.toString());
 

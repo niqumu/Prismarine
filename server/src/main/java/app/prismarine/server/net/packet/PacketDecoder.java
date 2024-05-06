@@ -1,8 +1,8 @@
-package app.prismarine.server.net;
+package app.prismarine.server.net.packet;
 
-import app.prismarine.server.net.packet.Packet;
-import app.prismarine.server.net.packet.PacketDirection;
-import app.prismarine.server.net.packet.PacketManager;
+import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.net.Connection;
+import app.prismarine.server.net.ConnectionState;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -19,7 +19,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 	private final Connection connection;
 
 	@Override
-	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		ByteBufWrapper wrapper = new ByteBufWrapper(in);
 
 		ConnectionState state = this.connection.getState();
