@@ -1,22 +1,17 @@
-package app.prismarine.server.net.packet.login;
+package app.prismarine.server.net.packet.play.out;
 
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class PacketLoginOutDisconnect implements Packet {
+@AllArgsConstructor
+public class PacketPlayOutLogin implements Packet {
 
-	private final String jsonReason;
-
-	public PacketLoginOutDisconnect(String reason) {
-		this.jsonReason = "{\"text\":\"" + reason + "\"}";
-	}
-
-	public PacketLoginOutDisconnect(ByteBufWrapper bytes) {
-		this.jsonReason = bytes.readString();
+	public PacketPlayOutLogin(ByteBufWrapper bytes) {
 	}
 
 	/**
@@ -34,7 +29,7 @@ public class PacketLoginOutDisconnect implements Packet {
 	 */
 	@Override
 	public ConnectionState getState() {
-		return ConnectionState.STATUS;
+		return ConnectionState.PLAY;
 	}
 
 	/**
@@ -42,7 +37,7 @@ public class PacketLoginOutDisconnect implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0;
+		return 0x29;
 	}
 
 	/**
@@ -51,7 +46,24 @@ public class PacketLoginOutDisconnect implements Packet {
 	@Override
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
-		bytes.writeString(this.jsonReason);
+		bytes.writeInt(0);
+		bytes.writeBoolean(false);
+		bytes.writeVarInt(1);
+		bytes.writeIdentifier("minecraft", "overworld");
+		bytes.writeVarInt(20);
+		bytes.writeVarInt(16);
+		bytes.writeVarInt(16);
+		bytes.writeBoolean(false);
+		bytes.writeBoolean(true);
+		bytes.writeBoolean(false);
+		bytes.writeIdentifier("minecraft", "overworld");
+		bytes.writeIdentifier("minecraft", "overworld");
+		bytes.writeLong(0);
+		bytes.writeByte(1);
+		bytes.writeBoolean(false);
+		bytes.writeBoolean(true);
+		bytes.writeBoolean(false);
+		bytes.writeVarInt(0);
 		return bytes.getBytes();
 	}
 }

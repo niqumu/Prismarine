@@ -11,17 +11,29 @@ import lombok.Getter;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * A simple netty server to handle all connections with clients
+ */
 public class NettyServer {
 
 	private final EventLoopGroup bossGroup = new NioEventLoopGroup();
 	private final EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+	/**
+	 * Whether the netty server is currently alive or not
+	 */
 	@Getter
 	private boolean running = false;
 
+	/**
+	 * The {@link PrismarineServer} the netty server belongs to
+	 */
 	@Getter
 	private final PrismarineServer server;
 
+	/**
+	 * A set of all {@link Connection}s currently connected to the server
+	 */
 	@Getter
 	private final Set<Connection> connections = ConcurrentHashMap.newKeySet();
 
@@ -55,7 +67,7 @@ public class NettyServer {
 		this.workerGroup.shutdownGracefully();
 		this.bossGroup.shutdownGracefully();
 
-		this.running = true;
+		this.running = false;
 	}
 
 }

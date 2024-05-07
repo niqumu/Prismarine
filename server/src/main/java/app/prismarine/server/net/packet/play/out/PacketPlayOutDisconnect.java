@@ -1,22 +1,20 @@
-package app.prismarine.server.net.packet.login;
+package app.prismarine.server.net.packet.play.out;
 
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class PacketLoginOutDisconnect implements Packet {
+@AllArgsConstructor
+public class PacketPlayOutDisconnect implements Packet {
 
-	private final String jsonReason;
+	private final String reason;
 
-	public PacketLoginOutDisconnect(String reason) {
-		this.jsonReason = "{\"text\":\"" + reason + "\"}";
-	}
-
-	public PacketLoginOutDisconnect(ByteBufWrapper bytes) {
-		this.jsonReason = bytes.readString();
+	public PacketPlayOutDisconnect(ByteBufWrapper bytes) {
+		this.reason = bytes.readString();
 	}
 
 	/**
@@ -34,7 +32,7 @@ public class PacketLoginOutDisconnect implements Packet {
 	 */
 	@Override
 	public ConnectionState getState() {
-		return ConnectionState.STATUS;
+		return ConnectionState.PLAY;
 	}
 
 	/**
@@ -42,7 +40,7 @@ public class PacketLoginOutDisconnect implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0;
+		return 0x1b;
 	}
 
 	/**
@@ -51,7 +49,7 @@ public class PacketLoginOutDisconnect implements Packet {
 	@Override
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
-		bytes.writeString(this.jsonReason);
+		bytes.writeString(this.reason);
 		return bytes.getBytes();
 	}
 }

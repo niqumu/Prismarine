@@ -82,6 +82,10 @@ public class ByteBufWrapper {
 		this.getByteBuf().writeBytes(stringBytes);
 	}
 
+	public void writeIdentifier(@NonNull String namespace, @NonNull String string) {
+		writeString(namespace + ":" + string);
+	}
+
 	public UUID readUUID() {
 		return new UUID(this.readLong(), this.readLong());
 	}

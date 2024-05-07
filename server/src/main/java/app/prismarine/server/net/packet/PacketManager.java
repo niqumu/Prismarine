@@ -75,7 +75,7 @@ public class PacketManager {
 	 * @param direction The {@link PacketDirection} of this packet
 	 * @param id The internal ID of this packet
 	 */
-	@SuppressWarnings("all")
+	@SuppressWarnings("unchecked")
 	private void register(Class<? extends Packet> clazz, PacketHandler<? extends Packet> handler,
 	                      ConnectionState state, PacketDirection direction, int id) {
 		HANDLERS.put(clazz, (PacketHandler<Packet>) handler);

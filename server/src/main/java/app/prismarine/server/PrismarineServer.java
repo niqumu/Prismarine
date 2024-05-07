@@ -7,25 +7,50 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Main class of the Prismarine server
+ */
 public class PrismarineServer {
 
-	public static final String GAME_VERSION = "Prismarine - 1.20.6";
+	/**
+	 * The game and protocol version the server is targeting
+	 */
+	public static final String GAME_VERSION = "1.20.6";
 	public static final int PROTOCOL_VERSION = 766;
 
+	/**
+	 * The global static server instance
+	 */
 	@Getter
 	private static PrismarineServer server;
 
+	/**
+	 * The server's logger
+	 */
 	@Getter
 	private final Logger logger = LoggerFactory.getLogger(PrismarineServer.class);
 
+	/**
+	 * The IP address the server is running on
+	 */
 	@Getter
 	private final String ip = "0.0.0.0";
+
+	/**
+	 * The port the server is running on
+	 */
 	@Getter
 	private final int port = 25565;
 
+	/**
+	 * Whether the server is currently alive or not
+	 */
 	@Getter
 	private boolean running = false;
 
+	/**
+	 * The server's {@link NettyServer} for handling networking and connections
+	 */
 	@Getter
 	private NettyServer nettyServer;
 
