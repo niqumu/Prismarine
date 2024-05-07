@@ -54,13 +54,13 @@ public class NettyServer {
 			.option(ChannelOption.SO_BACKLOG, 128)
 			.childOption(ChannelOption.SO_KEEPALIVE, true);
 
-		// Bind the server and update the state accordingly
-		bootstrap.bind(this.server.getIp(), this.server.getPort()).addListener(future ->
-			this.running = future.isSuccess());
+		// Bind the server and update the state
+		bootstrap.bind(this.server.getConfig().getIp(), this.server.getConfig().getPort()).
+			addListener(future -> this.running = future.isSuccess());
 	}
 
 	public void shutdown() {
-		if (this.running) {
+		if (!this.running) {
 			throw new IllegalStateException("The NettyServer is not running!");
 		}
 

@@ -31,18 +31,6 @@ public class PrismarineServer {
 	private final Logger logger = LoggerFactory.getLogger(PrismarineServer.class);
 
 	/**
-	 * The IP address the server is running on
-	 */
-	@Getter
-	private final String ip = "0.0.0.0";
-
-	/**
-	 * The port the server is running on
-	 */
-	@Getter
-	private final int port = 25565;
-
-	/**
 	 * Whether the server is currently alive or not
 	 */
 	@Getter
@@ -54,6 +42,12 @@ public class PrismarineServer {
 	@Getter
 	private NettyServer nettyServer;
 
+	/**
+	 * The server's {@link PrismarineConfig} instance
+	 */
+	@Getter
+	private PrismarineConfig config;
+
 	@SneakyThrows
 	public void startup() {
 
@@ -63,9 +57,16 @@ public class PrismarineServer {
 		}
 
 		final long startTime = System.currentTimeMillis();
-		logger.info("Starting Prismarine at {}:{}", this.ip, this.port);
+		logger.info("Starting Prismarine!");
 
+		// Set up the shutdown hooks
+		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
+		// Read the configuration
+		this.config = new PrismarineConfig();
+
+		// Start the netty server
+		logger.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
 		this.nettyServer = new NettyServer(this);
 		this.nettyServer.startup();
 
@@ -76,6 +77,8 @@ public class PrismarineServer {
 	}
 
 	public void shutdown() {
+		logger.info("Stopping!");
+		this.config.save();
 		this.nettyServer.shutdown();
 	}
 
