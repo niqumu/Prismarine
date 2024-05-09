@@ -38,7 +38,7 @@ public class PacketConfigurationOutFinish implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x2;
+		return 0x3;
 	}
 
 	/**

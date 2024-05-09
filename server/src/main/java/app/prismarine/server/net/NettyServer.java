@@ -53,6 +53,7 @@ public class NettyServer {
 			.channel(NioServerSocketChannel.class)
 			.childHandler(new NettyChannelInitializer(this))
 			.option(ChannelOption.SO_BACKLOG, 128)
+			.childOption(ChannelOption.TCP_NODELAY, true)
 			.childOption(ChannelOption.SO_KEEPALIVE, true);
 
 		// Bind the server and update the state

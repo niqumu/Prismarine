@@ -61,10 +61,11 @@ public class PacketManager {
 		// Configuration
 		register(PacketConfigurationInConfig.class, ConnectionState.CONFIGURATION, PacketDirection.IN, 0x0);
 
-		register(PacketConfigurationOutDisconnect.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x1);
+		register(PacketConfigurationInPluginMessage.class, ConnectionState.CONFIGURATION, PacketDirection.IN, 0x2);
+		register(PacketConfigurationOutDisconnect.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x2);
 		register(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
-			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x2);
-		register(PacketConfigurationOutFinish.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x2);
+			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x3);
+		register(PacketConfigurationOutFinish.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x3);
 	}
 
 	/**

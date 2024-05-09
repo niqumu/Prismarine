@@ -21,6 +21,12 @@ public interface Entity {
 	Location getLocation();
 
 	/**
+	 * Gets the amount of time, in ticks, that the entity has been alive for
+	 * @return The number of ticks that the entity has lived
+	 */
+	int getTicksLived();
+
+	/**
 	 * Whether this entity is currently on the ground
 	 * @return The entity's current ground state
 	 */

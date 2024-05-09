@@ -127,7 +127,23 @@ public class ByteBufWrapper {
 		this.byteBuf.writeByte(data);
 	}
 
-	public void writeBytes(byte data[]) {
+	public byte[] readBytes(int count) {
+		byte[] bytes = new byte[count];
+
+		for (int i = 0; i < count; i++) {
+			bytes[i] = this.readByte();
+		}
+
+		return bytes;
+	}
+
+	public byte[] readRemainingBytes() {
+		final int length = this.byteBuf.writerIndex();
+		final int reader = this.byteBuf.readerIndex();
+		return this.readBytes(length - reader);
+	}
+
+	public void writeBytes(byte[] data) {
 		this.byteBuf.writeBytes(data);
 	}
 

@@ -1,4 +1,4 @@
-package app.prismarine.server.net.packet.play.out;
+package app.prismarine.server.net.packet.configuration;
 
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
@@ -9,9 +9,14 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PacketPlayOutLogin implements Packet {
+public class PacketConfigurationInPluginMessage implements Packet {
 
-	public PacketPlayOutLogin(ByteBufWrapper bytes) {
+	private final String channel;
+	private final byte[] data;
+
+	public PacketConfigurationInPluginMessage(ByteBufWrapper bytes) {
+		this.channel = bytes.readString();
+		this.data = bytes.readRemainingBytes();
 	}
 
 	/**
@@ -20,7 +25,7 @@ public class PacketPlayOutLogin implements Packet {
 	 */
 	@Override
 	public PacketDirection getDirection() {
-		return PacketDirection.OUT;
+		return PacketDirection.IN;
 	}
 
 	/**
@@ -29,7 +34,7 @@ public class PacketPlayOutLogin implements Packet {
 	 */
 	@Override
 	public ConnectionState getState() {
-		return ConnectionState.PLAY;
+		return ConnectionState.CONFIGURATION;
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class PacketPlayOutLogin implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x2b;
+		return 0x2;
 	}
 
 	/**
@@ -46,24 +51,8 @@ public class PacketPlayOutLogin implements Packet {
 	@Override
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
-		bytes.writeInt(0);
-		bytes.writeBoolean(false);
-		bytes.writeVarInt(1);
-		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeVarInt(20);
-		bytes.writeVarInt(16);
-		bytes.writeVarInt(16);
-		bytes.writeBoolean(false);
-		bytes.writeBoolean(true);
-		bytes.writeBoolean(false);
-		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeLong(0);
-		bytes.writeByte(1);
-		bytes.writeBoolean(false);
-		bytes.writeBoolean(true);
-		bytes.writeBoolean(false);
-		bytes.writeVarInt(0);
+		bytes.writeString(this.channel);
+		bytes.writeBytes(this.data);
 		return bytes.getBytes();
 	}
 }

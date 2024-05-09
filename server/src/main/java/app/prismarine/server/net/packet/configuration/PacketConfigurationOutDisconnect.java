@@ -40,7 +40,7 @@ public class PacketConfigurationOutDisconnect implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x1;
+		return 0x2;
 	}
 
 	/**

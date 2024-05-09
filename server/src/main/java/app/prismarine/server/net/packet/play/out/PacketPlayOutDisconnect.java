@@ -40,7 +40,7 @@ public class PacketPlayOutDisconnect implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x1b;
+		return 0x1d;
 	}
 
 	/**

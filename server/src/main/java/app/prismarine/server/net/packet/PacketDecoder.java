@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
+		ByteBufWrapper copy = new ByteBufWrapper(in.copy());
 		ByteBufWrapper wrapper = new ByteBufWrapper(in);
 
 		ConnectionState state = this.connection.getState();
@@ -32,6 +34,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 			System.out.println("Got unknown packet.");
 			System.out.println("\tState: " + state);
 			System.out.println("\tID: " + id);
+			System.out.println("\tDump: " + Arrays.toString(copy.getBytes()));
 			in.clear();
 			return;
 		}

@@ -28,6 +28,12 @@ public class PrismarineEntity implements Entity {
 	private Location location;
 
 	/**
+	 * The number of ticks that the entity has been alive for
+	 */
+	@Getter
+	private int ticksLived;
+
+	/**
 	 * Whether the entity is currently on the ground
 	 */
 	@Getter
@@ -48,7 +54,7 @@ public class PrismarineEntity implements Entity {
 	/**
 	 * Teleports the entity to the specified location
 	 *
-	 * @param newLocation The location to teleprot the entity to
+	 * @param newLocation The location to teleport the entity to
 	 */
 	@Override
 	public void teleport(Location newLocation) {
