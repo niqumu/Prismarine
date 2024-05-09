@@ -59,7 +59,7 @@ public class Connection {
 	 */
 	public void disconnect(String reason) {
 
-		PrismarineServer.getServer().getLogger().info("{} was kicked: \"{}\"", address, reason);
+		PrismarineServer.LOGGER.info("{} was kicked: \"{}\"", address, reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
@@ -80,5 +80,9 @@ public class Connection {
 		}
 
 		return this.channel.writeAndFlush(packet);
+	}
+
+	public void close() {
+		this.getChannel().close();
 	}
 }

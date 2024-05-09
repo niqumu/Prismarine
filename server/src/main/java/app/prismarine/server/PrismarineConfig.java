@@ -43,7 +43,7 @@ public class PrismarineConfig {
 		boolean configCreated = configFile.createNewFile();
 
 		if (configCreated) {
-			PrismarineServer.getServer().getLogger().info("Created config file server.properties");
+			PrismarineServer.LOGGER.info("Created config file server.properties");
 		}
 
 		configProperties.load(new FileInputStream(configFile));
@@ -62,5 +62,7 @@ public class PrismarineConfig {
 		configProperties.setProperty("max_players", String.valueOf(this.maxPlayers));
 
 		configProperties.store(new FileOutputStream("server.properties"), null);
+
+		PrismarineServer.LOGGER.info("Saved configuration to server.properties");
 	}
 }

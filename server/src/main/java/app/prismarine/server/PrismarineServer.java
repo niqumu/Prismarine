@@ -1,5 +1,6 @@
 package app.prismarine.server;
 
+import app.prismarine.api.Server;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Main class of the Prismarine server
  */
-public class PrismarineServer {
+public class PrismarineServer implements Server {
 
 	/**
 	 * The game and protocol version the server is targeting
@@ -19,16 +20,15 @@ public class PrismarineServer {
 	public static final int PROTOCOL_VERSION = 766;
 
 	/**
+	 * The server's logger
+	 */
+	public static final Logger LOGGER = LoggerFactory.getLogger(PrismarineServer.class);
+
+	/**
 	 * The global static server instance
 	 */
 	@Getter
 	private static PrismarineServer server;
-
-	/**
-	 * The server's logger
-	 */
-	@Getter
-	private final Logger logger = LoggerFactory.getLogger(PrismarineServer.class);
 
 	/**
 	 * Whether the server is currently alive or not
@@ -48,6 +48,9 @@ public class PrismarineServer {
 	@Getter
 	private PrismarineConfig config;
 
+	/**
+	 * Starts up the server
+	 */
 	@SneakyThrows
 	public void startup() {
 
@@ -57,7 +60,7 @@ public class PrismarineServer {
 		}
 
 		final long startTime = System.currentTimeMillis();
-		logger.info("Starting Prismarine!");
+		LOGGER.info("Starting Prismarine!");
 
 		// Set up the shutdown hooks
 		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
@@ -66,18 +69,23 @@ public class PrismarineServer {
 		this.config = new PrismarineConfig();
 
 		// Start the netty server
-		logger.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
+		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
 		this.nettyServer = new NettyServer(this);
 		this.nettyServer.startup();
 
 		PacketManager.registerPackets();
 
 		this.running = true;
-		logger.info("Done! Started Prismarine in {} ms", System.currentTimeMillis() - startTime);
+		LOGGER.info("Done! Started Prismarine in {} ms", System.currentTimeMillis() - startTime);
 	}
 
+	/**
+	 * Cleans up the server on shutdown. This method is registered as a shutdown hook on server startup
+	 */
 	public void shutdown() {
-		logger.info("Stopping!");
+		Thread.currentThread().setName("Shutdown-Thread");
+
+		LOGGER.info("Stopping!");
 		this.config.save();
 		this.nettyServer.shutdown();
 	}
@@ -85,5 +93,55 @@ public class PrismarineServer {
 	public static void main(String[] args) {
 		server = new PrismarineServer();
 		server.startup();
+	}
+
+	/**
+	 * Gets the name of the server implementation
+	 *
+	 * @return The server implementation name
+	 */
+	@Override
+	public String getName() {
+		return "Prismarine";
+	}
+
+	/**
+	 * Gets the Minecraft client version the server is targeted towards
+	 *
+	 * @return The Minecraft version the server supports
+	 */
+	@Override
+	public String getVersion() {
+		return GAME_VERSION;
+	}
+
+	/**
+	 * Gets the protocol version the server is running on
+	 *
+	 * @return The protocol version the server supports
+	 */
+	@Override
+	public int getProtocol() {
+		return PROTOCOL_VERSION;
+	}
+
+	/**
+	 * Gets the IP address the server is operating on
+	 *
+	 * @return The IP address of the server
+	 */
+	@Override
+	public String getIP() {
+		return this.config.getIp();
+	}
+
+	/**
+	 * Gets the port the server is operating on
+	 *
+	 * @return The port of the server
+	 */
+	@Override
+	public int getPort() {
+		return this.config.getPort();
 	}
 }

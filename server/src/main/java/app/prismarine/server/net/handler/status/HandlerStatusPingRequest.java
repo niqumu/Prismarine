@@ -14,5 +14,6 @@ public class HandlerStatusPingRequest implements PacketHandler<PacketStatusInPin
 	@Override
 	public void handle(Connection connection, PacketStatusInPingRequest packet) {
 		connection.sendPacket(new PacketStatusOutPingResponse(packet.getPayload()));
+		connection.close();
 	}
 }

@@ -1,6 +1,7 @@
 package app.prismarine.server.net;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.net.packet.Packet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -68,6 +69,18 @@ public class NettyServer {
 		this.bossGroup.shutdownGracefully();
 
 		this.running = false;
+	}
+
+	/**
+	 * Broadcast a packet to all currently online players
+	 * @param packet The packet to broadcast
+	 */
+	public void broadcastPacket(Packet packet) {
+		this.connections.forEach(connection -> {
+			if (connection.getState().equals(ConnectionState.PLAY)) {
+				connection.sendPacket(packet);
+			}
+		});
 	}
 
 }

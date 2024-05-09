@@ -99,7 +99,7 @@ public class PacketManager {
 	 */
 	public void handle(Connection connection, Packet packet) {
 		if (!HANDLERS.containsKey(packet.getClass())) {
-			PrismarineServer.getServer().getLogger().warn("Tried to handle packet {} without a handler!", packet);
+			PrismarineServer.LOGGER.warn("Tried to handle packet {} without a handler!", packet);
 			return;
 		}
 
