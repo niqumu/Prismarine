@@ -5,6 +5,7 @@ import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationAcknowledgeFinish;
+import app.prismarine.server.net.handler.configuration.HandlerConfigurationPluginMessage;
 import app.prismarine.server.net.handler.handshake.HandlerHandshake;
 import app.prismarine.server.net.handler.login.HandlerLoginAcknowledge;
 import app.prismarine.server.net.handler.login.HandlerLoginStartLogin;
@@ -61,7 +62,10 @@ public class PacketManager {
 		// Configuration
 		register(PacketConfigurationInConfig.class, ConnectionState.CONFIGURATION, PacketDirection.IN, 0x0);
 
-		register(PacketConfigurationInPluginMessage.class, ConnectionState.CONFIGURATION, PacketDirection.IN, 0x2);
+		register(PacketConfigurationOutPluginMessage.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x1);
+
+		register(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(),
+			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x2);
 		register(PacketConfigurationOutDisconnect.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x2);
 		register(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
 			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x3);

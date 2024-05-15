@@ -11,6 +11,7 @@ import io.netty.channel.ChannelFuture;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 
 import java.net.InetSocketAddress;
 
@@ -58,8 +59,7 @@ public class Connection {
 	 * @param reason The reason provided for the kick
 	 */
 	public void disconnect(String reason) {
-
-		PrismarineServer.LOGGER.info("{} was kicked: \"{}\"", address, reason);
+		Bukkit.getLogger().info(address + "was kicked: " + reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
