@@ -1,7 +1,9 @@
 package app.prismarine.server;
 
+import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
+import app.prismarine.server.scheduler.TickThread;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -51,7 +53,7 @@ import java.util.function.Consumer;
 /**
  * Main class of the Prismarine server
  */
-public class PrismarineServer implements Server {
+public final class PrismarineServer implements Server {
 
 	/**
 	 * The name and version of the server implementation
@@ -88,20 +90,29 @@ public class PrismarineServer implements Server {
 	/**
 	 * Whether the server is currently alive or not
 	 */
-	@Getter
 	private boolean running = false;
 
 	/**
 	 * The server's {@link NettyServer} for handling networking and connections
 	 */
-	@Getter
 	private NettyServer nettyServer;
 
 	/**
-	 * The server's {@link PrismarineConfig} instance
+	 * The server's {@link ServerConfig} instance
+	 */
+	private ServerConfig config;
+
+	/**
+	 * The server's {@link TickThread} instance
+	 */
+	private TickThread tickThread;
+
+	/**
+	 * The server whitelist
 	 */
 	@Getter
-	private PrismarineConfig config;
+	private PlayerWhitelist whitelist = new PlayerWhitelist();
+
 
 	/**
 	 * Starts up the server
@@ -110,7 +121,7 @@ public class PrismarineServer implements Server {
 	public void startup() {
 
 		// Ensure that the server hasn't already been started
-		if (this.isRunning()) {
+		if (this.running) {
 			throw new IllegalStateException("The server is already running!");
 		}
 
@@ -124,7 +135,7 @@ public class PrismarineServer implements Server {
 		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
 		// Read the configuration
-		this.config = new PrismarineConfig();
+		this.config = new ServerConfig();
 
 		// Start the netty server
 		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
@@ -132,6 +143,10 @@ public class PrismarineServer implements Server {
 		this.nettyServer.startup();
 
 		PacketManager.registerPackets();
+
+		// Ignite the tick thread
+		this.tickThread = new TickThread();
+		this.tickThread.start();
 
 		this.running = true;
 		LOGGER.info("Done! Started Prismarine in {} ms", System.currentTimeMillis() - startTime);
@@ -144,8 +159,15 @@ public class PrismarineServer implements Server {
 		Thread.currentThread().setName("Shutdown-Thread");
 
 		LOGGER.info("Stopping!");
-		this.config.save();
+
+		// Shutdown the networking server, disconnecting all players
 		this.nettyServer.shutdown();
+
+		// Stop ticking
+		this.tickThread.shutdown();
+
+		// Save the server state
+		this.config.save();
 	}
 
 	public static void main(String[] args) {
@@ -199,7 +221,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public int getMaxPlayers() {
-		return this.getConfig().getMaxPlayers();
+		return this.config.getMaxPlayers();
 	}
 
 	/**
@@ -209,7 +231,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public void setMaxPlayers(int maxPlayers) {
-		this.getConfig().setMaxPlayers(maxPlayers);
+		this.config.setMaxPlayers(maxPlayers);
 	}
 
 	/**
@@ -219,7 +241,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public int getPort() {
-		return this.getConfig().getPort();
+		return this.config.getPort();
 	}
 
 	/**
@@ -251,7 +273,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public String getIp() {
-		return this.getConfig().getIp();
+		return this.config.getIp();
 	}
 
 	/**
@@ -415,7 +437,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public boolean hasWhitelist() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.config.isWhitelist();
 	}
 
 	/**
@@ -425,7 +447,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public void setWhitelist(boolean value) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.config.setWhitelist(value);
 	}
 
 	/**
@@ -438,7 +460,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public boolean isWhitelistEnforced() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return false; // This is a strange redundant system that I am choosing to not implement
 	}
 
 	/**
@@ -451,7 +473,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public void setWhitelistEnforced(boolean value) {
-		throw new UnsupportedOperationException("Not yet implemented");
+
 	}
 
 	/**
@@ -461,7 +483,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public Set<OfflinePlayer> getWhitelistedPlayers() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.whitelist.getPlayers();
 	}
 
 	/**
@@ -469,7 +491,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public void reloadWhitelist() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.whitelist = new PlayerWhitelist();
 	}
 
 	/**
@@ -1765,7 +1787,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public String getMotd() {
-		return this.getConfig().getMotd();
+		return this.config.getMotd();
 	}
 
 	/**
@@ -1775,7 +1797,7 @@ public class PrismarineServer implements Server {
 	 */
 	@Override
 	public void setMotd(@NonNull String motd) {
-		this.getConfig().setMotd(motd);
+		this.config.setMotd(motd);
 	}
 
 	/**

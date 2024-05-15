@@ -3,14 +3,13 @@ package app.prismarine.server;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-public class PrismarineConfig {
+public class ServerConfig {
 
 	/**
 	 * The IP address the server is running on
@@ -49,10 +48,16 @@ public class PrismarineConfig {
 	@Getter @Setter
 	private int simulationDistance;
 
+	/**
+	 * Whether players must be included on the server's whitelist to connect
+	 */
+	@Getter @Setter
+	private boolean whitelist;
+
 	private final Properties configProperties = new Properties();
 
 	@SneakyThrows
-	public PrismarineConfig() {
+	public ServerConfig() {
 
 		File configFile = new File("server.properties");
 		boolean configCreated = configFile.createNewFile();
@@ -65,9 +70,10 @@ public class PrismarineConfig {
 		this.maxPlayers = Integer.parseInt(configProperties.getProperty("max-players", "20"));
 		this.simulationDistance = Integer.parseInt(configProperties.getProperty("simulation-distance", "10"));
 		this.viewDistance = Integer.parseInt(configProperties.getProperty("view-distance", "10"));
+		this.whitelist = Boolean.parseBoolean(configProperties.getProperty("white-list", "false"));
 
 		if (configCreated) {
-			Bukkit.getLogger().info("Created config file server.properties");
+			PrismarineServer.LOGGER.info("Created config file server.properties");
 			this.save();
 		}
 	}
@@ -80,9 +86,10 @@ public class PrismarineConfig {
 		configProperties.setProperty("max-players", String.valueOf(this.maxPlayers));
 		configProperties.setProperty("simulation-distance", String.valueOf(this.simulationDistance));
 		configProperties.setProperty("view-distance", String.valueOf(this.viewDistance));
+		configProperties.setProperty("white-list", String.valueOf(this.whitelist));
 
 		configProperties.store(new FileOutputStream("server.properties"), "Prismarine server properties");
 
-		Bukkit.getLogger().info("Saved configuration to server.properties");
+		PrismarineServer.LOGGER.info("Saved configuration to server.properties");
 	}
 }

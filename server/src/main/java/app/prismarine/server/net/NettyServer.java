@@ -57,7 +57,7 @@ public class NettyServer {
 			.childOption(ChannelOption.SO_KEEPALIVE, true);
 
 		// Bind the server and update the state
-		bootstrap.bind(this.server.getConfig().getIp(), this.server.getConfig().getPort()).
+		bootstrap.bind(this.server.getIp(), this.server.getPort()).
 			addListener(future -> this.running = future.isSuccess());
 	}
 

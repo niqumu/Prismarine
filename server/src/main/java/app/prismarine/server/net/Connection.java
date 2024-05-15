@@ -59,7 +59,7 @@ public class Connection {
 	 * @param reason The reason provided for the kick
 	 */
 	public void disconnect(String reason) {
-		Bukkit.getLogger().info(address + "was kicked: " + reason);
+		PrismarineServer.LOGGER.info("{} was kicked: {}", address, reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
