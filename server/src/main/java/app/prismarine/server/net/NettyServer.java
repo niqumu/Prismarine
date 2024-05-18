@@ -66,6 +66,9 @@ public class NettyServer {
 			throw new IllegalStateException("The NettyServer is not running!");
 		}
 
+		// Close all connections, disconnecting all players with the shutdown message
+		this.connections.forEach(connection -> connection.disconnect(server.getShutdownMessage()));
+
 		this.workerGroup.shutdownGracefully();
 		this.bossGroup.shutdownGracefully();
 

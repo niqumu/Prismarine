@@ -17,6 +17,7 @@ public class HandlerLoginStartLogin implements PacketHandler<PacketLoginInLoginS
 	@Override
 	public void handle(Connection connection, PacketLoginInLoginStart packet) {
 
+		// The player that's trying to connect
 		OfflinePlayer offlinePlayer = new PrismarineOfflinePlayer(
 			new PrismarinePlayerProfile(packet.getName(), packet.getUuid()));
 
@@ -29,6 +30,9 @@ public class HandlerLoginStartLogin implements PacketHandler<PacketLoginInLoginS
 				return;
 			}
 		}
+
+		// Set the connection profile
+		connection.setProfile(offlinePlayer.getPlayerProfile());
 
 		connection.sendPacket(new PacketLoginOutSuccess(packet.getUuid(), packet.getName()));
 	}

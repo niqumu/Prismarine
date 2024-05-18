@@ -1,5 +1,6 @@
 package app.prismarine.server;
 
+import app.prismarine.server.entity.EntityManager;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
@@ -82,7 +83,7 @@ public final class PrismarineServer implements Server {
 	 */
 	private static final java.util.logging.Logger BUKKIT_LOGGER =
 		java.util.logging.Logger.getLogger("Bukkit API");
-	static {
+	static { // Set up the SLF4J bridge from JUL
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 	}
@@ -103,9 +104,16 @@ public final class PrismarineServer implements Server {
 	private ServerConfig config;
 
 	/**
+	 * The server's {@link EntityManager} instance, responsible for managing, ticking, and registering entities
+	 */
+	@Getter
+	private final EntityManager entityManager = new EntityManager();
+
+	/**
 	 * The server's {@link TickThread} instance
 	 */
-	private TickThread tickThread;
+	@Getter
+	private final TickThread tickThread = new TickThread();
 
 	/**
 	 * The server whitelist
@@ -145,7 +153,6 @@ public final class PrismarineServer implements Server {
 		PacketManager.registerPackets();
 
 		// Ignite the tick thread
-		this.tickThread = new TickThread();
 		this.tickThread.start();
 
 		this.running = true;
@@ -156,7 +163,7 @@ public final class PrismarineServer implements Server {
 	 * Shutdowns the server, stopping everything.
 	 */
 	public void shutdown() {
-		Thread.currentThread().setName("Shutdown-Thread");
+		Thread.currentThread().setName("Shutdown thread");
 
 		LOGGER.info("Stopping!");
 
@@ -1807,7 +1814,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public String getShutdownMessage() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return "Server closed";
 	}
 
 	/**

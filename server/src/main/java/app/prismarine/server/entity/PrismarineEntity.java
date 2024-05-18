@@ -27,7 +27,7 @@ public class PrismarineEntity implements Entity {
 	/**
 	 * The unique ID of the entity
 	 */
-	private final int entityId;
+	private int entityId;
 
 	/**
 	 * The Server the entity belongs to
@@ -45,6 +45,11 @@ public class PrismarineEntity implements Entity {
 	private int ticksLived;
 
 	/**
+	 * The number of ticks that the entity is on fire for
+	 */
+	private int fireTicks;
+
+	/**
 	 * Whether the entity is currently on the ground
 	 */
 	private boolean onGround;
@@ -54,10 +59,26 @@ public class PrismarineEntity implements Entity {
 	 */
 	private float fallDistance;
 
+	/**
+	 * Create a new PrismarineEntity given the entity's server and location
+	 * @param server The server the entity belongs to
+	 * @param location The location of the entity
+	 */
 	public PrismarineEntity(@NonNull Server server, @NonNull Location location) {
 		this.server = server;
 		this.location = location;
 		this.entityId = 0; // todo
+	}
+
+	/**
+	 * Ticks the entity
+	 */
+	public void tick() {
+		this.ticksLived++;
+
+		if (this.fireTicks > 0) {
+			this.fireTicks--;
+		}
 	}
 
 	/**
@@ -269,6 +290,10 @@ public class PrismarineEntity implements Entity {
 		return this.entityId;
 	}
 
+	protected void setEntityId(int id) {
+		this.entityId = id;
+	}
+
 	/**
 	 * Returns the entity's current fire ticks (ticks before the entity stops
 	 * being on fire).
@@ -277,7 +302,7 @@ public class PrismarineEntity implements Entity {
 	 */
 	@Override
 	public int getFireTicks() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.fireTicks;
 	}
 
 	/**
@@ -298,7 +323,7 @@ public class PrismarineEntity implements Entity {
 	 */
 	@Override
 	public void setFireTicks(int ticks) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.fireTicks = ticks;
 	}
 
 	/**

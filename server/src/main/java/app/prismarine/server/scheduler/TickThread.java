@@ -2,6 +2,7 @@ package app.prismarine.server.scheduler;
 
 import app.prismarine.server.PrismarineServer;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -46,6 +47,7 @@ public class TickThread extends Thread {
 		final long tickStartTime = System.currentTimeMillis();
 
 		// tick
+		((PrismarineServer) Bukkit.getServer()).getEntityManager().tick();
 
 		this.lastTickTime = System.currentTimeMillis() - tickStartTime;
 	}

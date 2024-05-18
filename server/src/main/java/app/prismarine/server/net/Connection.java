@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.profile.PlayerProfile;
 
 import java.net.InetSocketAddress;
 
@@ -48,6 +49,24 @@ public class Connection {
 	@Getter
 	private final InetSocketAddress address;
 
+	/**
+	 * The protocol version of the client
+	 */
+	@Getter @Setter
+	private int protocolVersion;
+
+	/**
+	 * The profile of the client, or null if it has not yet been assigned
+	 */
+	@Getter @Setter
+	private PlayerProfile profile;
+
+
+	/**
+	 * Create a new client-server connection based on the netty server and channel
+	 * @param nettyServer The netty server the client is connected to
+	 * @param channel The netty channel the client is connected via
+	 */
 	public Connection(@NonNull NettyServer nettyServer, @NonNull Channel channel) {
 		this.nettyServer = nettyServer;
 		this.channel = channel;
@@ -67,7 +86,7 @@ public class Connection {
 			case PLAY -> this.sendPacket(new PacketPlayOutDisconnect(reason));
 		}
 
-		this.channel.close();
+		this.close();
 	}
 
 	public ChannelFuture sendPacket(@NonNull Packet packet) {

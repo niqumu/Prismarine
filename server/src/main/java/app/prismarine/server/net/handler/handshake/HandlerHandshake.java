@@ -21,10 +21,14 @@ public class HandlerHandshake implements PacketHandler<PacketHandshakeInHandshak
 			if (packet.getProtocolVersion() < PrismarineServer.PROTOCOL_VERSION) {
 				connection.disconnect("Outdated client! I'm running " +
 					PrismarineServer.GAME_VERSION + "!");
+				return;
 			} else if (packet.getProtocolVersion() > PrismarineServer.PROTOCOL_VERSION) {
 				connection.disconnect("Outdated server! I'm running " +
 					PrismarineServer.GAME_VERSION + "!");
+				return;
 			}
+
+			connection.setProtocolVersion(packet.getProtocolVersion());
 		} else {
 			connection.setState(ConnectionState.STATUS);
 			System.out.println("Switching state to STATUS");
