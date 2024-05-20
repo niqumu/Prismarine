@@ -140,9 +140,6 @@ public final class PrismarineServer implements Server {
 		final long startTime = System.currentTimeMillis();
 		LOGGER.info("Starting Prismarine!");
 
-		// Set up the shutdown hooks
-		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-
 		// Read the configuration
 		this.config = new ServerConfig();
 
@@ -157,6 +154,7 @@ public final class PrismarineServer implements Server {
 		this.tickThread.start();
 
 		this.running = true;
+		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 		LOGGER.info("Done! Started Prismarine in {} ms", System.currentTimeMillis() - startTime);
 	}
 

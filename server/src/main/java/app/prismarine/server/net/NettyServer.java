@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,7 +59,19 @@ public class NettyServer {
 
 		// Bind the server and update the state
 		bootstrap.bind(this.server.getIp(), this.server.getPort()).
-			addListener(future -> this.running = future.isSuccess());
+			addListener(future -> {
+
+				this.running = true;
+
+				// If binding the server failed
+				if (!future.isSuccess()) {
+					this.running = false;
+					PrismarineServer.LOGGER.error("Failed to bind the server to {}:{}: {}",
+						this.server.getIp(), this.server.getPort(), future.cause().toString());
+
+					System.exit(1);
+				}
+			});
 	}
 
 	public void shutdown() {

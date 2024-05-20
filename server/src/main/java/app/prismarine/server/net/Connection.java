@@ -12,7 +12,7 @@ import io.netty.channel.ChannelFuture;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerProfile;
@@ -95,8 +95,8 @@ public class Connection {
 //		});
 
 		// Send the join message, TODO event
-		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
-		Bukkit.getServer().broadcastMessage(joinMessage);
+//		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
+//		Bukkit.getServer().broadcastMessage(joinMessage);
 	}
 
 	/**
