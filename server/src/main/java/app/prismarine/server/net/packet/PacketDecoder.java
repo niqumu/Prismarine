@@ -41,7 +41,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 		Packet packet = PacketManager.build(packetClass, wrapper);
 
-		System.out.println("IN: " + packet.toString());
+//		System.out.println("IN: " + packet.toString());
 
 		out.add(packet);
 	}

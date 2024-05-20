@@ -4,6 +4,7 @@ import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.PacketHandler;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationInAcknowledgeFinish;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutLogin;
 
 public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<PacketConfigurationInAcknowledgeFinish> {
 
@@ -16,6 +17,6 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 		connection.setState(ConnectionState.PLAY);
 		System.out.println("Switching state to PLAY");
 
-//		connection.sendPacket(new PacketPlayOutLogin());
+		connection.sendPacket(new PacketPlayOutLogin());
 	}
 }

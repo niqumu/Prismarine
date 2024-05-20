@@ -6,6 +6,7 @@ import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.bukkit.Bukkit;
 
 @Data
 @AllArgsConstructor
@@ -46,24 +47,30 @@ public class PacketPlayOutLogin implements Packet {
 	@Override
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
+
 		bytes.writeInt(0);
 		bytes.writeBoolean(false);
 		bytes.writeVarInt(1);
 		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeVarInt(20);
-		bytes.writeVarInt(16);
-		bytes.writeVarInt(16);
-		bytes.writeBoolean(false);
-		bytes.writeBoolean(true);
-		bytes.writeBoolean(false);
-		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeLong(0);
-		bytes.writeByte(1);
+
+		// Server values
+		bytes.writeVarInt(Bukkit.getServer().getMaxPlayers());
+		bytes.writeVarInt(Bukkit.getServer().getViewDistance());
+		bytes.writeVarInt(Bukkit.getServer().getSimulationDistance());
+
 		bytes.writeBoolean(false);
 		bytes.writeBoolean(true);
 		bytes.writeBoolean(false);
 		bytes.writeVarInt(0);
+		bytes.writeIdentifier("minecraft", "overworld");
+		bytes.writeLong(0);
+		bytes.writeByte(1);
+		bytes.writeByte(-1);
+		bytes.writeBoolean(false);
+		bytes.writeBoolean(true);
+		bytes.writeBoolean(false);
+		bytes.writeVarInt(0);
+
 		return bytes.getBytes();
 	}
 }

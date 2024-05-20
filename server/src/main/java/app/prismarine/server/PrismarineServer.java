@@ -4,6 +4,7 @@ import app.prismarine.server.entity.EntityManager;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
+import app.prismarine.server.player.PrismarinePlayerProfile;
 import app.prismarine.server.scheduler.TickThread;
 import lombok.Getter;
 import lombok.NonNull;
@@ -1388,7 +1389,11 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public PlayerProfile createPlayerProfile(@Nullable UUID uniqueId, @Nullable String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (uniqueId == null && (name == null || name.isEmpty())) {
+			throw new IllegalArgumentException("uniqueId and name cannot both be null/empty!");
+		}
+
+		return new PrismarinePlayerProfile(name, uniqueId);
 	}
 
 	/**
@@ -1400,7 +1405,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public PlayerProfile createPlayerProfile(@NonNull UUID uniqueId) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return new PrismarinePlayerProfile(null, uniqueId);
 	}
 
 	/**
@@ -1413,7 +1418,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NonNull
 	public PlayerProfile createPlayerProfile(@NonNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return new PrismarinePlayerProfile(name, null);
 	}
 
 	/**

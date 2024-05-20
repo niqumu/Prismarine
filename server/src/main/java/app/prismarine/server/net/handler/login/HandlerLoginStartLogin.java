@@ -1,5 +1,6 @@
 package app.prismarine.server.net.handler.login;
 
+import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.packet.PacketHandler;
 import app.prismarine.server.net.packet.login.PacketLoginInLoginStart;
@@ -17,6 +18,9 @@ public class HandlerLoginStartLogin implements PacketHandler<PacketLoginInLoginS
 	@Override
 	public void handle(Connection connection, PacketLoginInLoginStart packet) {
 
+		PrismarineServer.LOGGER.info("{} ({}) is logging into the server",
+			packet.getName(), connection.getAddress());
+
 		// The player that's trying to connect
 		OfflinePlayer offlinePlayer = new PrismarineOfflinePlayer(
 			new PrismarinePlayerProfile(packet.getName(), packet.getUuid()));
@@ -31,9 +35,10 @@ public class HandlerLoginStartLogin implements PacketHandler<PacketLoginInLoginS
 			}
 		}
 
-		// Set the connection profile
-		connection.setProfile(offlinePlayer.getPlayerProfile());
+		// Associate the player with the connection
+		connection.login(offlinePlayer.getPlayerProfile());
 
+		// Inform the client that the login succeeded, and to continue the process
 		connection.sendPacket(new PacketLoginOutSuccess(packet.getUuid(), packet.getName()));
 	}
 }

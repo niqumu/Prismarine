@@ -6,12 +6,15 @@ import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisconnect;
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
+import app.prismarine.server.player.PrismarinePlayerProfile;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerProfile;
 
 import java.net.InetSocketAddress;
@@ -56,10 +59,10 @@ public class Connection {
 	private int protocolVersion;
 
 	/**
-	 * The profile of the client, or null if it has not yet been assigned
+	 * The player associated with the connection, or null if none exists
 	 */
 	@Getter @Setter
-	private PlayerProfile profile;
+	private Player player;
 
 
 	/**
@@ -74,11 +77,34 @@ public class Connection {
 	}
 
 	/**
+	 * Called when the client attempts to log into the server
+	 * @param profile The profile of the client connecting
+	 */
+	public void login(PlayerProfile profile) {
+
+		// Ensure that this connection doesn't already have a player associated with it
+		if (this.player != null) {
+			throw new IllegalStateException("Connection already has a player assigned to it!");
+		}
+
+		// Kick all other connections from the same UUID
+//		Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+//			if (player.getUniqueId().equals(profile.getUniqueId())) {
+//				player.kickPlayer("You logged in from another location!");
+//			}
+//		});
+
+		// Send the join message, TODO event
+		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
+		Bukkit.getServer().broadcastMessage(joinMessage);
+	}
+
+	/**
 	 * Abnormally disconnects the client
 	 * @param reason The reason provided for the kick
 	 */
 	public void disconnect(String reason) {
-		PrismarineServer.LOGGER.info("{} was kicked: {}", address, reason);
+		PrismarineServer.LOGGER.info("{} was disconnected: {}", address, reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
@@ -89,6 +115,11 @@ public class Connection {
 		this.close();
 	}
 
+	/**
+	 * Sends a packet to a client over this connection
+	 * @param packet The packet to send to the client
+	 * @return The {@link ChannelFuture} of the operation
+	 */
 	public ChannelFuture sendPacket(@NonNull Packet packet) {
 		if (!this.channel.isOpen()) {
 			throw new IllegalStateException("Cannot write to a closed channel!");
@@ -101,7 +132,11 @@ public class Connection {
 		return this.channel.writeAndFlush(packet);
 	}
 
+	/**
+	 * Closes and unregisters the connection
+	 */
 	public void close() {
 		this.getChannel().close();
+		this.nettyServer.getConnections().remove(this);
 	}
 }

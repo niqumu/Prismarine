@@ -14,10 +14,13 @@ import java.util.concurrent.CompletableFuture;
 public class PrismarinePlayerProfile implements PlayerProfile {
 
 	@Getter
-	private final String name;
+	private String name;
 
 	@Getter
-	private final UUID uuid;
+	private UUID uuid;
+
+	@Getter
+	private PlayerTextures textures;
 
 	/**
 	 * Create a new PlayerProfile from name and UUID
@@ -27,6 +30,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	public PrismarinePlayerProfile(String name, UUID uuid) {
 		this.name = name;
 		this.uuid = uuid;
+		this.textures = new PrismarinePlayerTextures();
 	}
 
 	/**
@@ -56,7 +60,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	 */
 	@Override @NonNull
 	public PlayerTextures getTextures() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.textures;
 	}
 
 	/**
@@ -67,7 +71,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	 */
 	@Override
 	public void setTextures(@Nullable PlayerTextures textures) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.textures = textures;
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	 */
 	@Override
 	public boolean isComplete() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.name != null && !this.name.isEmpty() && this.uuid != null && !this.textures.isEmpty();
 	}
 
 	/**
@@ -137,7 +141,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		PrismarinePlayerProfile that = (PrismarinePlayerProfile) o;
-		return Objects.equals(uuid, that.uuid); // We only care if the UUID matches; usernames change
+		return Objects.equals(this.uuid, that.uuid); // We only care if the UUID matches; usernames change
 	}
 
 	@Override
