@@ -14,7 +14,7 @@ public class EntityManager {
 	@Getter
 	private final Map<Integer, PrismarineEntity> entities = new ConcurrentHashMap<>();
 
-	private AtomicInteger lastID = new AtomicInteger(1);
+	private final AtomicInteger lastID = new AtomicInteger(1);
 
 	public void tick() {
 		this.entities.values().forEach(PrismarineEntity::tick);

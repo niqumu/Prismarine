@@ -3,7 +3,7 @@ package app.prismarine.server.net;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -19,7 +19,7 @@ public class ByteBufWrapper {
 		this(Unpooled.buffer());
 	}
 
-	public ByteBufWrapper(@NonNull ByteBuf byteBuf) {
+	public ByteBufWrapper(@NotNull ByteBuf byteBuf) {
 		this.byteBuf = byteBuf;
 	}
 
@@ -76,13 +76,13 @@ public class ByteBufWrapper {
 		return new String(stringBytes);
 	}
 
-	public void writeString(@NonNull String string) {
+	public void writeString(@NotNull String string) {
 		byte[] stringBytes = string.getBytes();
 		this.writeVarInt(stringBytes.length);
 		this.getByteBuf().writeBytes(stringBytes);
 	}
 
-	public void writeIdentifier(@NonNull String namespace, @NonNull String string) {
+	public void writeIdentifier(@NotNull String namespace, @NotNull String string) {
 		writeString(namespace + ":" + string);
 	}
 

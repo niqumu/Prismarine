@@ -7,7 +7,6 @@ import app.prismarine.server.net.packet.PacketManager;
 import app.prismarine.server.player.PrismarinePlayerProfile;
 import app.prismarine.server.scheduler.TickThread;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
@@ -41,11 +40,12 @@ import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.structure.StructureManager;
 import org.bukkit.util.CachedServerIcon;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import javax.annotation.Nullable;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.InetAddress;
@@ -185,7 +185,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return name of this server implementation
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getName() {
 		return SERVER_IMPLEMENTATION;
 	}
@@ -195,7 +195,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return version of this server implementation
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getVersion() {
 		return SERVER_VERSION;
 	}
@@ -205,7 +205,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return version of Bukkit
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getBukkitVersion() {
 		return API_VERSION;
 	}
@@ -215,7 +215,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a view of currently online players.
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Collection<? extends Player> getOnlinePlayers() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -277,7 +277,7 @@ public final class PrismarineServer implements Server {
 	 * @return the IP string that this server is bound to, otherwise empty
 	 *     string
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getIp() {
 		return this.config.getIp();
 	}
@@ -287,7 +287,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the value of level-type (e.g. DEFAULT, FLAT, DEFAULT_1_1)
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getWorldType() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -347,7 +347,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a list of packs names
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public List<String> getInitialEnabledPacks() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -357,7 +357,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a list of packs names
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public List<String> getInitialDisabledPacks() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -367,7 +367,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the manager
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public DataPackManager getDataPackManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -377,7 +377,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the manager
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public ServerTickManager getServerTickManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -397,7 +397,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the server resource pack uri, otherwise empty string
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getResourcePack() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -409,7 +409,7 @@ public final class PrismarineServer implements Server {
 	 * @return the SHA-1 digest of the server resource pack, otherwise empty
 	 *     string
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getResourcePackHash() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -421,7 +421,7 @@ public final class PrismarineServer implements Server {
 	 * @return the custom prompt message to be shown when the server resource,
 	 *     otherwise empty string
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getResourcePackPrompt() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -487,7 +487,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a set containing all whitelisted players
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<OfflinePlayer> getWhitelistedPlayers() {
 		return this.whitelist.getPlayers();
 	}
@@ -510,7 +510,7 @@ public final class PrismarineServer implements Server {
 	 * @return the number of players
 	 */
 	@Override
-	public int broadcastMessage(@NonNull String message) {
+	public int broadcastMessage(@NotNull String message) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -522,7 +522,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the name of the update folder
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getUpdateFolder() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -533,7 +533,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the update folder
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public File getUpdateFolderFile() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -716,7 +716,7 @@ public final class PrismarineServer implements Server {
 	 * @return the default ticks per {@link SpawnCategory} mobs spawn value
 	 */
 	@Override
-	public int getTicksPerSpawns(@NonNull SpawnCategory spawnCategory) {
+	public int getTicksPerSpawns(@NotNull SpawnCategory spawnCategory) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -729,7 +729,7 @@ public final class PrismarineServer implements Server {
 	 * @return a player if one was found, null otherwise
 	 */
 	@Override @Nullable
-	public Player getPlayer(@NonNull String name) {
+	public Player getPlayer(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -740,7 +740,7 @@ public final class PrismarineServer implements Server {
 	 * @return a player object if one was found, null otherwise
 	 */
 	@Override @Nullable
-	public Player getPlayerExact(@NonNull String name) {
+	public Player getPlayerExact(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -754,8 +754,8 @@ public final class PrismarineServer implements Server {
 	 * @param name the (partial) name to match
 	 * @return list of all possible players
 	 */
-	@Override @NonNull
-	public List<Player> matchPlayer(@NonNull String name) {
+	@Override @NotNull
+	public List<Player> matchPlayer(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -766,7 +766,7 @@ public final class PrismarineServer implements Server {
 	 * @return a player object if one was found, null otherwise
 	 */
 	@Override @Nullable
-	public Player getPlayer(@NonNull UUID id) {
+	public Player getPlayer(@NotNull UUID id) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -775,7 +775,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a plugin manager for this Server instance
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PluginManager getPluginManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -785,7 +785,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a scheduling service for this server
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public BukkitScheduler getScheduler() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -795,7 +795,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return s services manager
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public ServicesManager getServicesManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -805,7 +805,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a list of worlds
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public List<World> getWorlds() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -821,7 +821,7 @@ public final class PrismarineServer implements Server {
 	 * @return newly created or loaded world
 	 */
 	@Override @Nullable
-	public World createWorld(@NonNull WorldCreator creator) {
+	public World createWorld(@NotNull WorldCreator creator) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -833,7 +833,7 @@ public final class PrismarineServer implements Server {
 	 * @return true if successful, false otherwise
 	 */
 	@Override
-	public boolean unloadWorld(@NonNull String name, boolean save) {
+	public boolean unloadWorld(@NotNull String name, boolean save) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -845,7 +845,7 @@ public final class PrismarineServer implements Server {
 	 * @return true if successful, false otherwise
 	 */
 	@Override
-	public boolean unloadWorld(@NonNull World world, boolean save) {
+	public boolean unloadWorld(@NotNull World world, boolean save) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -856,7 +856,7 @@ public final class PrismarineServer implements Server {
 	 * @return a world with the given name, or null if none exists
 	 */
 	@Override @Nullable
-	public World getWorld(@NonNull String name) {
+	public World getWorld(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -867,7 +867,7 @@ public final class PrismarineServer implements Server {
 	 * @return a world with the given Unique ID, or null if none exists
 	 */
 	@Override @Nullable
-	public World getWorld(@NonNull UUID uid) {
+	public World getWorld(@NotNull UUID uid) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -881,7 +881,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @see Player#setWorldBorder(WorldBorder)
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public WorldBorder createWorldBorder() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -904,8 +904,8 @@ public final class PrismarineServer implements Server {
 	 * @param world the world the map will belong to
 	 * @return a newly created map view
 	 */
-	@Override @NonNull
-	public MapView createMap(@NonNull World world) {
+	@Override @NotNull
+	public MapView createMap(@NotNull World world) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -924,9 +924,9 @@ public final class PrismarineServer implements Server {
 	 * @see World#locateNearestStructure(org.bukkit.Location,
 	 *      org.bukkit.StructureType, int, boolean)
 	 */
-	@Override @NonNull
-	public ItemStack createExplorerMap(@NonNull World world, @NonNull Location location,
-	                                   @NonNull StructureType structureType) {
+	@Override @NotNull
+	public ItemStack createExplorerMap(@NotNull World world, @NotNull Location location,
+	                                   @NotNull StructureType structureType) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -948,9 +948,9 @@ public final class PrismarineServer implements Server {
 	 * @see World#locateNearestStructure(org.bukkit.Location,
 	 *      org.bukkit.StructureType, int, boolean)
 	 */
-	@Override @NonNull
-	public ItemStack createExplorerMap(@NonNull World world, @NonNull Location location,
-	                                   @NonNull StructureType structureType, int radius, boolean findUnexplored) {
+	@Override @NotNull
+	public ItemStack createExplorerMap(@NotNull World world, @NotNull Location location,
+	                                   @NotNull StructureType structureType, int radius, boolean findUnexplored) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -976,7 +976,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return Logger associated with this server
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public java.util.logging.Logger getLogger() {
 		return BUKKIT_LOGGER;
 	}
@@ -988,7 +988,7 @@ public final class PrismarineServer implements Server {
 	 * @return a plugin command if found, null otherwise
 	 */
 	@Override @Nullable
-	public PluginCommand getPluginCommand(@NonNull String name) {
+	public PluginCommand getPluginCommand(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1011,8 +1011,8 @@ public final class PrismarineServer implements Server {
 	 *     fails with an unhandled exception
 	 */
 	@Override
-	public boolean dispatchCommand(@NonNull CommandSender sender,
-	                               @NonNull String commandLine) throws CommandException {
+	public boolean dispatchCommand(@NotNull CommandSender sender,
+	                               @NotNull String commandLine) throws CommandException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1035,8 +1035,8 @@ public final class PrismarineServer implements Server {
 	 * @param result the item to match against recipe results
 	 * @return a list of recipes with the given result
 	 */
-	@Override @NonNull
-	public List<Recipe> getRecipesFor(@NonNull ItemStack result) {
+	@Override @NotNull
+	public List<Recipe> getRecipesFor(@NotNull ItemStack result) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1047,7 +1047,7 @@ public final class PrismarineServer implements Server {
 	 * @return the recipe for the given key or null.
 	 */
 	@Override @Nullable
-	public Recipe getRecipe(@NonNull NamespacedKey recipeKey) {
+	public Recipe getRecipe(@NotNull NamespacedKey recipeKey) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1072,7 +1072,7 @@ public final class PrismarineServer implements Server {
 	 * @return the {@link Recipe} resulting from the given crafting matrix.
 	 */
 	@Override @Nullable
-	public Recipe getCraftingRecipe(@NonNull ItemStack[] craftingMatrix, @NonNull World world) {
+	public Recipe getCraftingRecipe(@NotNull ItemStack[] craftingMatrix, @NotNull World world) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1101,8 +1101,8 @@ public final class PrismarineServer implements Server {
 	 * @return the {@link ItemStack} resulting from the given crafting matrix, if no recipe is found
 	 * an ItemStack of {@link Material#AIR} is returned.
 	 */
-	@Override @NonNull
-	public ItemStack craftItem(@NonNull ItemStack[] craftingMatrix, @NonNull World world, @NonNull Player player) {
+	@Override @NotNull
+	public ItemStack craftItem(@NotNull ItemStack[] craftingMatrix, @NotNull World world, @NotNull Player player) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1124,8 +1124,8 @@ public final class PrismarineServer implements Server {
 	 * @return the {@link ItemStack} resulting from the given crafting matrix, if no recipe is found
 	 * an ItemStack of {@link Material#AIR} is returned.
 	 */
-	@Override @NonNull
-	public ItemStack craftItem(@NonNull ItemStack[] craftingMatrix, @NonNull World world) {
+	@Override @NotNull
+	public ItemStack craftItem(@NotNull ItemStack[] craftingMatrix, @NotNull World world) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1153,9 +1153,9 @@ public final class PrismarineServer implements Server {
 	 * @param player The player to imitate the crafting event on.
 	 * @return resulting {@link ItemCraftResult} containing the resulting item, matrix and any overflow items.
 	 */
-	@Override @NonNull
-	public ItemCraftResult craftItemResult(@NonNull ItemStack[] craftingMatrix, @NonNull World world,
-	                                       @NonNull Player player) {
+	@Override @NotNull
+	public ItemCraftResult craftItemResult(@NotNull ItemStack[] craftingMatrix, @NotNull World world,
+	                                       @NotNull Player player) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1176,8 +1176,8 @@ public final class PrismarineServer implements Server {
 	 * @param world The world the crafting takes place in.
 	 * @return resulting {@link ItemCraftResult} containing the resulting item, matrix and any overflow items.
 	 */
-	@Override @NonNull
-	public ItemCraftResult craftItemResult(@NonNull ItemStack[] craftingMatrix, @NonNull World world) {
+	@Override @NotNull
+	public ItemCraftResult craftItemResult(@NotNull ItemStack[] craftingMatrix, @NotNull World world) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1186,7 +1186,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return an iterator
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Iterator<Recipe> recipeIterator() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1218,7 +1218,7 @@ public final class PrismarineServer implements Server {
 	 * @return True if recipe was removed
 	 */
 	@Override
-	public boolean removeRecipe(@NonNull NamespacedKey key) {
+	public boolean removeRecipe(@NotNull NamespacedKey key) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1227,7 +1227,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a map of aliases to command names
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Map<String, String[]> getCommandAliases() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1336,7 +1336,7 @@ public final class PrismarineServer implements Server {
 	 * @return number of message recipients
 	 */
 	@Override
-	public int broadcast(@NonNull String message, @NonNull String permission) {
+	public int broadcast(@NotNull String message, @NotNull String permission) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1356,8 +1356,8 @@ public final class PrismarineServer implements Server {
 	 * @deprecated Persistent storage of users should be by UUID as names are no longer
 	 *             unique past a single session.
 	 */
-	@Override @Deprecated @NonNull
-	public OfflinePlayer getOfflinePlayer(@NonNull String name) {
+	@Override @Deprecated @NotNull
+	public OfflinePlayer getOfflinePlayer(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1371,7 +1371,7 @@ public final class PrismarineServer implements Server {
 	 * @param id the UUID of the player to retrieve
 	 * @return an offline player
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public OfflinePlayer getOfflinePlayer(UUID id) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1385,7 +1385,7 @@ public final class PrismarineServer implements Server {
 	 * @throws IllegalArgumentException if both the unique id is
 	 * <code>null</code> and the name is <code>null</code> or blank
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PlayerProfile createPlayerProfile(@Nullable UUID uniqueId, @Nullable String name) {
 		if (uniqueId == null && (name == null || name.isEmpty())) {
 			throw new IllegalArgumentException("uniqueId and name cannot both be null/empty!");
@@ -1401,8 +1401,8 @@ public final class PrismarineServer implements Server {
 	 * @return the new PlayerProfile
 	 * @throws IllegalArgumentException if the unique id is <code>null</code>
 	 */
-	@Override @NonNull
-	public PlayerProfile createPlayerProfile(@NonNull UUID uniqueId) {
+	@Override @NotNull
+	public PlayerProfile createPlayerProfile(@NotNull UUID uniqueId) {
 		return new PrismarinePlayerProfile(null, uniqueId);
 	}
 
@@ -1414,8 +1414,8 @@ public final class PrismarineServer implements Server {
 	 * @throws IllegalArgumentException if the name is <code>null</code> or
 	 * blank
 	 */
-	@Override @NonNull
-	public PlayerProfile createPlayerProfile(@NonNull String name) {
+	@Override @NotNull
+	public PlayerProfile createPlayerProfile(@NotNull String name) {
 		return new PrismarinePlayerProfile(name, null);
 	}
 
@@ -1424,7 +1424,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a set containing banned IP addresses
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<String> getIPBans() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1437,7 +1437,7 @@ public final class PrismarineServer implements Server {
 	 * @deprecated see {@link #banIP(InetAddress)}
 	 */
 	@Override @Deprecated
-	public void banIP(@NonNull String address) {
+	public void banIP(@NotNull String address) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1449,7 +1449,7 @@ public final class PrismarineServer implements Server {
 	 * @deprecated see {@link #unbanIP(InetAddress)}
 	 */
 	@Override @Deprecated
-	public void unbanIP(@NonNull String address) {
+	public void unbanIP(@NotNull String address) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1459,7 +1459,7 @@ public final class PrismarineServer implements Server {
 	 * @param address the IP address to ban
 	 */
 	@Override
-	public void banIP(@NonNull InetAddress address) {
+	public void banIP(@NotNull InetAddress address) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1469,7 +1469,7 @@ public final class PrismarineServer implements Server {
 	 * @param address the IP address to unban
 	 */
 	@Override
-	public void unbanIP(@NonNull InetAddress address) {
+	public void unbanIP(@NotNull InetAddress address) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1478,7 +1478,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a set containing banned players
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<OfflinePlayer> getBannedPlayers() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1491,8 +1491,8 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a ban list of the specified type
 	 */
-	@Override @NonNull
-	public <T extends BanList<?>> T getBanList(@NonNull BanList.Type type) {
+	@Override @NotNull
+	public <T extends BanList<?>> T getBanList(@NotNull BanList.Type type) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1501,7 +1501,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a set containing player operators
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<OfflinePlayer> getOperators() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1511,7 +1511,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the default game mode
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public GameMode getDefaultGameMode() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1521,8 +1521,8 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @param mode the new game mode
 	 */
-	@Override @NonNull
-	public void setDefaultGameMode(@NonNull GameMode mode) {
+	@Override @NotNull
+	public void setDefaultGameMode(@NotNull GameMode mode) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1532,7 +1532,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a console command sender
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public ConsoleCommandSender getConsoleSender() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1542,7 +1542,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return folder that contains all worlds
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public File getWorldContainer() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1552,7 +1552,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return an array containing all previous players
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public OfflinePlayer[] getOfflinePlayers() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1562,7 +1562,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return messenger responsible for this server
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Messenger getMessenger() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1572,7 +1572,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a help map for this server
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public HelpMap getHelpMap() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1598,8 +1598,8 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @see InventoryType#isCreatable()
 	 */
-	@Override @NonNull
-	public Inventory createInventory(@Nullable InventoryHolder owner, @NonNull InventoryType type) {
+	@Override @NotNull
+	public Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1627,9 +1627,9 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @see InventoryType#isCreatable()
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Inventory createInventory(@Nullable InventoryHolder owner,
-	                                 @NonNull InventoryType type, @NonNull String title) {
+	                                 @NotNull InventoryType type, @NotNull String title) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1642,7 +1642,7 @@ public final class PrismarineServer implements Server {
 	 * @return a new inventory
 	 * @throws IllegalArgumentException if the size is not a multiple of 9
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Inventory createInventory(@Nullable InventoryHolder owner, int size) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1658,9 +1658,9 @@ public final class PrismarineServer implements Server {
 	 * @return a new inventory
 	 * @throws IllegalArgumentException if the size is not a multiple of 9
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Inventory createInventory(@Nullable InventoryHolder owner, int size,
-	                                 @NonNull String title) throws IllegalArgumentException {
+	                                 @NotNull String title) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1671,7 +1671,7 @@ public final class PrismarineServer implements Server {
 	 * when the merchant inventory is viewed
 	 * @return a new merchant
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Merchant createMerchant(@Nullable String title) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1769,7 +1769,7 @@ public final class PrismarineServer implements Server {
 	 * @return the {@link SpawnCategory} spawn limit
 	 */
 	@Override
-	public int getSpawnLimit(@NonNull SpawnCategory spawnCategory) {
+	public int getSpawnLimit(@NotNull SpawnCategory spawnCategory) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1795,7 +1795,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the servers MOTD
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getMotd() {
 		return this.config.getMotd();
 	}
@@ -1806,7 +1806,7 @@ public final class PrismarineServer implements Server {
 	 * @param motd The message to be displayed
 	 */
 	@Override
-	public void setMotd(@NonNull String motd) {
+	public void setMotd(@NotNull String motd) {
 		this.config.setMotd(motd);
 	}
 
@@ -1825,7 +1825,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the configured warning state
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Warning.WarningState getWarningState() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1836,7 +1836,7 @@ public final class PrismarineServer implements Server {
 	 * @return the item factory
 	 * @see ItemFactory
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public ItemFactory getItemFactory() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1847,7 +1847,7 @@ public final class PrismarineServer implements Server {
 	 * @return the entity factory
 	 * @see EntityFactory
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public EntityFactory getEntityFactory() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1871,8 +1871,8 @@ public final class PrismarineServer implements Server {
 	 * @return the criteria
 	 * @see Criteria Criteria for a list of constants
 	 */
-	@Override @NonNull
-	public Criteria getScoreboardCriteria(@NonNull String name) {
+	@Override @NotNull
+	public Criteria getScoreboardCriteria(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1883,7 +1883,7 @@ public final class PrismarineServer implements Server {
 	 *     implementation to indicate no defined icon, but this behavior is
 	 *     not guaranteed
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public CachedServerIcon getServerIcon() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1902,8 +1902,8 @@ public final class PrismarineServer implements Server {
 	 * @throws Exception if the image does not meet current server server-icon
 	 *     specifications
 	 */
-	@Override @NonNull
-	public CachedServerIcon loadServerIcon(@NonNull File file) throws IllegalArgumentException, Exception {
+	@Override @NotNull
+	public CachedServerIcon loadServerIcon(@NotNull File file) throws IllegalArgumentException, Exception {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1920,8 +1920,8 @@ public final class PrismarineServer implements Server {
 	 * @throws Exception if the image does not meet current server
 	 *     server-icon specifications
 	 */
-	@Override @NonNull
-	public CachedServerIcon loadServerIcon(@NonNull BufferedImage image) throws IllegalArgumentException, Exception {
+	@Override @NotNull
+	public CachedServerIcon loadServerIcon(@NotNull BufferedImage image) throws IllegalArgumentException, Exception {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1957,8 +1957,8 @@ public final class PrismarineServer implements Server {
 	 * @return a new ChunkData for the world
 	 *
 	 */
-	@Override @NonNull
-	public ChunkGenerator.ChunkData createChunkData(@NonNull World world) {
+	@Override @NotNull
+	public ChunkGenerator.ChunkData createChunkData(@NotNull World world) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1972,9 +1972,9 @@ public final class PrismarineServer implements Server {
 	 * @param flags an optional list of flags to set on the boss bar
 	 * @return the created boss bar
 	 */
-	@Override @NonNull
-	public BossBar createBossBar(@Nullable String title, @NonNull BarColor color,
-	                             @NonNull BarStyle style, @NonNull BarFlag... flags) {
+	@Override @NotNull
+	public BossBar createBossBar(@Nullable String title, @NotNull BarColor color,
+	                             @NotNull BarStyle style, @NotNull BarFlag... flags) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1992,9 +1992,9 @@ public final class PrismarineServer implements Server {
 	 * @param flags an optional list of flags to set on the boss bar
 	 * @return the created boss bar
 	 */
-	@Override @NonNull
-	public KeyedBossBar createBossBar(@NonNull NamespacedKey key, @Nullable String title,
-	                                  @NonNull BarColor color, @NonNull BarStyle style, @NonNull BarFlag... flags) {
+	@Override @NotNull
+	public KeyedBossBar createBossBar(@NotNull NamespacedKey key, @Nullable String title,
+	                                  @NotNull BarColor color, @NotNull BarStyle style, @NotNull BarFlag... flags) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2012,7 +2012,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return a bossbar iterator
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Iterator<KeyedBossBar> getBossBars() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -2033,7 +2033,7 @@ public final class PrismarineServer implements Server {
 	 * @return bossbar or null if not exists
 	 */
 	@Override @Nullable
-	public KeyedBossBar getBossBar(@NonNull NamespacedKey key) {
+	public KeyedBossBar getBossBar(@NotNull NamespacedKey key) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2053,7 +2053,7 @@ public final class PrismarineServer implements Server {
 	 * @return true if removal succeeded or false
 	 */
 	@Override
-	public boolean removeBossBar(@NonNull NamespacedKey key) {
+	public boolean removeBossBar(@NotNull NamespacedKey key) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2064,7 +2064,7 @@ public final class PrismarineServer implements Server {
 	 * @return the entity with the given UUID, or null if it isn't found
 	 */
 	@Override @Nullable
-	public Entity getEntity(@NonNull UUID uuid) {
+	public Entity getEntity(@NotNull UUID uuid) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2075,7 +2075,7 @@ public final class PrismarineServer implements Server {
 	 * @return advancement or null if not exists
 	 */
 	@Override @Nullable
-	public Advancement getAdvancement(@NonNull NamespacedKey key) {
+	public Advancement getAdvancement(@NotNull NamespacedKey key) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2085,7 +2085,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return an advancement iterator
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Iterator<Advancement> advancementIterator() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -2097,8 +2097,8 @@ public final class PrismarineServer implements Server {
 	 * @param material the material
 	 * @return new data instance
 	 */
-	@Override @NonNull
-	public BlockData createBlockData(@NonNull Material material) {
+	@Override @NotNull
+	public BlockData createBlockData(@NotNull Material material) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2110,8 +2110,8 @@ public final class PrismarineServer implements Server {
 	 * @param consumer consumer to run on new instance before returning
 	 * @return new data instance
 	 */
-	@Override @NonNull
-	public BlockData createBlockData(@NonNull Material material, @Nullable Consumer<? super BlockData> consumer) {
+	@Override @NotNull
+	public BlockData createBlockData(@NotNull Material material, @Nullable Consumer<? super BlockData> consumer) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2123,8 +2123,8 @@ public final class PrismarineServer implements Server {
 	 * @return new data instance
 	 * @throws IllegalArgumentException if the specified data is not valid
 	 */
-	@Override @NonNull
-	public BlockData createBlockData(@NonNull String data) throws IllegalArgumentException {
+	@Override @NotNull
+	public BlockData createBlockData(@NotNull String data) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2141,7 +2141,7 @@ public final class PrismarineServer implements Server {
 	 * @return new data instance
 	 * @throws IllegalArgumentException if the specified data is not valid
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public BlockData createBlockData(@Nullable Material material,
 	                                 @Nullable String data) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
@@ -2166,8 +2166,8 @@ public final class PrismarineServer implements Server {
 	 * @return the tag or null
 	 */
 	@Override @Nullable
-	public <T extends Keyed> Tag<T> getTag(@NonNull String registry,
-	                                       @NonNull NamespacedKey tag, @NonNull Class<T> clazz) {
+	public <T extends Keyed> Tag<T> getTag(@NotNull String registry,
+	                                       @NotNull NamespacedKey tag, @NotNull Class<T> clazz) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2184,8 +2184,8 @@ public final class PrismarineServer implements Server {
 	 * @param clazz the class of the tag entries
 	 * @return all defined tags
 	 */
-	@Override @NonNull
-	public <T extends Keyed> Iterable<Tag<T>> getTags(@NonNull String registry, @NonNull Class<T> clazz) {
+	@Override @NotNull
+	public <T extends Keyed> Iterable<Tag<T>> getTags(@NotNull String registry, @NotNull Class<T> clazz) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2196,7 +2196,7 @@ public final class PrismarineServer implements Server {
 	 * @return the LootTable, or null if no LootTable is found with that name
 	 */
 	@Override @Nullable
-	public LootTable getLootTable(@NonNull NamespacedKey key) {
+	public LootTable getLootTable(@NotNull NamespacedKey key) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2220,9 +2220,9 @@ public final class PrismarineServer implements Server {
 	 * @throws IllegalArgumentException if the selector is malformed in any way
 	 * or a parameter is null
 	 */
-	@Override @NonNull
-	public List<Entity> selectEntities(@NonNull CommandSender sender,
-	                                   @NonNull String selector) throws IllegalArgumentException {
+	@Override @NotNull
+	public List<Entity> selectEntities(@NotNull CommandSender sender,
+	                                   @NotNull String selector) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2231,7 +2231,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return the structure manager
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public StructureManager getStructureManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -2249,7 +2249,7 @@ public final class PrismarineServer implements Server {
 	 * @return the corresponding registry or null if not present
 	 */
 	@Override @Nullable
-	public <T extends Keyed> Registry<T> getRegistry(@NonNull Class<T> tClass) {
+	public <T extends Keyed> Registry<T> getRegistry(@NotNull Class<T> tClass) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2257,7 +2257,7 @@ public final class PrismarineServer implements Server {
 	 * @return the unsafe values instance
 	 * @see UnsafeValues
 	 */
-	@Override @Deprecated @NonNull
+	@Override @Deprecated @NotNull
 	public UnsafeValues getUnsafe() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -2290,7 +2290,7 @@ public final class PrismarineServer implements Server {
 	 *     registered for this plugin.
 	 */
 	@Override
-	public void sendPluginMessage(@NonNull Plugin source, @NonNull String channel, @NonNull byte[] message) {
+	public void sendPluginMessage(@NotNull Plugin source, @NotNull String channel, @NotNull byte[] message) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -2300,7 +2300,7 @@ public final class PrismarineServer implements Server {
 	 *
 	 * @return Set containing all the channels that this client may accept.
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<String> getListeningPluginChannels() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}

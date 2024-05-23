@@ -1,9 +1,9 @@
 package app.prismarine.server.entity;
 
-import lombok.NonNull;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
+import org.bukkit.block.data.Directional;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -16,8 +16,9 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -64,7 +65,7 @@ public class PrismarineEntity implements Entity {
 	 * @param server The server the entity belongs to
 	 * @param location The location of the entity
 	 */
-	public PrismarineEntity(@NonNull Server server, @NonNull Location location) {
+	public PrismarineEntity(@NotNull Server server, @NotNull Location location) {
 		this.server = server;
 		this.location = location;
 		this.entityId = 0; // todo
@@ -86,7 +87,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return a new copy of Location containing the position of this entity
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Location getLocation() {
 		return this.location.clone();
 	}
@@ -122,7 +123,7 @@ public class PrismarineEntity implements Entity {
 	 * @param velocity New velocity to travel with
 	 */
 	@Override
-	public void setVelocity(@NonNull Vector velocity) {
+	public void setVelocity(@NotNull Vector velocity) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -131,7 +132,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return Current traveling velocity of this entity
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Vector getVelocity() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -164,7 +165,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the entity's current bounding box
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public BoundingBox getBoundingBox() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -197,7 +198,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return World
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public World getWorld() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -224,7 +225,7 @@ public class PrismarineEntity implements Entity {
 	 * @return <code>true</code> if the teleport was successful
 	 */
 	@Override
-	public boolean teleport(@NonNull Location location) {
+	public boolean teleport(@NotNull Location location) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -237,7 +238,7 @@ public class PrismarineEntity implements Entity {
 	 * @return <code>true</code> if the teleport was successful
 	 */
 	@Override
-	public boolean teleport(@NonNull Location location, @NonNull PlayerTeleportEvent.TeleportCause cause) {
+	public boolean teleport(@NotNull Location location, @NotNull PlayerTeleportEvent.TeleportCause cause) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -249,7 +250,7 @@ public class PrismarineEntity implements Entity {
 	 * @return <code>true</code> if the teleport was successful
 	 */
 	@Override
-	public boolean teleport(@NonNull Entity destination) {
+	public boolean teleport(@NotNull Entity destination) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -262,7 +263,7 @@ public class PrismarineEntity implements Entity {
 	 * @return <code>true</code> if the teleport was successful
 	 */
 	@Override
-	public boolean teleport(@NonNull Entity destination, @NonNull PlayerTeleportEvent.TeleportCause cause) {
+	public boolean teleport(@NotNull Entity destination, @NotNull PlayerTeleportEvent.TeleportCause cause) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -275,7 +276,7 @@ public class PrismarineEntity implements Entity {
 	 * @param z 1/2 the size of the box along z axis
 	 * @return {@code List<Entity>} List of entities nearby
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public List<Entity> getNearbyEntities(double x, double y, double z) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -427,7 +428,7 @@ public class PrismarineEntity implements Entity {
 	 * @param message Message to be displayed
 	 */
 	@Override
-	public void sendMessage(@NonNull String message) {
+	public void sendMessage(@NotNull String message) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -437,7 +438,7 @@ public class PrismarineEntity implements Entity {
 	 * @param messages An array of messages to be displayed
 	 */
 	@Override
-	public void sendMessage(@NonNull String... messages) {
+	public void sendMessage(@NotNull String... messages) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -448,7 +449,7 @@ public class PrismarineEntity implements Entity {
 	 * @param sender The sender of this message
 	 */
 	@Override
-	public void sendMessage(@Nullable UUID sender, @NonNull String message) {
+	public void sendMessage(@Nullable UUID sender, @NotNull String message) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -459,7 +460,7 @@ public class PrismarineEntity implements Entity {
 	 * @param sender The sender of this message
 	 */
 	@Override
-	public void sendMessage(@Nullable UUID sender, @NonNull String... messages) {
+	public void sendMessage(@Nullable UUID sender, @NotNull String... messages) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -468,7 +469,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return Server instance running this Entity
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Server getServer() {
 		return this.server;
 	}
@@ -478,7 +479,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return Name of the entity
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public String getName() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -538,7 +539,7 @@ public class PrismarineEntity implements Entity {
 	 * {@link #addPassenger(org.bukkit.entity.Entity)}
 	 */
 	@Override @Deprecated
-	public boolean setPassenger(@NonNull Entity passenger) {
+	public boolean setPassenger(@NotNull Entity passenger) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -550,7 +551,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return list of entities corresponding to current passengers.
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public List<Entity> getPassengers() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -562,7 +563,7 @@ public class PrismarineEntity implements Entity {
 	 * @return false if it could not be done for whatever reason
 	 */
 	@Override
-	public boolean addPassenger(@NonNull Entity passenger) {
+	public boolean addPassenger(@NotNull Entity passenger) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -573,7 +574,7 @@ public class PrismarineEntity implements Entity {
 	 * @return false if it could not be done for whatever reason
 	 */
 	@Override
-	public boolean removePassenger(@NonNull Entity passenger) {
+	public boolean removePassenger(@NotNull Entity passenger) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -645,7 +646,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return unique id
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public UUID getUniqueId() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -685,7 +686,7 @@ public class PrismarineEntity implements Entity {
 	 * @param type Effect to play.
 	 */
 	@Override
-	public void playEffect(@NonNull EntityEffect type) {
+	public void playEffect(@NotNull EntityEffect type) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -694,7 +695,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return The entity type.
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public EntityType getType() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -704,7 +705,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the swimming sound
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Sound getSwimSound() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -715,7 +716,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the splash sound
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Sound getSwimSplashSound() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -726,7 +727,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the splash sound
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Sound getSwimHighSpeedSplashSound() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -829,7 +830,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the players tracking this entity, or an empty set if none
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<Player> getTrackedBy() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -952,7 +953,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return a set of tags for this entity
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<String> getScoreboardTags() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -966,7 +967,7 @@ public class PrismarineEntity implements Entity {
 	 * @return true if the tag was successfully added
 	 */
 	@Override
-	public boolean addScoreboardTag(@NonNull String tag) {
+	public boolean addScoreboardTag(@NotNull String tag) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -977,7 +978,7 @@ public class PrismarineEntity implements Entity {
 	 * @return true if the tag was successfully removed
 	 */
 	@Override
-	public boolean removeScoreboardTag(@NonNull String tag) {
+	public boolean removeScoreboardTag(@NotNull String tag) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -986,7 +987,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return reaction
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PistonMoveReaction getPistonMoveReaction() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1005,7 +1006,7 @@ public class PrismarineEntity implements Entity {
 	 * @see Hanging
 	 * @see Directional#getFacing()
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public BlockFace getFacing() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1019,7 +1020,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return current pose
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Pose getPose() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1029,7 +1030,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the entity´s category spawn
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public SpawnCategory getSpawnCategory() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1075,7 +1076,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return a copy of this entity.
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Entity copy() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1086,16 +1087,16 @@ public class PrismarineEntity implements Entity {
 	 * @param to the location to copy to
 	 * @return a copy of this entity.
 	 */
-	@Override @NonNull
-	public Entity copy(@NonNull Location to) {
+	@Override @NotNull
+	public Entity copy(@NotNull Location to) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	/**
 	 * @return Additional Spigot APIs
 	 */
-	@Override @NonNull
-	public Spigot spigot() {
+	@Override @NotNull
+	public Entity.Spigot spigot() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1138,7 +1139,7 @@ public class PrismarineEntity implements Entity {
 	 *     is null
 	 */
 	@Override
-	public void setMetadata(@NonNull String metadataKey, @NonNull MetadataValue newMetadataValue) {
+	public void setMetadata(@NotNull String metadataKey, @NotNull MetadataValue newMetadataValue) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1150,8 +1151,8 @@ public class PrismarineEntity implements Entity {
 	 * @return A list of values, one for each plugin that has set the
 	 *     requested value.
 	 */
-	@Override @NonNull
-	public List<MetadataValue> getMetadata(@NonNull String metadataKey) {
+	@Override @NotNull
+	public List<MetadataValue> getMetadata(@NotNull String metadataKey) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1163,7 +1164,7 @@ public class PrismarineEntity implements Entity {
 	 * @return the existence of the metadataKey within subject.
 	 */
 	@Override
-	public boolean hasMetadata(@NonNull String metadataKey) {
+	public boolean hasMetadata(@NotNull String metadataKey) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1178,7 +1179,7 @@ public class PrismarineEntity implements Entity {
 	 * @throws IllegalArgumentException If plugin is null
 	 */
 	@Override
-	public void removeMetadata(@NonNull String metadataKey, @NonNull Plugin owningPlugin) {
+	public void removeMetadata(@NotNull String metadataKey, @NotNull Plugin owningPlugin) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1190,7 +1191,7 @@ public class PrismarineEntity implements Entity {
 	 * @return true if the permission is set, otherwise false
 	 */
 	@Override
-	public boolean isPermissionSet(@NonNull String name) {
+	public boolean isPermissionSet(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1202,7 +1203,7 @@ public class PrismarineEntity implements Entity {
 	 * @return true if the permission is set, otherwise false
 	 */
 	@Override
-	public boolean isPermissionSet(@NonNull Permission perm) {
+	public boolean isPermissionSet(@NotNull Permission perm) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1216,7 +1217,7 @@ public class PrismarineEntity implements Entity {
 	 * @return Value of the permission
 	 */
 	@Override
-	public boolean hasPermission(@NonNull String name) {
+	public boolean hasPermission(@NotNull String name) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1230,7 +1231,7 @@ public class PrismarineEntity implements Entity {
 	 * @return Value of the permission
 	 */
 	@Override
-	public boolean hasPermission(@NonNull Permission perm) {
+	public boolean hasPermission(@NotNull Permission perm) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1244,8 +1245,8 @@ public class PrismarineEntity implements Entity {
 	 * @param value Value of the permission
 	 * @return The PermissionAttachment that was just created
 	 */
-	@Override @NonNull
-	public PermissionAttachment addAttachment(@NonNull Plugin plugin, @NonNull String name, boolean value) {
+	@Override @NotNull
+	public PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String name, boolean value) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1256,8 +1257,8 @@ public class PrismarineEntity implements Entity {
 	 *     or disabled
 	 * @return The PermissionAttachment that was just created
 	 */
-	@Override @NonNull
-	public PermissionAttachment addAttachment(@NonNull Plugin plugin) {
+	@Override @NotNull
+	public PermissionAttachment addAttachment(@NotNull Plugin plugin) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1274,7 +1275,7 @@ public class PrismarineEntity implements Entity {
 	 * @return The PermissionAttachment that was just created
 	 */
 	@Override @Nullable
-	public PermissionAttachment addAttachment(@NonNull Plugin plugin, @NonNull String name,
+	public PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String name,
 	                                          boolean value, int ticks) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1290,7 +1291,7 @@ public class PrismarineEntity implements Entity {
 	 * @return The PermissionAttachment that was just created
 	 */
 	@Override @Nullable
-	public PermissionAttachment addAttachment(@NonNull Plugin plugin, int ticks) {
+	public PermissionAttachment addAttachment(@NotNull Plugin plugin, int ticks) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1302,7 +1303,7 @@ public class PrismarineEntity implements Entity {
 	 *     isn't part of this object
 	 */
 	@Override
-	public void removeAttachment(@NonNull PermissionAttachment attachment) {
+	public void removeAttachment(@NotNull PermissionAttachment attachment) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -1323,7 +1324,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return Set of currently effective permissions
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -1357,7 +1358,7 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @return the persistent metadata container
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PersistentDataContainer getPersistentDataContainer() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}

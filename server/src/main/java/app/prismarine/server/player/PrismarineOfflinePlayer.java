@@ -1,14 +1,14 @@
 package app.prismarine.server.player;
 
 import app.prismarine.server.PrismarineServer;
-import lombok.NonNull;
 import org.bukkit.*;
 import org.bukkit.ban.ProfileBanList;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerProfile;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -52,7 +52,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *
 	 * @return Player UUID
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public UUID getUniqueId() {
 		return Objects.requireNonNullElse(this.playerProfile.getUniqueId(), UUID.randomUUID());
 	}
@@ -66,7 +66,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *
 	 * @return the player's profile
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PlayerProfile getPlayerProfile() {
 		return this.playerProfile;
 	}
@@ -247,7 +247,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic) throws IllegalArgumentException {
+	public void incrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -263,7 +263,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic) throws IllegalArgumentException {
+	public void decrementStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -278,7 +278,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic, int amount) throws IllegalArgumentException {
+	public void incrementStatistic(@NotNull Statistic statistic, int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -293,7 +293,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic, int amount) throws IllegalArgumentException {
+	public void decrementStatistic(@NotNull Statistic statistic, int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -308,7 +308,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public void setStatistic(@NonNull Statistic statistic, int newValue) throws IllegalArgumentException {
+	public void setStatistic(@NotNull Statistic statistic, int newValue) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -322,7 +322,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     additional parameter
 	 */
 	@Override
-	public int getStatistic(@NonNull Statistic statistic) throws IllegalArgumentException {
+	public int getStatistic(@NotNull Statistic statistic) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -340,8 +340,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull Material material) throws IllegalArgumentException {
+	public void incrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull Material material) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -359,8 +359,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull Material material) throws IllegalArgumentException {
+	public void decrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull Material material) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -376,8 +376,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public int getStatistic(@NonNull Statistic statistic,
-	                        @NonNull Material material) throws IllegalArgumentException {
+	public int getStatistic(@NotNull Statistic statistic,
+	                        @NotNull Material material) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -394,7 +394,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic, @NonNull Material material,
+	public void incrementStatistic(@NotNull Statistic statistic, @NotNull Material material,
 	                               int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -412,7 +412,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic, @NonNull Material material,
+	public void decrementStatistic(@NotNull Statistic statistic, @NotNull Material material,
 	                               int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -430,7 +430,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void setStatistic(@NonNull Statistic statistic, @NonNull Material material,
+	public void setStatistic(@NotNull Statistic statistic, @NotNull Material material,
 	                         int newValue) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -449,8 +449,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull EntityType entityType) throws IllegalArgumentException {
+	public void incrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull EntityType entityType) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -468,8 +468,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull EntityType entityType) throws IllegalArgumentException {
+	public void decrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull EntityType entityType) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -485,8 +485,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public int getStatistic(@NonNull Statistic statistic,
-	                        @NonNull EntityType entityType) throws IllegalArgumentException {
+	public int getStatistic(@NotNull Statistic statistic,
+	                        @NotNull EntityType entityType) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -503,8 +503,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void incrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull EntityType entityType, int amount) throws IllegalArgumentException {
+	public void incrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull EntityType entityType, int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -521,8 +521,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void decrementStatistic(@NonNull Statistic statistic,
-	                               @NonNull EntityType entityType, int amount) throws IllegalArgumentException {
+	public void decrementStatistic(@NotNull Statistic statistic,
+	                               @NotNull EntityType entityType, int amount) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -539,8 +539,8 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 *     for the statistic
 	 */
 	@Override
-	public void setStatistic(@NonNull Statistic statistic,
-	                         @NonNull EntityType entityType, int newValue) throws IllegalArgumentException {
+	public void setStatistic(@NotNull Statistic statistic,
+	                         @NotNull EntityType entityType, int newValue) throws IllegalArgumentException {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -565,7 +565,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	@Override @NonNull
+	@Override @NotNull
 	public Map<String, Object> serialize() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}

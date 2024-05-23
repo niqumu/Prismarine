@@ -6,16 +6,13 @@ import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisconnect;
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
-import app.prismarine.server.player.PrismarinePlayerProfile;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-import org.bukkit.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerProfile;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetSocketAddress;
 
@@ -70,7 +67,7 @@ public class Connection {
 	 * @param nettyServer The netty server the client is connected to
 	 * @param channel The netty channel the client is connected via
 	 */
-	public Connection(@NonNull NettyServer nettyServer, @NonNull Channel channel) {
+	public Connection(@NotNull NettyServer nettyServer, @NotNull Channel channel) {
 		this.nettyServer = nettyServer;
 		this.channel = channel;
 		this.address = (InetSocketAddress) channel.remoteAddress();
@@ -97,6 +94,8 @@ public class Connection {
 		// Send the join message, TODO event
 //		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
 //		Bukkit.getServer().broadcastMessage(joinMessage);
+
+
 	}
 
 	/**
@@ -120,7 +119,7 @@ public class Connection {
 	 * @param packet The packet to send to the client
 	 * @return The {@link ChannelFuture} of the operation
 	 */
-	public ChannelFuture sendPacket(@NonNull Packet packet) {
+	public ChannelFuture sendPacket(@NotNull Packet packet) {
 		if (!this.channel.isOpen()) {
 			throw new IllegalStateException("Cannot write to a closed channel!");
 		}

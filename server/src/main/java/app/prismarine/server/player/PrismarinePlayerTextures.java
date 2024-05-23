@@ -1,9 +1,9 @@
 package app.prismarine.server.player;
 
-import lombok.NonNull;
 import org.bukkit.profile.PlayerTextures;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.net.URL;
 
 public class PrismarinePlayerTextures implements PlayerTextures {
@@ -103,7 +103,7 @@ public class PrismarinePlayerTextures implements PlayerTextures {
 	 *
 	 * @return the model of the player's skin
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public SkinModel getSkinModel() {
 		if (this.skin == null || this.skinModel == null) {
 			return SkinModel.CLASSIC;

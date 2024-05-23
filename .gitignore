@@ -1,4 +1,5 @@
 run/
+server/src/main/java/org/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -15,7 +15,7 @@ public class HandlerHandshake implements PacketHandler<PacketHandshakeInHandshak
 	public void handle(Connection connection, PacketHandshakeInHandshake packet) {
 		if (packet.getNextState() == PacketHandshakeInHandshake.HandshakeState.LOGIN) {
 			connection.setState(ConnectionState.LOGIN);
-			System.out.println("Switching state to LOGIN");
+//			System.out.println("Switching state to LOGIN");
 
 			// On login, ensure the client is compatible with the server
 			if (packet.getProtocolVersion() < PrismarineServer.PROTOCOL_VERSION) {
@@ -31,7 +31,7 @@ public class HandlerHandshake implements PacketHandler<PacketHandshakeInHandshak
 			connection.setProtocolVersion(packet.getProtocolVersion());
 		} else {
 			connection.setState(ConnectionState.STATUS);
-			System.out.println("Switching state to STATUS");
+//			System.out.println("Switching state to STATUS");
 		}
 	}
 }

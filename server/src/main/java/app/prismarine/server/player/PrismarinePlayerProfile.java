@@ -1,9 +1,8 @@
 package app.prismarine.server.player;
 
-import lombok.Getter;
-import lombok.NonNull;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -13,13 +12,19 @@ import java.util.concurrent.CompletableFuture;
 
 public class PrismarinePlayerProfile implements PlayerProfile {
 
-	@Getter
+	/**
+	 * The name of this profile
+	 */
 	private String name;
 
-	@Getter
+	/**
+	 * The unique id of this profile
+	 */
 	private UUID uuid;
 
-	@Getter
+	/**
+	 * The {@link PlayerTextures} of this profile
+	 */
 	private PlayerTextures textures;
 
 	/**
@@ -58,7 +63,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	 *
 	 * @return the textures, not <code>null</code>
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PlayerTextures getTextures() {
 		return this.textures;
 	}
@@ -118,7 +123,7 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	 * @return a completable future that gets completed with the updated
 	 * PlayerProfile once it is available
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public CompletableFuture<PlayerProfile> update() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -126,12 +131,12 @@ public class PrismarinePlayerProfile implements PlayerProfile {
 	/**
 	 * @return A copy of this player profile
 	 */
-	@Override @NonNull
+	@Override @NotNull
 	public PlayerProfile clone() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	@Override @NonNull
+	@Override @NotNull
 	public Map<String, Object> serialize() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}

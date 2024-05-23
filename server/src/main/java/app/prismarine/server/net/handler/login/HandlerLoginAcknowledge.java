@@ -15,7 +15,7 @@ public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAckno
 	@Override
 	public void handle(Connection connection, PacketLoginInAcknowledge packet) {
 		connection.setState(ConnectionState.CONFIGURATION);
-		System.out.println("Switching state to CONFIGURATION");
+//		System.out.println("Switching state to CONFIGURATION");
 
 		// Wait 500 ms for configuration to finish
 		new Thread(() -> {
