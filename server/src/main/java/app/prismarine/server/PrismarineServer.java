@@ -217,7 +217,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public Collection<? extends Player> getOnlinePlayers() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.entityManager.getOnlinePlayers().values();
 	}
 
 	/**
@@ -730,7 +730,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public Player getPlayer(@NotNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.entityManager.getPlayer(name);
 	}
 
 	/**
@@ -741,7 +741,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public Player getPlayerExact(@NotNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.entityManager.getPlayer(name);
 	}
 
 	/**
@@ -767,7 +767,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public Player getPlayer(@NotNull UUID id) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return entityManager.getPlayer(id);
 	}
 
 	/**

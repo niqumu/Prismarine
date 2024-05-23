@@ -21,7 +21,8 @@ public class NettyChannelInitializer extends ChannelInitializer<SocketChannel> {
 		socketChannel.pipeline().addLast(
 			new PacketDecoder(connection),
 			new PacketEncoder(connection),
-			new NettyPacketHandler(connection)
+			new NettyPacketHandler(connection),
+			new NettyInactiveHandler(connection)
 		);
 
 		this.nettyServer.getConnections().add(connection);

@@ -31,7 +31,15 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 */
 	@Override
 	public boolean isOnline() {
-		throw new UnsupportedOperationException("Not yet implemented");
+
+		// Iterate over online players, checking for a match
+		for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
+			if (onlinePlayer.getUniqueId().equals(this.getUniqueId())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -166,7 +174,7 @@ public class PrismarineOfflinePlayer implements OfflinePlayer {
 	 */
 	@Override @Nullable
 	public Player getPlayer() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return Bukkit.getServer().getPlayer(this.getUniqueId());
 	}
 
 	/**

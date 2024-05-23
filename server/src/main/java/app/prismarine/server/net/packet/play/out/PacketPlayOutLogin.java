@@ -48,7 +48,7 @@ public class PacketPlayOutLogin implements Packet {
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
 
-		bytes.writeInt(0);
+		bytes.writeInt(1);
 		bytes.writeBoolean(false);
 		bytes.writeVarInt(1);
 		bytes.writeIdentifier("minecraft", "overworld");
@@ -70,6 +70,7 @@ public class PacketPlayOutLogin implements Packet {
 		bytes.writeBoolean(true);
 		bytes.writeBoolean(false);
 		bytes.writeVarInt(0);
+		bytes.writeBoolean(false);
 
 		return bytes.getBytes();
 	}
