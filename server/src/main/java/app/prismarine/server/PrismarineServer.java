@@ -6,6 +6,7 @@ import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
 import app.prismarine.server.player.PrismarinePlayerProfile;
 import app.prismarine.server.scheduler.TickThread;
+import app.prismarine.server.world.WorldManager;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.*;
@@ -111,6 +112,13 @@ public final class PrismarineServer implements Server {
 	private final EntityManager entityManager = new EntityManager();
 
 	/**
+	 * The server's {@link WorldManager} instance, responsible for managing and registering different worlds
+	 * and dimensions
+	 */
+	@Getter
+	private final WorldManager worldManager = new WorldManager();
+
+	/**
 	 * The server's {@link TickThread} instance
 	 */
 	@Getter
@@ -142,6 +150,15 @@ public final class PrismarineServer implements Server {
 
 		// Read the configuration
 		this.config = new ServerConfig();
+
+		// Read and load worlds
+		this.worldManager.discoverWorlds();
+
+		// Ensure at least one world exists
+		if (this.getWorlds().isEmpty()) {
+			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to create worlds yet.");
+			return;
+		}
 
 		// Start the netty server
 		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
@@ -807,7 +824,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public List<World> getWorlds() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.worldManager.getWorlds();
 	}
 
 	/**

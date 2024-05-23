@@ -14,6 +14,8 @@ import app.prismarine.server.net.handler.status.HandlerStatusStatusRequest;
 import app.prismarine.server.net.packet.configuration.*;
 import app.prismarine.server.net.packet.handshake.*;
 import app.prismarine.server.net.packet.login.*;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutChunkData;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
 import app.prismarine.server.net.packet.status.*;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -70,6 +72,11 @@ public class PacketManager {
 		register(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
 			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x3);
 		register(PacketConfigurationOutFinish.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x3);
+
+		// Play
+		register(PacketPlayOutDisconnect.class, ConnectionState.PLAY, PacketDirection.OUT, 0x1d);
+
+		register(PacketPlayOutChunkData.class, ConnectionState.PLAY, PacketDirection.OUT, 0x27);
 	}
 
 	/**

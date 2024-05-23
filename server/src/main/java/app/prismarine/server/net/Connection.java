@@ -99,8 +99,9 @@ public class Connection {
 //		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
 //		Bukkit.getServer().broadcastMessage(joinMessage);
 
-		// Create the player, TODO location
-		this.player = new PrismarinePlayer(Bukkit.getServer(), new Location(null, 0, 0, 0), profile, this);
+		// Create the player
+		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+		this.player = new PrismarinePlayer(Bukkit.getServer(), spawnLocation, profile, this);
 
 		// Register the player with the server's entity manager
 		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
