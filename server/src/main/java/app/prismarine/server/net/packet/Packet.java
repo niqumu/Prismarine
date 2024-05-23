@@ -2,6 +2,9 @@ package app.prismarine.server.net.packet;
 
 import app.prismarine.server.net.ConnectionState;
 
+/**
+ * Represents an abstract packet between the client and server
+ */
 public interface Packet {
 
 	/**

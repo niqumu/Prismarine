@@ -113,11 +113,7 @@ public class Connection {
 	 */
 	public void disconnect(String reason) {
 
-		if (this.player == null) {
-			PrismarineServer.LOGGER.info("{} was disconnected: {}", address, reason);
-		} else {
-			PrismarineServer.LOGGER.info("{} was disconnected: {}", this.player.getName(), reason);
-		}
+		PrismarineServer.LOGGER.info("{} was disconnected: {}", this.getName(), reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
@@ -162,5 +158,17 @@ public class Connection {
 		if (this.player != null) {
 			((PrismarineServer) Bukkit.getServer()).getEntityManager().free((PrismarineEntity) this.player);
 		}
+	}
+
+	/**
+	 * Gets the most appropriate String representation of this Connection given its state
+	 * @return If this connection has a player associated with it, the player name, otherwise the remote address.
+	 */
+	public String getName() {
+		if (this.player != null) {
+			return this.player.getName();
+		}
+
+		return this.getAddress().toString();
 	}
 }

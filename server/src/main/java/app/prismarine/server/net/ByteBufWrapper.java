@@ -7,11 +7,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+/**
+ * A wrapper for the netty {@link ByteBuf} class, providing convenient read/write methods for Minecraft data types
+ * <p>
+ * Portions of this class are heavily based off of code provided by wiki.vg.
+ * @author chloe
+ */
 public class ByteBufWrapper {
 
 	private static final int SEGMENT_BITS = 0x7F;
 	private static final int CONTINUE_BIT = 0x80;
 
+	/**
+	 * The {@link ByteBuf} that this object is a wrapper for
+	 */
 	@Getter
 	private final ByteBuf byteBuf;
 
@@ -23,6 +32,10 @@ public class ByteBufWrapper {
 		this.byteBuf = byteBuf;
 	}
 
+	/**
+	 * Returns the contents of this wrapper as a byte array
+	 * @return The complete contents of this wrapper as a byte[]
+	 */
 	public byte[] getBytes() {
 		final int length = this.byteBuf.writerIndex();
 		final int reader = this.byteBuf.readerIndex();
@@ -33,6 +46,10 @@ public class ByteBufWrapper {
 		return bytes;
 	}
 
+	/**
+	 * Reads a VarInt from the buffer at the current position
+	 * @return An int representation of a VarInt
+	 */
 	public int readVarInt() {
 		int value = 0;
 		int position = 0;
@@ -52,6 +69,10 @@ public class ByteBufWrapper {
 		return value;
 	}
 
+	/**
+	 * Writes a VarInt to the buffer at the current position
+	 * @param data An int to write to the buffer as a VarInt
+	 */
 	public void writeVarInt(int data) {
 		while (true) {
 			if ((data & ~SEGMENT_BITS) == 0) {
@@ -65,6 +86,10 @@ public class ByteBufWrapper {
 		}
 	}
 
+	/**
+	 * Reads a Minecraft-style length-prefixed String from the buffer at the current position
+	 * @return The string that was read from the buffer
+	 */
 	public String readString() {
 		int length = this.readVarInt();
 		byte[] stringBytes = new byte[length];
@@ -76,20 +101,37 @@ public class ByteBufWrapper {
 		return new String(stringBytes);
 	}
 
+	/**
+	 * Writes a Minecraft-style length-prefixed String to the buffer at the current position
+	 * @param string The String to write to buffer
+	 */
 	public void writeString(@NotNull String string) {
 		byte[] stringBytes = string.getBytes();
 		this.writeVarInt(stringBytes.length);
 		this.getByteBuf().writeBytes(stringBytes);
 	}
 
+	/**
+	 * Writes a Minecraft-style identifier to the buffer at the current position
+	 * @param namespace The namespace of the identifier
+	 * @param string The contents of the identifier
+	 */
 	public void writeIdentifier(@NotNull String namespace, @NotNull String string) {
 		writeString(namespace + ":" + string);
 	}
 
+	/**
+	 * Reads a UUID from the buffer at the current position
+	 * @return The UUID that was read from the buffer
+	 */
 	public UUID readUUID() {
 		return new UUID(this.readLong(), this.readLong());
 	}
 
+	/**
+	 * Writes a UUID to the buffer at the current position
+	 * @param data The UUID to write to the buffer
+	 */
 	public void writeUUID(UUID data) {
 		this.writeLong(data.getMostSignificantBits());
 		this.writeLong(data.getLeastSignificantBits());
@@ -127,6 +169,11 @@ public class ByteBufWrapper {
 		this.byteBuf.writeByte(data);
 	}
 
+	/**
+	 * Reads {@code count} bytes from the buffer at the current position
+	 * @param count The amount of bytes to read
+	 * @return A byte array, {@code count} bytes long, of the data read from the buffer
+	 */
 	public byte[] readBytes(int count) {
 		byte[] bytes = new byte[count];
 
@@ -137,6 +184,10 @@ public class ByteBufWrapper {
 		return bytes;
 	}
 
+	/**
+	 * Reads the rest of the remaining unread bytes from the buffer
+	 * @return A byte array of the remaining unread bytes in the buffer
+	 */
 	public byte[] readRemainingBytes() {
 		final int length = this.byteBuf.writerIndex();
 		final int reader = this.byteBuf.readerIndex();

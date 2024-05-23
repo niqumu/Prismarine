@@ -3,7 +3,9 @@ package app.prismarine.server.entity;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.Connection;
+import app.prismarine.server.player.PlayerConfiguration;
 import app.prismarine.server.player.PrismarineOfflinePlayer;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -50,7 +52,17 @@ import java.util.concurrent.CompletableFuture;
 
 public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 
+	/**
+	 * The {@link Connection} this player is connecting through
+	 */
 	private final Connection connection;
+
+	/**
+	 * This player's {@link PlayerConfiguration}, representing client settings
+	 */
+	@Getter
+	private final PlayerConfiguration configuration = new PlayerConfiguration();
+
 
 	public PrismarinePlayer(@NotNull Server server, @NotNull Location location,
 	                        @NotNull PlayerProfile profile, @NotNull Connection connection) {
@@ -3137,7 +3149,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public @NotNull String getLocale() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.configuration.getLocale();
 	}
 
 	/**

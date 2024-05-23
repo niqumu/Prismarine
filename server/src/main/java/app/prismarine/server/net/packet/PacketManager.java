@@ -5,6 +5,7 @@ import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationAcknowledgeFinish;
+import app.prismarine.server.net.handler.configuration.HandlerConfigurationConfig;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationPluginMessage;
 import app.prismarine.server.net.handler.handshake.HandlerHandshake;
 import app.prismarine.server.net.handler.login.HandlerLoginAcknowledge;
@@ -21,6 +22,8 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
+
+import static app.prismarine.server.net.ConnectionState.*;
 
 @UtilityClass
 public class PacketManager {
@@ -40,69 +43,64 @@ public class PacketManager {
 	public void registerPackets() {
 
 		// Handshake
-		register(PacketHandshakeInHandshake.class, new HandlerHandshake(),
-			ConnectionState.HANDSHAKING, PacketDirection.IN, 0x0);
+		registerInbound(PacketHandshakeInHandshake.class, new HandlerHandshake(), HANDSHAKING, 0x0);
 
 		// Status
-		register(PacketStatusInStatusRequest.class, new HandlerStatusStatusRequest(),
-			ConnectionState.STATUS, PacketDirection.IN, 0x0);
-		register(PacketStatusOutStatusResponse.class, ConnectionState.STATUS, PacketDirection.OUT, 0x0);
-		register(PacketStatusInPingRequest.class, new HandlerStatusPingRequest(),
-			ConnectionState.STATUS, PacketDirection.IN, 0x1);
-		register(PacketStatusOutPingResponse.class, ConnectionState.STATUS, PacketDirection.OUT, 0x1);
+		registerInbound(PacketStatusInStatusRequest.class, new HandlerStatusStatusRequest(), STATUS, 0x0);
+		registerOutbound(PacketStatusOutStatusResponse.class, STATUS, 0x0);
+		registerInbound(PacketStatusInPingRequest.class, new HandlerStatusPingRequest(), STATUS, 0x1);
+		registerOutbound(PacketStatusOutPingResponse.class, STATUS, 0x1);
 
 		// Login
-		register(PacketLoginInLoginStart.class, new HandlerLoginStartLogin(),
-			ConnectionState.LOGIN, PacketDirection.IN, 0x0);
-		register(PacketLoginOutDisconnect.class, ConnectionState.LOGIN, PacketDirection.OUT, 0x0);
+		registerInbound(PacketLoginInLoginStart.class, new HandlerLoginStartLogin(), LOGIN, 0x0);
+		registerOutbound(PacketLoginOutDisconnect.class, LOGIN, 0x0);
 
-		register(PacketLoginOutSuccess.class, ConnectionState.LOGIN, PacketDirection.OUT, 0x2);
+		registerOutbound(PacketLoginOutSuccess.class, LOGIN, 0x2);
 
-		register(PacketLoginInAcknowledge.class, new HandlerLoginAcknowledge(),
-			ConnectionState.LOGIN, PacketDirection.IN, 0x3);
+		registerInbound(PacketLoginInAcknowledge.class, new HandlerLoginAcknowledge(), LOGIN, 0x3);
 
 		// Configuration
-		register(PacketConfigurationInConfig.class, ConnectionState.CONFIGURATION, PacketDirection.IN, 0x0);
+		registerInbound(PacketConfigurationInConfig.class, new HandlerConfigurationConfig(), CONFIGURATION, 0x0);
 
-		register(PacketConfigurationOutPluginMessage.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x1);
+		registerOutbound(PacketConfigurationOutPluginMessage.class, CONFIGURATION, 0x1);
 
-		register(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(),
-			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x2);
-		register(PacketConfigurationOutDisconnect.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x2);
-		register(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
-			ConnectionState.CONFIGURATION, PacketDirection.IN, 0x3);
-		register(PacketConfigurationOutFinish.class, ConnectionState.CONFIGURATION, PacketDirection.OUT, 0x3);
+		registerInbound(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(),
+			CONFIGURATION, 0x2);
+		registerOutbound(PacketConfigurationOutDisconnect.class, CONFIGURATION, 0x2);
+		registerInbound(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
+			CONFIGURATION, 0x3);
+		registerOutbound(PacketConfigurationOutFinish.class, CONFIGURATION, 0x3);
 
 		// Play
-		register(PacketPlayOutDisconnect.class, ConnectionState.PLAY, PacketDirection.OUT, 0x1d);
+		registerOutbound(PacketPlayOutDisconnect.class, PLAY, 0x1d);
 
-		register(PacketPlayOutChunkData.class, ConnectionState.PLAY, PacketDirection.OUT, 0x27);
+		registerOutbound(PacketPlayOutChunkData.class, PLAY, 0x27);
 	}
 
 	/**
 	 * Used to register inbound packets, defining a packet handler
-	 * @param clazz The class of the packet
+	 *
+	 * @param clazz   The class of the packet
 	 * @param handler An instance of an appropriate packet handler to be called when the packet is received
-	 * @param state The {@link ConnectionState} this packet belongs to
-	 * @param direction The {@link PacketDirection} of this packet
-	 * @param id The internal ID of this packet
+	 * @param state   The {@link ConnectionState} this packet belongs to
+	 * @param id      The internal ID of this packet
 	 */
 	@SuppressWarnings("unchecked")
-	private void register(Class<? extends Packet> clazz, PacketHandler<? extends Packet> handler,
-	                      ConnectionState state, PacketDirection direction, int id) {
+	private void registerInbound(Class<? extends Packet> clazz, PacketHandler<? extends Packet> handler,
+	                             ConnectionState state, int id) {
 		HANDLERS.put(clazz, (PacketHandler<Packet>) handler);
-		getMappings(state, direction).put(id, clazz);
+		getMappings(state, PacketDirection.IN).put(id, clazz);
 	}
 
 	/**
 	 * Used to register outbound packets, as they do not have a packet handler
+	 *
 	 * @param clazz The class of the packet
 	 * @param state The {@link ConnectionState} this packet belongs to
-	 * @param direction The {@link PacketDirection} of this packet
-	 * @param id The internal ID of this packet
+	 * @param id    The internal ID of this packet
 	 */
-	private void register(Class<? extends Packet> clazz, ConnectionState state, PacketDirection direction, int id) {
-		getMappings(state, direction).put(id, clazz);
+	private void registerOutbound(Class<? extends Packet> clazz, ConnectionState state, int id) {
+		getMappings(state, PacketDirection.OUT).put(id, clazz);
 	}
 
 	/**

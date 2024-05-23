@@ -8,13 +8,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A simple netty server to handle all connections with clients
+ * @author chloe
  */
 public class NettyServer {
 
@@ -43,6 +43,9 @@ public class NettyServer {
 		this.server = server;
 	}
 
+	/**
+	 * Starts the netty server
+	 */
 	public void startup() {
 		if (this.running) {
 			throw new IllegalStateException("The NettyServer is already running!");
@@ -61,19 +64,21 @@ public class NettyServer {
 		bootstrap.bind(this.server.getIp(), this.server.getPort()).
 			addListener(future -> {
 
-				this.running = true;
-
-				// If binding the server failed
+				// Ensure that binding the server succeeded
 				if (!future.isSuccess()) {
-					this.running = false;
 					PrismarineServer.LOGGER.error("Failed to bind the server to {}:{}: {}",
 						this.server.getIp(), this.server.getPort(), future.cause().toString());
 
 					System.exit(1);
 				}
+
+				this.running = true;
 			});
 	}
 
+	/**
+	 * Shuts down the netty server
+	 */
 	public void shutdown() {
 		if (!this.running) {
 			throw new IllegalStateException("The NettyServer is not running!");

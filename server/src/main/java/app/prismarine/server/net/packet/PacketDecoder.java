@@ -1,5 +1,6 @@
 package app.prismarine.server.net.packet;
 
+import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
@@ -30,19 +31,16 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 		Class<? extends Packet> packetClass = PacketManager.match(state, PacketDirection.IN, id);
 
+		// If the packet could not be resolved
 		if (packetClass == null) {
-			System.out.println("Got unknown packet.");
-			System.out.println("\tState: " + state);
-			System.out.println("\tID: " + id);
-			System.out.println("\tDump: " + Arrays.toString(copy.getBytes()));
+			PrismarineServer.LOGGER.warn("Received an unknown packet from {}", this.connection.getName());
+			PrismarineServer.LOGGER.warn("Connection state: {}, Packet ID: {}", this.connection.getState(), id);
+			PrismarineServer.LOGGER.warn("Packet dump: {}", Arrays.toString(copy.getBytes()));
 			in.clear();
 			return;
 		}
 
 		Packet packet = PacketManager.build(packetClass, wrapper);
-
-//		System.out.println("IN: " + packet.toString());
-
 		out.add(packet);
 	}
 }

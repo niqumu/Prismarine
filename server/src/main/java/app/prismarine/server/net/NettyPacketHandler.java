@@ -11,6 +11,7 @@ public class NettyPacketHandler extends ChannelInboundHandlerAdapter {
 
 	private final Connection connection;
 
+	// Called when a packet is received
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		PacketManager.handle(this.connection, (Packet) msg);
