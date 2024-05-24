@@ -7,12 +7,18 @@ import app.prismarine.server.net.packet.PacketDirection;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.Random;
 
 @Data
 @AllArgsConstructor
 public class PacketPlayOutLogin implements Packet {
 
+	private final Player player;
+
 	public PacketPlayOutLogin(ByteBufWrapper bytes) {
+		throw new UnsupportedOperationException("Attempting to decode outbound packet!");
 	}
 
 	/**
@@ -48,10 +54,15 @@ public class PacketPlayOutLogin implements Packet {
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
 
-		bytes.writeInt(1);
+		bytes.writeInt(player.getEntityId());
+
 		bytes.writeBoolean(false);
-		bytes.writeVarInt(1);
+//		bytes.writeBoolean(player.getWorld().isHardcore());
+
+		bytes.writeVarInt(3);
 		bytes.writeIdentifier("minecraft", "overworld");
+		bytes.writeIdentifier("minecraft", "the_nether");
+		bytes.writeIdentifier("minecraft", "the_end");
 
 		// Server values
 		bytes.writeVarInt(Bukkit.getServer().getMaxPlayers());
@@ -63,9 +74,9 @@ public class PacketPlayOutLogin implements Packet {
 		bytes.writeBoolean(false);
 		bytes.writeVarInt(0);
 		bytes.writeIdentifier("minecraft", "overworld");
-		bytes.writeLong(0);
-		bytes.writeByte(1);
+		bytes.writeLong((new Random()).nextLong());
 		bytes.writeByte(-1);
+		bytes.writeByte(1);
 		bytes.writeBoolean(false);
 		bytes.writeBoolean(true);
 		bytes.writeBoolean(false);

@@ -15,8 +15,7 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 	@Override
 	public void handle(Connection connection, PacketConfigurationInAcknowledgeFinish packet) {
 		connection.setState(ConnectionState.PLAY);
-//		System.out.println("Switching state to PLAY");
 
-//		connection.sendPacket(new PacketPlayOutLogin());
+		connection.sendPacket(new PacketPlayOutLogin(connection.getPlayer()));
 	}
 }

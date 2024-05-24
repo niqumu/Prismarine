@@ -4,7 +4,10 @@ import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.PacketHandler;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutFinish;
+import app.prismarine.server.net.packet.configuration.PacketConfigurationOutRegistry;
 import app.prismarine.server.net.packet.login.PacketLoginInAcknowledge;
+
+import static app.prismarine.server.net.packet.configuration.PacketConfigurationOutRegistry.*;
 
 public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAcknowledge> {
 
@@ -25,7 +28,22 @@ public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAckno
 				throw new RuntimeException(e);
 			}
 
-			connection.sendPacket(new PacketConfigurationOutFinish());
+			this.finishConfiguration(connection);
 		}).start();
+	}
+
+	private void finishConfiguration(Connection connection) {
+
+		// Registry data
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.BIOME));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.CHAT_TYPE));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.TRIM_PATTERN));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.TRIM_MATERIAL));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.WOLF_VARIANT));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.DIMENSION_TYPE));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.DAMAGE_TYPE));
+		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.BANNER_PATTERN));
+
+		connection.sendPacket(new PacketConfigurationOutFinish());
 	}
 }

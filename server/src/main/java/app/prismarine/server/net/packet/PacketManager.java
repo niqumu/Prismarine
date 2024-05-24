@@ -64,12 +64,12 @@ public class PacketManager {
 
 		registerOutbound(PacketConfigurationOutPluginMessage.class, CONFIGURATION, 0x1);
 
-		registerInbound(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(),
-			CONFIGURATION, 0x2);
+		registerInbound(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(), CONFIGURATION, 0x2);
 		registerOutbound(PacketConfigurationOutDisconnect.class, CONFIGURATION, 0x2);
-		registerInbound(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(),
-			CONFIGURATION, 0x3);
+		registerInbound(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(), CONFIGURATION, 0x3);
 		registerOutbound(PacketConfigurationOutFinish.class, CONFIGURATION, 0x3);
+
+		registerOutbound(PacketConfigurationOutRegistry.class, CONFIGURATION, 0x7);
 
 		// Play
 		registerOutbound(PacketPlayOutDisconnect.class, PLAY, 0x1d);

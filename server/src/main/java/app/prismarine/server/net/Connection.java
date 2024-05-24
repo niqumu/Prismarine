@@ -100,7 +100,8 @@ public class Connection {
 //		Bukkit.getServer().broadcastMessage(joinMessage);
 
 		// Create the player
-		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+//		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+		Location spawnLocation = new Location(null, 0, 0, 0);
 		this.player = new PrismarinePlayer(Bukkit.getServer(), spawnLocation, profile, this);
 
 		// Register the player with the server's entity manager

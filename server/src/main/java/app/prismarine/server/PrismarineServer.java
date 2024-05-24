@@ -155,10 +155,10 @@ public final class PrismarineServer implements Server {
 		this.worldManager.discoverWorlds();
 
 		// Ensure at least one world exists
-		if (this.getWorlds().isEmpty()) {
-			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to create worlds yet.");
-			return;
-		}
+//		if (this.getWorlds().isEmpty()) {
+//			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to create worlds yet.");
+//			return;
+//		}
 
 		// Start the netty server
 		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());

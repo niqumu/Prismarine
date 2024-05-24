@@ -16,13 +16,7 @@ public class NettyInactiveHandler extends ChannelInboundHandlerAdapter {
 
 		// If the connection is being terminated by the client
 		if (connection.getNettyServer().getConnections().contains(connection)) {
-			if (connection.getPlayer() == null) {
-				PrismarineServer.LOGGER.info("{} was disconnected: " +
-					"Connection closed by client", connection.getAddress());
-			} else {
-				PrismarineServer.LOGGER.info("{} was disconnected: " +
-					"Connection closed by client", connection.getPlayer().getName());
-			}
+			PrismarineServer.LOGGER.info("{} was disconnected: " + "Disconnected", connection.getName());
 		}
 
 		connection.onClose();
