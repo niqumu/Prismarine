@@ -19,6 +19,7 @@ import app.prismarine.server.net.packet.login.*;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutChunkData;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutGameEvent;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutSyncPlayerPosition;
 import app.prismarine.server.net.packet.status.*;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -82,6 +83,8 @@ public class PacketManager {
 		registerOutbound(PacketPlayOutGameEvent.class, PLAY, 0x22);
 
 		registerOutbound(PacketPlayOutChunkData.class, PLAY, 0x27);
+
+		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x40);
 	}
 
 	/**

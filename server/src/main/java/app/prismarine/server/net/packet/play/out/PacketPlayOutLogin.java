@@ -76,7 +76,7 @@ public class PacketPlayOutLogin implements Packet {
 		bytes.writeIdentifier("minecraft", "overworld");
 		bytes.writeLong((new Random()).nextLong());
 		bytes.writeByte(-1);
-		bytes.writeByte(1);
+		bytes.writeByte(3);
 		bytes.writeBoolean(false);
 		bytes.writeBoolean(true);
 		bytes.writeBoolean(false);

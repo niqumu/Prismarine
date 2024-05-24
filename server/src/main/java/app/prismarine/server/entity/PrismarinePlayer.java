@@ -3262,4 +3262,9 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	public static class Spigot extends Player.Spigot {
 
 	}
+
+	@Override
+	public String toString() {
+		return "PrismarinePlayer{name=" + this.getName() + ",location=" + this.getLocation() + "}";
+	}
 }

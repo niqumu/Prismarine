@@ -28,7 +28,7 @@ public class PrismarineEntity implements Entity {
 	/**
 	 * The unique ID of the entity
 	 */
-	private int entityId;
+	private int entityId = -1; // Default before allocation by the manager
 
 	/**
 	 * The Server the entity belongs to
@@ -68,7 +68,6 @@ public class PrismarineEntity implements Entity {
 	public PrismarineEntity(@NotNull Server server, @NotNull Location location) {
 		this.server = server;
 		this.location = location;
-		this.entityId = 0; // todo
 	}
 
 	/**
