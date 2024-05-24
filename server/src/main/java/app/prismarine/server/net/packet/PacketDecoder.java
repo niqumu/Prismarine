@@ -41,6 +41,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		}
 
 		Packet packet = PacketManager.build(packetClass, wrapper);
+
+		System.out.println("(" + connection.getAddress() + "/IN): " + packet.toString());
+
 		out.add(packet);
 	}
 }

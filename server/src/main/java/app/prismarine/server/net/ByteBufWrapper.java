@@ -161,6 +161,14 @@ public class ByteBufWrapper {
 		this.byteBuf.writeLong(data);
 	}
 
+	public float readFloat() {
+		return this.byteBuf.readFloat();
+	}
+
+	public void writeFloat(float data) {
+		this.byteBuf.writeFloat(data);
+	}
+
 	public byte readByte() {
 		return this.byteBuf.readByte();
 	}

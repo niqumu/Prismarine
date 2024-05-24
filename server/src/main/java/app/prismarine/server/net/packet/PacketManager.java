@@ -6,6 +6,7 @@ import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationAcknowledgeFinish;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationConfig;
+import app.prismarine.server.net.handler.configuration.HandlerConfigurationPacks;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationPluginMessage;
 import app.prismarine.server.net.handler.handshake.HandlerHandshake;
 import app.prismarine.server.net.handler.login.HandlerLoginAcknowledge;
@@ -17,6 +18,7 @@ import app.prismarine.server.net.packet.handshake.*;
 import app.prismarine.server.net.packet.login.*;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutChunkData;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutGameEvent;
 import app.prismarine.server.net.packet.status.*;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -69,10 +71,15 @@ public class PacketManager {
 		registerInbound(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(), CONFIGURATION, 0x3);
 		registerOutbound(PacketConfigurationOutFinish.class, CONFIGURATION, 0x3);
 
+		registerInbound(PacketConfigurationInPacks.class, new HandlerConfigurationPacks(), CONFIGURATION, 0x7);
 		registerOutbound(PacketConfigurationOutRegistry.class, CONFIGURATION, 0x7);
+
+		registerOutbound(PacketConfigurationOutPacks.class, CONFIGURATION, 0xe);
 
 		// Play
 		registerOutbound(PacketPlayOutDisconnect.class, PLAY, 0x1d);
+
+		registerOutbound(PacketPlayOutGameEvent.class, PLAY, 0x22);
 
 		registerOutbound(PacketPlayOutChunkData.class, PLAY, 0x27);
 	}

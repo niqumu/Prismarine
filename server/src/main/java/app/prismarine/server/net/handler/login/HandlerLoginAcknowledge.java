@@ -3,7 +3,9 @@ package app.prismarine.server.net.handler.login;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.PacketHandler;
+import app.prismarine.server.net.packet.configuration.PacketConfigurationOutFeatures;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutFinish;
+import app.prismarine.server.net.packet.configuration.PacketConfigurationOutPacks;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutRegistry;
 import app.prismarine.server.net.packet.login.PacketLoginInAcknowledge;
 
@@ -44,6 +46,10 @@ public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAckno
 		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.DAMAGE_TYPE));
 		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.BANNER_PATTERN));
 
-		connection.sendPacket(new PacketConfigurationOutFinish());
+		// Features
+		connection.sendPacket(new PacketConfigurationOutFeatures("minecraft:vanilla"));
+
+		// Resource packs
+		connection.sendPacket(new PacketConfigurationOutPacks("minecraft", "core", "1.20.6"));
 	}
 }

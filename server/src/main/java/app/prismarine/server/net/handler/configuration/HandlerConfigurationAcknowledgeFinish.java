@@ -4,6 +4,7 @@ import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.PacketHandler;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationInAcknowledgeFinish;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutGameEvent;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutLogin;
 
 public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<PacketConfigurationInAcknowledgeFinish> {
@@ -17,5 +18,6 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 		connection.setState(ConnectionState.PLAY);
 
 		connection.sendPacket(new PacketPlayOutLogin(connection.getPlayer()));
+		connection.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));
 	}
 }
