@@ -9,6 +9,8 @@ import app.prismarine.server.net.packet.configuration.PacketConfigurationOutPack
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutRegistry;
 import app.prismarine.server.net.packet.login.PacketLoginInAcknowledge;
 
+import java.io.InputStream;
+
 import static app.prismarine.server.net.packet.configuration.PacketConfigurationOutRegistry.*;
 
 public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAcknowledge> {
@@ -46,10 +48,19 @@ public class HandlerLoginAcknowledge implements PacketHandler<PacketLoginInAckno
 		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.DAMAGE_TYPE));
 		connection.sendPacket(new PacketConfigurationOutRegistry(RegistryType.BANNER_PATTERN));
 
+		// Update tags (packet logged)
+//		try (InputStream stream = HandlerLoginAcknowledge.class.getResourceAsStream(
+//			"/update-tags-packet.bin")) {
+//
+//			connection.getChannel().writeAndFlush(stream.readAllBytes());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 		// Features
 		connection.sendPacket(new PacketConfigurationOutFeatures("minecraft:vanilla"));
 
-		// Resource packs
+		// Resource packs, wait for a response before continuing
 		connection.sendPacket(new PacketConfigurationOutPacks("minecraft", "core", "1.20.6"));
 	}
 }

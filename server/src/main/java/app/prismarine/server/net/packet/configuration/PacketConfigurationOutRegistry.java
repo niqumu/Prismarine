@@ -24,129 +24,175 @@ public class PacketConfigurationOutRegistry implements Packet {
 		// todo move this monstrosity to a json
 		switch (this.registryType) {
 			case BIOME -> {
-				this.registryEntries.add(new RegistryEntry("badlands", false));
-				this.registryEntries.add(new RegistryEntry("bamboo_jungle", false));
-				this.registryEntries.add(new RegistryEntry("basalt_deltas", false));
-				this.registryEntries.add(new RegistryEntry("beach", false));
-				this.registryEntries.add(new RegistryEntry("birch_forest", false));
-				this.registryEntries.add(new RegistryEntry("cherry_grove", false));
-				this.registryEntries.add(new RegistryEntry("cold_ocean", false));
-				this.registryEntries.add(new RegistryEntry("crimson_forest", false));
-				this.registryEntries.add(new RegistryEntry("dark_forest", false));
-				this.registryEntries.add(new RegistryEntry("deep_cold_ocean", false));
-				this.registryEntries.add(new RegistryEntry("deep_dark", false));
-				this.registryEntries.add(new RegistryEntry("deep_frozen_ocean", false));
-				this.registryEntries.add(new RegistryEntry("deep_lukewarm_ocean", false));
-				this.registryEntries.add(new RegistryEntry("deep_ocean", false));
-				this.registryEntries.add(new RegistryEntry("desert", false));
-				this.registryEntries.add(new RegistryEntry("dripstone_caves", false));
-				this.registryEntries.add(new RegistryEntry("end_barrens", false));
-				this.registryEntries.add(new RegistryEntry("end_highlands", false));
-				this.registryEntries.add(new RegistryEntry("end_midlands", false));
-				this.registryEntries.add(new RegistryEntry("eroded_badlands", false));
-				this.registryEntries.add(new RegistryEntry("flower_forest", false));
-				this.registryEntries.add(new RegistryEntry("forest", false));
-				this.registryEntries.add(new RegistryEntry("frozen_ocean", false));
-				this.registryEntries.add(new RegistryEntry("frozen_peaks", false));
-				this.registryEntries.add(new RegistryEntry("frozen_river", false));
-				this.registryEntries.add(new RegistryEntry("grove", false));
-				this.registryEntries.add(new RegistryEntry("ice_spikes", false));
-				this.registryEntries.add(new RegistryEntry("jagged_peaks", false));
-				this.registryEntries.add(new RegistryEntry("jungle", false));
-				this.registryEntries.add(new RegistryEntry("lukewarm_ocean", false));
-				this.registryEntries.add(new RegistryEntry("lush_caves", false));
-				this.registryEntries.add(new RegistryEntry("mangrove_swamp", false));
-				this.registryEntries.add(new RegistryEntry("meadow", false));
-				this.registryEntries.add(new RegistryEntry("mushroom_fields", false));
-				this.registryEntries.add(new RegistryEntry("nether_wastes", false));
-				this.registryEntries.add(new RegistryEntry("ocean", false));
-				this.registryEntries.add(new RegistryEntry("old_growth_birch_forest", false));
-				this.registryEntries.add(new RegistryEntry("old_growth_pine_taiga", false));
-				this.registryEntries.add(new RegistryEntry("old_growth_spruce_taiga", false));
-				this.registryEntries.add(new RegistryEntry("plains", false));
-				this.registryEntries.add(new RegistryEntry("river", false));
-				this.registryEntries.add(new RegistryEntry("savanna", false));
-				this.registryEntries.add(new RegistryEntry("savanna_plateau", false));
-				this.registryEntries.add(new RegistryEntry("small_end_islands", false));
-				this.registryEntries.add(new RegistryEntry("snowy_beach", false));
-				this.registryEntries.add(new RegistryEntry("snowy_plains", false));
-				this.registryEntries.add(new RegistryEntry("snowy_slopes", false));
-				this.registryEntries.add(new RegistryEntry("snowy_taiga", false));
-				this.registryEntries.add(new RegistryEntry("soul_sand_valley", false));
-				this.registryEntries.add(new RegistryEntry("sparse_jungle", false));
-				this.registryEntries.add(new RegistryEntry("stony_peaks", false));
-				this.registryEntries.add(new RegistryEntry("stony_shore", false));
-				this.registryEntries.add(new RegistryEntry("sunflower_plains", false));
-				this.registryEntries.add(new RegistryEntry("swamp", false));
-				this.registryEntries.add(new RegistryEntry("taiga", false));
-				this.registryEntries.add(new RegistryEntry("the_end", false));
-				this.registryEntries.add(new RegistryEntry("the_void", false));
-				this.registryEntries.add(new RegistryEntry("warm_ocean", false));
-				this.registryEntries.add(new RegistryEntry("warped_forest", false));
-				this.registryEntries.add(new RegistryEntry("windswept_forest", false));
-				this.registryEntries.add(new RegistryEntry("windswept_gravelly_hills", false));
-				this.registryEntries.add(new RegistryEntry("windswept_hills", false));
-				this.registryEntries.add(new RegistryEntry("windswept_savanna", false));
-				this.registryEntries.add(new RegistryEntry("wooded_badlands", false));
+				this.registryEntries.add(new RegistryEntry("badlands"));
+				this.registryEntries.add(new RegistryEntry("bamboo_jungle"));
+				this.registryEntries.add(new RegistryEntry("basalt_deltas"));
+				this.registryEntries.add(new RegistryEntry("beach"));
+				this.registryEntries.add(new RegistryEntry("birch_forest"));
+				this.registryEntries.add(new RegistryEntry("cherry_grove"));
+				this.registryEntries.add(new RegistryEntry("cold_ocean"));
+				this.registryEntries.add(new RegistryEntry("crimson_forest"));
+				this.registryEntries.add(new RegistryEntry("dark_forest"));
+				this.registryEntries.add(new RegistryEntry("deep_cold_ocean"));
+				this.registryEntries.add(new RegistryEntry("deep_dark"));
+				this.registryEntries.add(new RegistryEntry("deep_frozen_ocean"));
+				this.registryEntries.add(new RegistryEntry("deep_lukewarm_ocean"));
+				this.registryEntries.add(new RegistryEntry("deep_ocean"));
+				this.registryEntries.add(new RegistryEntry("desert"));
+				this.registryEntries.add(new RegistryEntry("dripstone_caves"));
+				this.registryEntries.add(new RegistryEntry("end_barrens"));
+				this.registryEntries.add(new RegistryEntry("end_highlands"));
+				this.registryEntries.add(new RegistryEntry("end_midlands"));
+				this.registryEntries.add(new RegistryEntry("eroded_badlands"));
+				this.registryEntries.add(new RegistryEntry("flower_forest"));
+				this.registryEntries.add(new RegistryEntry("forest"));
+				this.registryEntries.add(new RegistryEntry("frozen_ocean"));
+				this.registryEntries.add(new RegistryEntry("frozen_peaks"));
+				this.registryEntries.add(new RegistryEntry("frozen_river"));
+				this.registryEntries.add(new RegistryEntry("grove"));
+				this.registryEntries.add(new RegistryEntry("ice_spikes"));
+				this.registryEntries.add(new RegistryEntry("jagged_peaks"));
+				this.registryEntries.add(new RegistryEntry("jungle"));
+				this.registryEntries.add(new RegistryEntry("lukewarm_ocean"));
+				this.registryEntries.add(new RegistryEntry("lush_caves"));
+				this.registryEntries.add(new RegistryEntry("mangrove_swamp"));
+				this.registryEntries.add(new RegistryEntry("meadow"));
+				this.registryEntries.add(new RegistryEntry("mushroom_fields"));
+				this.registryEntries.add(new RegistryEntry("nether_wastes"));
+				this.registryEntries.add(new RegistryEntry("ocean"));
+				this.registryEntries.add(new RegistryEntry("old_growth_birch_forest"));
+				this.registryEntries.add(new RegistryEntry("old_growth_pine_taiga"));
+				this.registryEntries.add(new RegistryEntry("old_growth_spruce_taiga"));
+				this.registryEntries.add(new RegistryEntry("plains"));
+				this.registryEntries.add(new RegistryEntry("river"));
+				this.registryEntries.add(new RegistryEntry("savanna"));
+				this.registryEntries.add(new RegistryEntry("savanna_plateau"));
+				this.registryEntries.add(new RegistryEntry("small_end_islands"));
+				this.registryEntries.add(new RegistryEntry("snowy_beach"));
+				this.registryEntries.add(new RegistryEntry("snowy_plains"));
+				this.registryEntries.add(new RegistryEntry("snowy_slopes"));
+				this.registryEntries.add(new RegistryEntry("snowy_taiga"));
+				this.registryEntries.add(new RegistryEntry("soul_sand_valley"));
+				this.registryEntries.add(new RegistryEntry("sparse_jungle"));
+				this.registryEntries.add(new RegistryEntry("stony_peaks"));
+				this.registryEntries.add(new RegistryEntry("stony_shore"));
+				this.registryEntries.add(new RegistryEntry("sunflower_plains"));
+				this.registryEntries.add(new RegistryEntry("swamp"));
+				this.registryEntries.add(new RegistryEntry("taiga"));
+				this.registryEntries.add(new RegistryEntry("the_end"));
+				this.registryEntries.add(new RegistryEntry("the_void"));
+				this.registryEntries.add(new RegistryEntry("warm_ocean"));
+				this.registryEntries.add(new RegistryEntry("warped_forest"));
+				this.registryEntries.add(new RegistryEntry("windswept_forest"));
+				this.registryEntries.add(new RegistryEntry("windswept_gravelly_hills"));
+				this.registryEntries.add(new RegistryEntry("windswept_hills"));
+				this.registryEntries.add(new RegistryEntry("windswept_savanna"));
+				this.registryEntries.add(new RegistryEntry("wooded_badlands"));
 			}
 			case CHAT_TYPE -> {
-				this.registryEntries.add(new RegistryEntry("chat", false));
-				this.registryEntries.add(new RegistryEntry("emote_command", false));
-				this.registryEntries.add(new RegistryEntry("msg_command_incoming", false));
-				this.registryEntries.add(new RegistryEntry("msg_command_outgoing", false));
-				this.registryEntries.add(new RegistryEntry("say_command", false));
-				this.registryEntries.add(new RegistryEntry("team_msg_command_incoming", false));
-				this.registryEntries.add(new RegistryEntry("team_msg_command_outgoing", false));
+				this.registryEntries.add(new RegistryEntry("chat"));
+				this.registryEntries.add(new RegistryEntry("emote_command"));
+				this.registryEntries.add(new RegistryEntry("msg_command_incoming"));
+				this.registryEntries.add(new RegistryEntry("msg_command_outgoing"));
+				this.registryEntries.add(new RegistryEntry("say_command"));
+				this.registryEntries.add(new RegistryEntry("team_msg_command_incoming"));
+				this.registryEntries.add(new RegistryEntry("team_msg_command_outgoing"));
 			}
 			case TRIM_PATTERN -> {
-				this.registryEntries.add(new RegistryEntry("coast", false));
-				this.registryEntries.add(new RegistryEntry("dune", false));
-				this.registryEntries.add(new RegistryEntry("eye", false));
-				this.registryEntries.add(new RegistryEntry("host", false));
-				this.registryEntries.add(new RegistryEntry("raiser", false));
-				this.registryEntries.add(new RegistryEntry("rib", false));
-				this.registryEntries.add(new RegistryEntry("sentry", false));
-				this.registryEntries.add(new RegistryEntry("shaper", false));
-				this.registryEntries.add(new RegistryEntry("silence", false));
-				this.registryEntries.add(new RegistryEntry("snout", false));
-				this.registryEntries.add(new RegistryEntry("spire", false));
-				this.registryEntries.add(new RegistryEntry("tide", false));
-				this.registryEntries.add(new RegistryEntry("vex", false));
-				this.registryEntries.add(new RegistryEntry("ward", false));
-				this.registryEntries.add(new RegistryEntry("wayfinder", false));
-				this.registryEntries.add(new RegistryEntry("wild", false));
+				this.registryEntries.add(new RegistryEntry("coast"));
+				this.registryEntries.add(new RegistryEntry("dune"));
+				this.registryEntries.add(new RegistryEntry("eye"));
+				this.registryEntries.add(new RegistryEntry("host"));
+				this.registryEntries.add(new RegistryEntry("raiser"));
+				this.registryEntries.add(new RegistryEntry("rib"));
+				this.registryEntries.add(new RegistryEntry("sentry"));
+				this.registryEntries.add(new RegistryEntry("shaper"));
+				this.registryEntries.add(new RegistryEntry("silence"));
+				this.registryEntries.add(new RegistryEntry("snout"));
+				this.registryEntries.add(new RegistryEntry("spire"));
+				this.registryEntries.add(new RegistryEntry("tide"));
+				this.registryEntries.add(new RegistryEntry("vex"));
+				this.registryEntries.add(new RegistryEntry("ward"));
+				this.registryEntries.add(new RegistryEntry("wayfinder"));
+				this.registryEntries.add(new RegistryEntry("wild"));
 			}
 			case TRIM_MATERIAL -> {
-				this.registryEntries.add(new RegistryEntry("amethyst", false));
-				this.registryEntries.add(new RegistryEntry("copper", false));
-				this.registryEntries.add(new RegistryEntry("diamond", false));
-				this.registryEntries.add(new RegistryEntry("emerald", false));
-				this.registryEntries.add(new RegistryEntry("gold", false));
-				this.registryEntries.add(new RegistryEntry("iron", false));
-				this.registryEntries.add(new RegistryEntry("lapis", false));
-				this.registryEntries.add(new RegistryEntry("netherite", false));
-				this.registryEntries.add(new RegistryEntry("quartz", false));
-				this.registryEntries.add(new RegistryEntry("redstone", false));
+				this.registryEntries.add(new RegistryEntry("amethyst"));
+				this.registryEntries.add(new RegistryEntry("copper"));
+				this.registryEntries.add(new RegistryEntry("diamond"));
+				this.registryEntries.add(new RegistryEntry("emerald"));
+				this.registryEntries.add(new RegistryEntry("gold"));
+				this.registryEntries.add(new RegistryEntry("iron"));
+				this.registryEntries.add(new RegistryEntry("lapis"));
+				this.registryEntries.add(new RegistryEntry("netherite"));
+				this.registryEntries.add(new RegistryEntry("quartz"));
+				this.registryEntries.add(new RegistryEntry("redstone"));
 			}
 			case WOLF_VARIANT -> {
-				this.registryEntries.add(new RegistryEntry("ashen", false));
-				this.registryEntries.add(new RegistryEntry("black", false));
-				this.registryEntries.add(new RegistryEntry("chestnut", false));
-				this.registryEntries.add(new RegistryEntry("pale", false));
-				this.registryEntries.add(new RegistryEntry("rusty", false));
-				this.registryEntries.add(new RegistryEntry("snowy", false));
-				this.registryEntries.add(new RegistryEntry("spotted", false));
-				this.registryEntries.add(new RegistryEntry("striped", false));
-				this.registryEntries.add(new RegistryEntry("woods", false));
+				this.registryEntries.add(new RegistryEntry("ashen"));
+				this.registryEntries.add(new RegistryEntry("black"));
+				this.registryEntries.add(new RegistryEntry("chestnut"));
+				this.registryEntries.add(new RegistryEntry("pale"));
+				this.registryEntries.add(new RegistryEntry("rusty"));
+				this.registryEntries.add(new RegistryEntry("snowy"));
+				this.registryEntries.add(new RegistryEntry("spotted"));
+				this.registryEntries.add(new RegistryEntry("striped"));
+				this.registryEntries.add(new RegistryEntry("woods"));
 			}
 			case DIMENSION_TYPE -> {
-				this.registryEntries.add(new RegistryEntry("overworld", false));
-				this.registryEntries.add(new RegistryEntry("overworld_caves", false));
-				this.registryEntries.add(new RegistryEntry("the_end", false));
-				this.registryEntries.add(new RegistryEntry("the_nether", false));
+				this.registryEntries.add(new RegistryEntry("overworld"));
+				this.registryEntries.add(new RegistryEntry("overworld_caves"));
+				this.registryEntries.add(new RegistryEntry("the_end"));
+				this.registryEntries.add(new RegistryEntry("the_nether"));
+			}
+			case DAMAGE_TYPE -> {
+				this.registryEntries.add(new RegistryEntry("arrow"));
+				this.registryEntries.add(new RegistryEntry("bad_respawn_point"));
+				this.registryEntries.add(new RegistryEntry("cactus"));
+				this.registryEntries.add(new RegistryEntry("cramming"));
+				this.registryEntries.add(new RegistryEntry("dragon_breath"));
+				this.registryEntries.add(new RegistryEntry("drown"));
+				this.registryEntries.add(new RegistryEntry("dry_out"));
+				this.registryEntries.add(new RegistryEntry("explosion"));
+				this.registryEntries.add(new RegistryEntry("fall"));
+				this.registryEntries.add(new RegistryEntry("falling_anvil"));
+				this.registryEntries.add(new RegistryEntry("falling_block"));
+				this.registryEntries.add(new RegistryEntry("falling_stalactite"));
+				this.registryEntries.add(new RegistryEntry("fireball"));
+				this.registryEntries.add(new RegistryEntry("fireworks"));
+				this.registryEntries.add(new RegistryEntry("fly_into_wall"));
+				this.registryEntries.add(new RegistryEntry("freeze"));
+				this.registryEntries.add(new RegistryEntry("generic"));
+				this.registryEntries.add(new RegistryEntry("generic_kill"));
+				this.registryEntries.add(new RegistryEntry("hot_floor"));
+				this.registryEntries.add(new RegistryEntry("in_fire"));
+				this.registryEntries.add(new RegistryEntry("in_wall"));
+				this.registryEntries.add(new RegistryEntry("indirect_magic"));
+				this.registryEntries.add(new RegistryEntry("lava"));
+				this.registryEntries.add(new RegistryEntry("lightning_bolt"));
+				this.registryEntries.add(new RegistryEntry("magic"));
+				this.registryEntries.add(new RegistryEntry("mob_attack"));
+				this.registryEntries.add(new RegistryEntry("mob_attack_no_aggro"));
+				this.registryEntries.add(new RegistryEntry("mob_projectile"));
+				this.registryEntries.add(new RegistryEntry("on_fire"));
+				this.registryEntries.add(new RegistryEntry("out_of_world"));
+				this.registryEntries.add(new RegistryEntry("outside_border"));
+				this.registryEntries.add(new RegistryEntry("player_attack"));
+				this.registryEntries.add(new RegistryEntry("player_explosion"));
+				this.registryEntries.add(new RegistryEntry("sonic_boom"));
+				this.registryEntries.add(new RegistryEntry("spit"));
+				this.registryEntries.add(new RegistryEntry("stalagmite"));
+				this.registryEntries.add(new RegistryEntry("starve"));
+				this.registryEntries.add(new RegistryEntry("sting"));
+				this.registryEntries.add(new RegistryEntry("sweet_berry_bush"));
+				this.registryEntries.add(new RegistryEntry("thorns"));
+				this.registryEntries.add(new RegistryEntry("trident"));
+				this.registryEntries.add(new RegistryEntry("unattributed_fireball"));
+				this.registryEntries.add(new RegistryEntry("wither"));
+				this.registryEntries.add(new RegistryEntry("wither_skull"));
 			}
 
-			// TODO damage type, banner pattern (log from vanilla)
+			// TODO banner pattern (log from vanilla)
 		}
 	}
 
@@ -207,6 +253,11 @@ public class PacketConfigurationOutRegistry implements Packet {
 	}
 
 	private record RegistryEntry(String identifier, boolean hasData) {
+		
+		public RegistryEntry(String identifier) {
+			this(identifier, false);
+		}
+		
 		public void writeTo(ByteBufWrapper wrapper) {
 			wrapper.writeIdentifier("minecraft", identifier);
 			wrapper.writeBoolean(hasData);

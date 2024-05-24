@@ -16,25 +16,19 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 	public void handle(Connection connection, PacketConfigurationInAcknowledgeFinish packet) {
 		connection.setState(ConnectionState.PLAY);
 
+		// Send login packet
 		connection.sendPacket(new PacketPlayOutLogin(connection.getPlayer()));
+
+		// Set the player position
 		connection.sendPacket(new PacketPlayOutSyncPlayerPosition(0, 64, 0, 0, 0));
 
+		// Send player info
 		connection.sendPacket(new PacketPlayOutPlayerInfoUpdate(connection.getPlayer().getUniqueId(),
 			new PacketPlayOutPlayerInfoUpdate.ActionAddPlayer(connection.getPlayer().getName())));
 
-		connection.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));
-
-		connection.sendPacket(new PacketPlayOutSetCenterChunk(0, 0));
-
 		// Send chunks
-		connection.sendPacket(new PacketPlayOutChunkData(-1, -1));
-		connection.sendPacket(new PacketPlayOutChunkData(-1, 0));
-		connection.sendPacket(new PacketPlayOutChunkData(-1, 1));
-		connection.sendPacket(new PacketPlayOutChunkData(0, -1));
+		connection.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));
+		connection.sendPacket(new PacketPlayOutSetCenterChunk(0, 0));
 		connection.sendPacket(new PacketPlayOutChunkData(0, 0));
-		connection.sendPacket(new PacketPlayOutChunkData(0, 1));
-		connection.sendPacket(new PacketPlayOutChunkData(1, -1));
-		connection.sendPacket(new PacketPlayOutChunkData(1, 0));
-		connection.sendPacket(new PacketPlayOutChunkData(1, 1));
 	}
 }
