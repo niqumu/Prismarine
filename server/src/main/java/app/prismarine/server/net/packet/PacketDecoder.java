@@ -4,6 +4,7 @@ import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
+import app.prismarine.server.net.NettyServer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -41,9 +42,10 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		}
 
 		Packet packet = PacketManager.build(packetClass, wrapper);
-
-		System.out.println("(" + connection.getAddress() + "/IN): " + packet.toString());
-
 		out.add(packet);
+
+		if (NettyServer.ENABLE_PACKET_LOGGING) {
+			System.out.println("(" + connection.getAddress() + "/IN): " + packet.toString());
+		}
 	}
 }

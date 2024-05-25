@@ -8,6 +8,7 @@ import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisconnect;
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutKeepAlive;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Getter;
@@ -26,12 +27,17 @@ import java.net.InetSocketAddress;
 @Getter
 public class Connection {
 
+	private static final long KEEP_ALIVE_FREQUENCY = 10000;
+
 	/**
 	 * The {@link ConnectionState} that this connection is currently in
 	 */
 	@Getter @Setter
 	private ConnectionState state = ConnectionState.HANDSHAKING;
 
+	/**
+	 * The size, in bytes, for a packet to be before it is compressed
+	 */
 	@Getter @Setter
 	private int compressionThreshold = 0;
 
@@ -60,10 +66,21 @@ public class Connection {
 	private int protocolVersion;
 
 	/**
+	 * The latency of the connection
+	 */
+	@Getter @Setter
+	private int latency;
+
+	/**
 	 * The player associated with the connection, or null if none exists
 	 */
 	@Getter @Setter
 	private Player player;
+
+	/**
+	 * The time at which a keep alive packet was last sent to the client
+	 */
+	private long lastKeepAliveTime = System.currentTimeMillis();
 
 
 	/**
@@ -101,7 +118,7 @@ public class Connection {
 
 		// Create the player
 //		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
-		Location spawnLocation = new Location(null, 0, 0, 0);
+		Location spawnLocation = new Location(null, 0, 64, 0);
 		this.player = new PrismarinePlayer(Bukkit.getServer(), spawnLocation, profile, this);
 
 		// Register the player with the server's entity manager
@@ -114,7 +131,7 @@ public class Connection {
 	 */
 	public void disconnect(String reason) {
 
-		PrismarineServer.LOGGER.info("{} was disconnected: {}", this.getName(), reason);
+		PrismarineServer.LOGGER.info("{} lost connection: {}", this.getName(), reason);
 
 		switch (this.state) {
 			case LOGIN -> this.sendPacket(new PacketLoginOutDisconnect(reason));
@@ -123,6 +140,17 @@ public class Connection {
 		}
 
 		this.close();
+	}
+
+	public void tick() {
+
+		// Keep alive (play)
+		if (this.state.equals(ConnectionState.PLAY)) {
+			if (System.currentTimeMillis() - this.lastKeepAliveTime > KEEP_ALIVE_FREQUENCY) {
+				this.sendPacket(new PacketPlayOutKeepAlive());
+				this.lastKeepAliveTime = System.currentTimeMillis();
+			}
+		}
 	}
 
 	/**

@@ -11,15 +11,14 @@ import app.prismarine.server.net.handler.configuration.HandlerConfigurationPlugi
 import app.prismarine.server.net.handler.handshake.HandlerHandshake;
 import app.prismarine.server.net.handler.login.HandlerLoginAcknowledge;
 import app.prismarine.server.net.handler.login.HandlerLoginStartLogin;
+import app.prismarine.server.net.handler.play.*;
 import app.prismarine.server.net.handler.status.HandlerStatusPingRequest;
 import app.prismarine.server.net.handler.status.HandlerStatusStatusRequest;
 import app.prismarine.server.net.packet.configuration.*;
 import app.prismarine.server.net.packet.handshake.*;
 import app.prismarine.server.net.packet.login.*;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutChunkData;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutGameEvent;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutSyncPlayerPosition;
+import app.prismarine.server.net.packet.play.in.*;
+import app.prismarine.server.net.packet.play.out.*;
 import app.prismarine.server.net.packet.status.*;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -48,43 +47,67 @@ public class PacketManager {
 		// Handshake
 		registerInbound(PacketHandshakeInHandshake.class, new HandlerHandshake(), HANDSHAKING, 0x0);
 
-		// Status
+		// Status in
 		registerInbound(PacketStatusInStatusRequest.class, new HandlerStatusStatusRequest(), STATUS, 0x0);
-		registerOutbound(PacketStatusOutStatusResponse.class, STATUS, 0x0);
 		registerInbound(PacketStatusInPingRequest.class, new HandlerStatusPingRequest(), STATUS, 0x1);
+
+		// Status out
+		registerOutbound(PacketStatusOutStatusResponse.class, STATUS, 0x0);
 		registerOutbound(PacketStatusOutPingResponse.class, STATUS, 0x1);
 
-		// Login
+		// Login in
 		registerInbound(PacketLoginInLoginStart.class, new HandlerLoginStartLogin(), LOGIN, 0x0);
+
+		registerInbound(PacketLoginInAcknowledge.class, new HandlerLoginAcknowledge(), LOGIN, 0x3);
+
+		// Login out
 		registerOutbound(PacketLoginOutDisconnect.class, LOGIN, 0x0);
 
 		registerOutbound(PacketLoginOutSuccess.class, LOGIN, 0x2);
 
-		registerInbound(PacketLoginInAcknowledge.class, new HandlerLoginAcknowledge(), LOGIN, 0x3);
-
-		// Configuration
+		// Configuration in
 		registerInbound(PacketConfigurationInConfig.class, new HandlerConfigurationConfig(), CONFIGURATION, 0x0);
 
-		registerOutbound(PacketConfigurationOutPluginMessage.class, CONFIGURATION, 0x1);
-
 		registerInbound(PacketConfigurationInPluginMessage.class, new HandlerConfigurationPluginMessage(), CONFIGURATION, 0x2);
-		registerOutbound(PacketConfigurationOutDisconnect.class, CONFIGURATION, 0x2);
 		registerInbound(PacketConfigurationInAcknowledgeFinish.class, new HandlerConfigurationAcknowledgeFinish(), CONFIGURATION, 0x3);
-		registerOutbound(PacketConfigurationOutFinish.class, CONFIGURATION, 0x3);
 
 		registerInbound(PacketConfigurationInPacks.class, new HandlerConfigurationPacks(), CONFIGURATION, 0x7);
+
+		// Configuration out
+		registerOutbound(PacketConfigurationOutPluginMessage.class, CONFIGURATION, 0x1);
+		registerOutbound(PacketConfigurationOutDisconnect.class, CONFIGURATION, 0x2);
+		registerOutbound(PacketConfigurationOutFinish.class, CONFIGURATION, 0x3);
+
 		registerOutbound(PacketConfigurationOutRegistry.class, CONFIGURATION, 0x7);
 
 		registerOutbound(PacketConfigurationOutPacks.class, CONFIGURATION, 0xe);
 
-		// Play
+		// Play in
+		registerInbound(PacketPlayInChatMessage.class, new HandlerPlayChatMessage(), PLAY, 0x6);
+
+		registerInbound(PacketPlayInKeepAlive.class, new HandlerPlayKeepAlive(), PLAY, 0x18);
+
+		registerInbound(PacketPlayInPosition.class, new HandlerPlayPosition(), PLAY, 0x1a);
+		registerInbound(PacketPlayInPositionRotation.class, new HandlerPlayPositionRotation(), PLAY, 0x1b);
+		registerInbound(PacketPlayInRotation.class, new HandlerPlayRotation(), PLAY, 0x1c);
+
+		// Play out
 		registerOutbound(PacketPlayOutDisconnect.class, PLAY, 0x1d);
 
 		registerOutbound(PacketPlayOutGameEvent.class, PLAY, 0x22);
 
+		registerOutbound(PacketPlayOutKeepAlive.class, PLAY, 0x26);
 		registerOutbound(PacketPlayOutChunkData.class, PLAY, 0x27);
 
+		registerOutbound(PacketPlayOutLogin.class, PLAY, 0x2b);
+
+		registerOutbound(PacketPlayOutPlayerMessage.class, PLAY, 0x39);
+
+		registerOutbound(PacketPlayOutPlayerInfoUpdate.class, PLAY, 0x3e);
+
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x40);
+
+		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x54);
 	}
 
 	/**

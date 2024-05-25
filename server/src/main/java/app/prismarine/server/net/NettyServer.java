@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class NettyServer {
 
+	public static boolean ENABLE_PACKET_LOGGING = false;
+
 	private final EventLoopGroup bossGroup = new NioEventLoopGroup();
 	private final EventLoopGroup workerGroup = new NioEventLoopGroup();
 

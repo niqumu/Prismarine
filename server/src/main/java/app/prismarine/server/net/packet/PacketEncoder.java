@@ -2,6 +2,7 @@ package app.prismarine.server.net.packet;
 
 import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
+import app.prismarine.server.net.NettyServer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -15,7 +16,9 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Packet in, ByteBuf out) {
 
-		System.out.println("(" + connection.getAddress() + "/OUT): " + in.toString());
+		if (NettyServer.ENABLE_PACKET_LOGGING) {
+			System.out.println("(" + connection.getAddress() + "/OUT): " + in.toString());
+		}
 
 		byte[] serializedPacket = in.serialize();
 

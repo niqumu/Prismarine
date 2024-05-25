@@ -26,6 +26,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerExpCooldownChangeEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -63,11 +64,18 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	@Getter
 	private final PlayerConfiguration configuration = new PlayerConfiguration();
 
+	private String displayName;
 
 	public PrismarinePlayer(@NotNull Server server, @NotNull Location location,
 	                        @NotNull PlayerProfile profile, @NotNull Connection connection) {
 		super(server, location, profile);
 		this.connection = connection;
+	}
+
+	@Override
+	public void tick() {
+		this.connection.tick();
+		super.tick();
 	}
 
 	/**
@@ -623,6 +631,63 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	}
 
 	/**
+	 * Sends this sender a message
+	 *
+	 * @param message Message to be displayed
+	 */
+	@Override
+	public void sendMessage(@NotNull String message) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	/**
+	 * Sends this sender multiple messages
+	 *
+	 * @param messages An array of messages to be displayed
+	 */
+	@Override
+	public void sendMessage(@NotNull String... messages) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	/**
+	 * Sends this sender a message
+	 *
+	 * @param message Message to be displayed
+	 * @param sender The sender of this message
+	 */
+	@Override
+	public void sendMessage(@Nullable UUID sender, @NotNull String message) {
+
+		throw new UnsupportedOperationException("Not yet implemented");
+
+//		if (sender == null) {
+//			this.sendMessage(message);
+//			return;
+//		}
+//
+//		Player senderPlayer = Bukkit.getServer().getPlayer(sender);
+//
+//		if (senderPlayer == null) {
+//			this.sendMessage(message);
+//			return;
+//		}
+//
+//		this.connection.sendPacket(new PacketPlayOutPlayerMessage(message, senderPlayer));
+	}
+
+	/**
+	 * Sends this sender multiple messages
+	 *
+	 * @param messages An array of messages to be displayed
+	 * @param sender The sender of this message
+	 */
+	@Override
+	public void sendMessage(@Nullable UUID sender, @NotNull String... messages) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	/**
 	 * Sends this sender a message raw
 	 *
 	 * @param sender  The sender of this message
@@ -644,7 +709,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public @NotNull String getDisplayName() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.displayName == null ? this.getName() : this.displayName;
 	}
 
 	/**
@@ -658,7 +723,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void setDisplayName(@Nullable String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.displayName = name;
 	}
 
 	/**
@@ -950,7 +1015,17 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void chat(@NotNull String msg) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, this, msg,
+			new HashSet<>(Bukkit.getServer().getOnlinePlayers()));
+
+		// TODO event handler, fire event
+
+		if (!event.isCancelled()) {
+			String message = String.format(event.getFormat(), this.getDisplayName(), event.getMessage());
+
+			event.getRecipients().forEach(player -> player.sendMessage(this.getUniqueId(), message));
+			PrismarineServer.LOGGER.info(message);
+		}
 	}
 
 	/**
