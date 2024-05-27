@@ -1,6 +1,7 @@
 package app.prismarine.server.scheduler;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.world.PrismarineWorld;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 
@@ -47,6 +48,7 @@ public class TickThread extends Thread {
 		final long tickStartTime = System.currentTimeMillis();
 
 		// tick
+//		Bukkit.getServer().getWorlds().forEach(world -> ((PrismarineWorld) world).tick());
 		((PrismarineServer) Bukkit.getServer()).getEntityManager().tick();
 
 		this.lastTickTime = System.currentTimeMillis() - tickStartTime;

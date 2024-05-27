@@ -1,5 +1,7 @@
 package app.prismarine.server.world;
 
+import app.prismarine.server.net.ByteBufWrapper;
+import lombok.Getter;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
@@ -15,7 +17,9 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PrismarineChunk implements Chunk {
 
@@ -29,10 +33,35 @@ public class PrismarineChunk implements Chunk {
 	 */
 	private final World world;
 
+	/**
+	 * The {@link ChunkSection}s that comprise this chunk, or null if the chunk isn't loaded
+	 */
+	@Getter
+	private List<ChunkSection> sections = new ArrayList<>();
+
 	public PrismarineChunk(int x, int z, World world) {
 		this.x = x;
 		this.z = z;
 		this.world = world;
+
+		// todo testing
+		for (int layer = 0; layer < 24; layer++) {
+			this.sections.add(new ChunkSection(this, layer));
+		}
+	}
+
+	public byte[] getSerializedData() {
+		if (!this.isLoaded()) {
+			return new byte[]{};
+		}
+
+		ByteBufWrapper data = new ByteBufWrapper();
+
+		for (ChunkSection section : this.sections) {
+			data.writeBytes(section.getSerializedData());
+		}
+
+		return data.getBytes();
 	}
 
 	/**
@@ -153,7 +182,7 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean isLoaded() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.sections != null;
 	}
 
 	/**

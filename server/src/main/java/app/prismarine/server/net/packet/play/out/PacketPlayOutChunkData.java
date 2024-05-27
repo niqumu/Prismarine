@@ -4,21 +4,15 @@ import app.prismarine.server.net.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
+import app.prismarine.server.world.PrismarineChunk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bukkit.Chunk;
 
 @Data
 @AllArgsConstructor
 public class PacketPlayOutChunkData implements Packet {
 
-//	private final Chunk chunk;
-
-	private int x, z;
-
-	public PacketPlayOutChunkData(ByteBufWrapper bytes) {
-		throw new UnsupportedOperationException("Attempting to decode outbound packet!");
-	}
+	private final PrismarineChunk chunk;
 
 	/**
 	 * @return The direction of the packet - either client -> server (in), or vice versa
@@ -53,16 +47,20 @@ public class PacketPlayOutChunkData implements Packet {
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
 
-//		bytes.writeInt(this.chunk.getX());
-//		bytes.writeInt(this.chunk.getZ());
-		bytes.writeInt(x);
-		bytes.writeInt(z);
+		bytes.writeInt(this.chunk.getX());
+		bytes.writeInt(this.chunk.getZ());
+//		bytes.writeInt(x);
+//		bytes.writeInt(z);
 
+		// Heightmap
 		bytes.writeBytes(new byte[]{0x0a, 0x00});
 
-		bytes.writeVarInt(0);
-		bytes.writeVarInt(0);
+		// Chunk sections
+		byte[] data = this.chunk.getSerializedData();
+		bytes.writeVarInt(data.length);
+		bytes.writeBytes(data);
 
+		bytes.writeVarInt(0);
 		bytes.writeVarInt(0);
 		bytes.writeVarInt(0);
 		bytes.writeVarInt(0);

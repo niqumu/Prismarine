@@ -34,9 +34,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
 		// If the packet could not be resolved
 		if (packetClass == null) {
-			PrismarineServer.LOGGER.warn("Received an unknown packet from {}", this.connection.getName());
-			PrismarineServer.LOGGER.warn("Connection state: {}, Packet ID: {}", this.connection.getState(), id);
-			PrismarineServer.LOGGER.warn("Packet dump: {}", Arrays.toString(copy.getBytes()));
+//			PrismarineServer.LOGGER.warn("Received an unknown packet from {}", this.connection.getName());
+//			PrismarineServer.LOGGER.warn("Connection state: {}, Packet ID: {}", this.connection.getState(), id);
+//			PrismarineServer.LOGGER.warn("Packet dump: {}", Arrays.toString(copy.getBytes()));
 			in.clear();
 			return;
 		}

@@ -156,7 +156,7 @@ public final class PrismarineServer implements Server {
 
 		// Ensure at least one world exists
 //		if (this.getWorlds().isEmpty()) {
-//			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to create worlds yet.");
+//			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to generate worlds yet.");
 //			return;
 //		}
 
