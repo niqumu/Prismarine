@@ -1,6 +1,6 @@
 package app.prismarine.server.world;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Getter;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;

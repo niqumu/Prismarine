@@ -1,6 +1,6 @@
 package app.prismarine.server.net.packet.play.out;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;

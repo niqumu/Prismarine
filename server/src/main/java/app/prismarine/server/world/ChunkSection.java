@@ -1,6 +1,6 @@
 package app.prismarine.server.world;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import org.bukkit.Chunk;
 
 public class ChunkSection {

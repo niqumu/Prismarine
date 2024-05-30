@@ -1,6 +1,6 @@
 package app.prismarine.server.net.packet.play.out;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
@@ -73,6 +73,22 @@ public class PacketPlayOutPlayerInfoUpdate implements Packet {
 		public void writeTo(ByteBufWrapper wrapper) {
 			wrapper.writeString(this.name);
 			wrapper.writeVarInt(0);
+		}
+	}
+
+	@Data
+	public static class ActionUpdateListed implements Action {
+
+		private final boolean listed;
+
+		@Override
+		public byte getID() {
+			return 0x8;
+		}
+
+		@Override
+		public void writeTo(ByteBufWrapper wrapper) {
+			wrapper.writeBoolean(this.listed);
 		}
 	}
 }

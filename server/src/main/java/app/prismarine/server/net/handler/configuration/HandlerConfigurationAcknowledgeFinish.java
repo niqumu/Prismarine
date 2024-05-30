@@ -1,12 +1,13 @@
 package app.prismarine.server.net.handler.configuration;
 
+import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
+import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketHandler;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationInAcknowledgeFinish;
 import app.prismarine.server.net.packet.play.out.*;
 import app.prismarine.server.world.PrismarineChunk;
-import org.bukkit.Bukkit;
 
 public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<PacketConfigurationInAcknowledgeFinish> {
 
@@ -25,8 +26,13 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 		connection.sendPacket(new PacketPlayOutSyncPlayerPosition(0, 64, 0, 0, 0));
 
 		// Send player info
-		connection.sendPacket(new PacketPlayOutPlayerInfoUpdate(connection.getPlayer().getUniqueId(),
-			new PacketPlayOutPlayerInfoUpdate.ActionAddPlayer(connection.getPlayer().getName())));
+		Packet addPlayer = new PacketPlayOutPlayerInfoUpdate(connection.getPlayer().getUniqueId(),
+			new PacketPlayOutPlayerInfoUpdate.ActionAddPlayer(connection.getPlayer().getName()));
+		connection.getNettyServer().broadcastPacket(addPlayer);
+
+		Packet showPlayer = new PacketPlayOutPlayerInfoUpdate(connection.getPlayer().getUniqueId(),
+			new PacketPlayOutPlayerInfoUpdate.ActionUpdateListed(true));
+		connection.getNettyServer().broadcastPacket(showPlayer);
 
 		// Prepare for the player's world to send chunks
 		connection.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));

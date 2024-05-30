@@ -96,7 +96,7 @@ public class NettyServer {
 	}
 
 	/**
-	 * Broadcast a packet to all currently online players
+	 * Broadcast a packet to all currently online players in the PLAY state
 	 * @param packet The packet to broadcast
 	 */
 	public void broadcastPacket(Packet packet) {

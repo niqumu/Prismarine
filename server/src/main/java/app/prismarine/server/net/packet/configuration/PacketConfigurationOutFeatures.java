@@ -1,10 +1,9 @@
 package app.prismarine.server.net.packet.configuration;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;

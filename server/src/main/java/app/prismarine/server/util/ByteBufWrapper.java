@@ -1,4 +1,4 @@
-package app.prismarine.server.net;
+package app.prismarine.server.util;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

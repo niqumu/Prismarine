@@ -1,6 +1,6 @@
 package app.prismarine.server.net.packet;
 
-import app.prismarine.server.net.ByteBufWrapper;
+import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.NettyServer;
 import io.netty.buffer.ByteBuf;
