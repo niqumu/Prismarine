@@ -1,17 +1,23 @@
 package app.prismarine.server.net.packet.play.out;
 
+import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
+import dev.dewy.nbt.Nbt;
+import dev.dewy.nbt.tags.collection.CompoundTag;
+import dev.dewy.nbt.tags.primitive.StringTag;
 import lombok.Data;
-import org.bukkit.entity.Player;
+import lombok.SneakyThrows;
+
+import java.util.Arrays;
 
 @Data
-public class PacketPlayOutPlayerMessage implements Packet {
+public class PacketPlayOutSystemMessage implements Packet {
 
 	private final String message;
-	private final Player sender;
+	private final boolean actionBar;
 
 	/**
 	 * @return The direction of the packet - either client -> server (in), or vice versa
@@ -36,38 +42,21 @@ public class PacketPlayOutPlayerMessage implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x39;
+		return 0x6c;
 	}
 
 	/**
 	 * @return The packet in raw, serialized form
 	 */
-	@Override
+	@Override @SneakyThrows
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
 
-		// Header
-		bytes.writeUUID(this.sender.getUniqueId());
-		bytes.writeVarInt(0);
-		bytes.writeBoolean(false);
+		CompoundTag root = new CompoundTag("");
+		root.put("text", new StringTag(this.message));
+		bytes.writeBytes(PrismarineServer.NBT.toNetworkByteArray(root));
 
-		// Body
-		bytes.writeString(this.message);
-		bytes.writeLong(System.currentTimeMillis());
-		bytes.writeLong(0);
-
-		// Previous message
-		bytes.writeVarInt(0);
-
-		// Other
-		bytes.writeBoolean(false);
-		bytes.writeVarInt(0);
-
-		// Chat formatting
-		bytes.writeVarInt(0);
-		bytes.writeString(sender.getDisplayName());
-		bytes.writeBoolean(false);
-
+		bytes.writeBoolean(this.actionBar);
 		return bytes.getBytes();
 	}
 }

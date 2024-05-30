@@ -101,13 +101,13 @@ public class PacketManager {
 
 		registerOutbound(PacketPlayOutLogin.class, PLAY, 0x2b);
 
-		registerOutbound(PacketPlayOutPlayerMessage.class, PLAY, 0x39);
-
 		registerOutbound(PacketPlayOutPlayerInfoUpdate.class, PLAY, 0x3e);
 
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x40);
 
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x54);
+
+		registerOutbound(PacketPlayOutSystemMessage.class, PLAY, 0x6c);
 	}
 
 	/**

@@ -3,6 +3,7 @@ package app.prismarine.server.entity;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.Connection;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutSystemMessage;
 import app.prismarine.server.player.PlayerConfiguration;
 import app.prismarine.server.player.PrismarineOfflinePlayer;
 import lombok.Getter;
@@ -637,7 +638,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void sendMessage(@NotNull String message) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.connection.sendPacket(new PacketPlayOutSystemMessage(message, false));
 	}
 
 	/**
@@ -647,7 +648,9 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void sendMessage(@NotNull String... messages) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		for (String message : messages) {
+			this.sendMessage(message);
+		}
 	}
 
 	/**
@@ -658,22 +661,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void sendMessage(@Nullable UUID sender, @NotNull String message) {
-
 		throw new UnsupportedOperationException("Not yet implemented");
-
-//		if (sender == null) {
-//			this.sendMessage(message);
-//			return;
-//		}
-//
-//		Player senderPlayer = Bukkit.getServer().getPlayer(sender);
-//
-//		if (senderPlayer == null) {
-//			this.sendMessage(message);
-//			return;
-//		}
-//
-//		this.connection.sendPacket(new PacketPlayOutPlayerMessage(message, senderPlayer));
 	}
 
 	/**
@@ -1015,15 +1003,13 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void chat(@NotNull String msg) {
-		AsyncPlayerChatEvent event = new AsyncPlayerChatEvent(false, this, msg,
-			new HashSet<>(Bukkit.getServer().getOnlinePlayers()));
-
-		// TODO event handler, fire event
+		AsyncPlayerChatEvent event = ((PrismarineServer) Bukkit.getServer()).
+			getEventManager().onPlayerChat(this, msg);
 
 		if (!event.isCancelled()) {
 			String message = String.format(event.getFormat(), this.getDisplayName(), event.getMessage());
 
-			event.getRecipients().forEach(player -> player.sendMessage(this.getUniqueId(), message));
+			event.getRecipients().forEach(player -> player.sendMessage(message));
 			PrismarineServer.LOGGER.info(message);
 		}
 	}

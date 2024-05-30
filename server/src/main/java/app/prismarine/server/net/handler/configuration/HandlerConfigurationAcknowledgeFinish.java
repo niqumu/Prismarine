@@ -13,6 +13,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.bukkit.Bukkit;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.IOException;
 
@@ -46,6 +48,7 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 
 			if (property.get("name").getAsString().equals("textures")) {
 				textures = property.get("value").toString();
+				textures = textures.substring(1, textures.length() - 1); // thanks mojang!
 			}
 		}
 
@@ -57,6 +60,15 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 		Packet showPlayer = new PacketPlayOutPlayerInfoUpdate(connection.getPlayer().getUniqueId(),
 			new PacketPlayOutPlayerInfoUpdate.ActionUpdateListed(true));
 		connection.getNettyServer().broadcastPacket(showPlayer);
+
+		// Create and fire a new player join event
+		PlayerJoinEvent event = ((PrismarineServer) Bukkit.getServer()).
+			getEventManager().onPlayerJoin(connection.getPlayer());
+
+		// Broadcast the join message if one exists
+		if (event.getJoinMessage() != null) {
+			Bukkit.getServer().broadcastMessage(event.getJoinMessage());
+		}
 
 		// Prepare for the player's world to send chunks
 		connection.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));

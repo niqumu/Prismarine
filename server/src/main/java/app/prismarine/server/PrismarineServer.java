@@ -1,12 +1,14 @@
 package app.prismarine.server;
 
 import app.prismarine.server.entity.EntityManager;
+import app.prismarine.server.event.EventManager;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
 import app.prismarine.server.player.PrismarinePlayerProfile;
 import app.prismarine.server.scheduler.TickThread;
 import app.prismarine.server.world.WorldManager;
+import dev.dewy.nbt.Nbt;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.*;
@@ -51,6 +53,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.InetAddress;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Consumer;
 
 /**
@@ -81,6 +86,11 @@ public final class PrismarineServer implements Server {
 	public static final Logger LOGGER = LoggerFactory.getLogger(PrismarineServer.class);
 
 	/**
+	 * The global {@link Nbt} instance
+	 */
+	public static final Nbt NBT = new Nbt();
+
+	/**
 	 * The global JUL logger, provided for legacy reasons (Bukkit requires this)
 	 */
 	private static final java.util.logging.Logger BUKKIT_LOGGER =
@@ -89,6 +99,12 @@ public final class PrismarineServer implements Server {
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 	}
+
+	/**
+	 * The global single-thread executor service
+	 */
+	public static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
+
 
 	/**
 	 * Whether the server is currently alive or not
@@ -104,6 +120,12 @@ public final class PrismarineServer implements Server {
 	 * The server's {@link ServerConfig} instance
 	 */
 	private ServerConfig config;
+
+	/**
+	 * The server's {@link EventManager} instance, responsible for creating, managing, and calling events
+	 */
+	@Getter
+	private final EventManager eventManager = new EventManager();
 
 	/**
 	 * The server's {@link EntityManager} instance, responsible for managing, ticking, and registering entities
@@ -528,7 +550,9 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override
 	public int broadcastMessage(@NotNull String message) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		LOGGER.info(message); // todo proper console
+		this.getOnlinePlayers().forEach(player -> player.sendMessage(message));
+		return this.getOnlinePlayers().size();
 	}
 
 	/**

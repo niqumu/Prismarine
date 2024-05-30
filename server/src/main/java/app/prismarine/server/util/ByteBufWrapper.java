@@ -117,7 +117,17 @@ public class ByteBufWrapper {
 	 * @param string The contents of the identifier
 	 */
 	public void writeIdentifier(@NotNull String namespace, @NotNull String string) {
-		writeString(namespace + ":" + string);
+		this.writeString(namespace + ":" + string);
+	}
+
+	public void writeTextComponent(@NotNull String message) {
+		this.writeByte(0x0a);
+		this.writeByte(0x08);
+		this.writeShort("text".length());
+		this.writeBytes("text".getBytes());
+		this.writeShort(message.length() + 1);
+		this.writeBytes(message.getBytes());
+		this.writeByte(0x00);
 	}
 
 	/**

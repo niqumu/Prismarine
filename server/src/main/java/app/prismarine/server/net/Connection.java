@@ -16,6 +16,9 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
 
@@ -112,10 +115,6 @@ public class Connection {
 			}
 		});
 
-		// Send the join message, TODO event
-//		String joinMessage = ChatColor.YELLOW + profile.getName() + " joined the game";
-//		Bukkit.getServer().broadcastMessage(joinMessage);
-
 		// Create the player
 //		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 		Location spawnLocation = new Location(null, 0, 64, 0);
@@ -130,6 +129,19 @@ public class Connection {
 	 * @param reason The reason provided for the kick
 	 */
 	public void disconnect(String reason) {
+
+		if (this.player != null) {
+
+			// Create and fire a new player kick event
+			PlayerKickEvent playerKickEvent = ((PrismarineServer) Bukkit.getServer()).
+				getEventManager().onPlayerKick(this.player, reason);
+
+			// Update the reason
+			reason = playerKickEvent.getReason();
+
+			// Broadcast the quit message
+			Bukkit.getServer().broadcastMessage(playerKickEvent.getLeaveMessage());
+		}
 
 		PrismarineServer.LOGGER.info("{} lost connection: {}", this.getName(), reason);
 
@@ -186,6 +198,15 @@ public class Connection {
 
 		if (this.player != null) {
 			((PrismarineServer) Bukkit.getServer()).getEntityManager().free((PrismarineEntity) this.player);
+
+			// Create and fire a new player quit event
+			PlayerQuitEvent playerQuitEvent = ((PrismarineServer) Bukkit.getServer()).
+				getEventManager().onPlayerQuit(this.player);
+
+			// Broadcast the quit message if one exists
+			if (playerQuitEvent.getQuitMessage() != null) {
+				Bukkit.getServer().broadcastMessage(playerQuitEvent.getQuitMessage());
+			}
 		}
 	}
 
