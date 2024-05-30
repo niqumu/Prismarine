@@ -4,6 +4,7 @@ import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.UUID;
@@ -59,10 +60,18 @@ public class PacketPlayOutPlayerInfoUpdate implements Packet {
 		void writeTo(ByteBufWrapper wrapper);
 	}
 
+	/**
+	 * Adds a player to the tab list
+	 */
 	@Data
+	@AllArgsConstructor
 	public static class ActionAddPlayer implements Action {
 
-		private final String name;
+		private final String name, textures;
+
+		public ActionAddPlayer(String name) {
+			this(name, null);
+		}
 
 		@Override
 		public byte getID() {
@@ -72,10 +81,21 @@ public class PacketPlayOutPlayerInfoUpdate implements Packet {
 		@Override
 		public void writeTo(ByteBufWrapper wrapper) {
 			wrapper.writeString(this.name);
-			wrapper.writeVarInt(0);
+
+			if (this.textures != null) {
+				wrapper.writeVarInt(1);
+				wrapper.writeString("textures");
+				wrapper.writeString(this.textures);
+				wrapper.writeBoolean(false);
+			} else {
+				wrapper.writeVarInt(0);
+			}
 		}
 	}
 
+	/**
+	 * Updates a player's visibility in the tab list
+	 */
 	@Data
 	public static class ActionUpdateListed implements Action {
 
