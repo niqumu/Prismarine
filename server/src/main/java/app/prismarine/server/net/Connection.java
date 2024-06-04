@@ -7,9 +7,9 @@ import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisconnect;
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutKeepAlive;
-import app.prismarine.server.world.PrismarineWorld;
+import app.prismarine.server.net.packet.play.out.*;
+import app.prismarine.server.util.MojangUtil;
+import app.prismarine.server.world.PrismarineChunk;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Getter;
@@ -123,6 +123,62 @@ public class Connection {
 
 		// Register the player with the server's entity manager
 		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
+	}
+
+	/**
+	 * Called when the configuration stage is finished and the connection is switched to PLAY
+	 */
+	public void finishLogin() {
+		this.setState(ConnectionState.PLAY);
+
+		// Send login packet
+		this.sendPacket(new PacketPlayOutLogin(this.player));
+
+		// Set the player position
+		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+		this.sendPacket(new PacketPlayOutSyncPlayerPosition(spawnLocation.getX(), spawnLocation.getY(),
+			spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation.getPitch()));
+
+		// Fetch player textures
+		String textures = MojangUtil.fetchTextures(this.player);
+
+		// Broadcast connecting player info
+		Packet addPlayer = new PacketPlayOutPlayerInfoUpdate(this.player.getUniqueId(),
+			new PacketPlayOutPlayerInfoUpdate.ActionAddPlayer(this.player.getName(), textures));
+		this.nettyServer.broadcastPacket(addPlayer);
+		Packet showPlayer = new PacketPlayOutPlayerInfoUpdate(this.player.getUniqueId(),
+			new PacketPlayOutPlayerInfoUpdate.ActionUpdateListed(true));
+		this.nettyServer.broadcastPacket(showPlayer);
+
+		// Send the connecting player the player info of all currently online players
+		this.nettyServer.getServer().getOnlinePlayers().forEach(player -> {
+			String existingTextures = MojangUtil.fetchTextures(player);
+
+			Packet addExistingPlayer = new PacketPlayOutPlayerInfoUpdate(player.getUniqueId(),
+				new PacketPlayOutPlayerInfoUpdate.ActionAddPlayer(player.getName(), existingTextures));
+			this.sendPacket(addExistingPlayer);
+			Packet showExistingPlayer = new PacketPlayOutPlayerInfoUpdate(player.getUniqueId(),
+				new PacketPlayOutPlayerInfoUpdate.ActionUpdateListed(true));
+			this.sendPacket(showExistingPlayer);
+		});
+
+		// Create and fire a new player join event
+		PlayerJoinEvent event = ((PrismarineServer) Bukkit.getServer()).getEventManager().onPlayerJoin(this.player);
+
+		// Broadcast the join message if one exists
+		if (event.getJoinMessage() != null) {
+			Bukkit.getServer().broadcastMessage(event.getJoinMessage());
+		}
+
+		// Prepare for the player's world to send chunks
+		this.sendPacket(new PacketPlayOutGameEvent(PacketPlayOutGameEvent.Event.START_WAITING_FOR_CHUNKS, 0));
+
+		// TODO testing
+		for (int x = -5; x <= 5; x++) {
+			for (int z = -5; z <= 5; z++) {
+				this.sendPacket(new PacketPlayOutChunkData(new PrismarineChunk(x, z, null)));
+			}
+		}
 	}
 
 	/**

@@ -1011,7 +1011,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 			String message = String.format(event.getFormat(), this.getDisplayName(), event.getMessage());
 
 			event.getRecipients().forEach(player -> player.sendMessage(message));
-			PrismarineServer.LOGGER.info(message);
+			PrismarineServer.LOGGER.info(message); // todo proper console sender system
 		}
 	}
 
@@ -1023,7 +1023,22 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public boolean performCommand(@NotNull String command) {
-		return Bukkit.getServer().dispatchCommand(this, command);
+		try {
+			boolean resolved = Bukkit.getServer().dispatchCommand(this, command);
+
+			if (!resolved) {
+				this.sendMessage(ChatColor.RED + "Unknown command. Try /help for a list of commands.");
+			}
+
+			return resolved;
+		} catch (Exception e) {
+			this.sendMessage(ChatColor.RED + "An internal error occurred while " +
+				"attempting to perform this command.");
+			PrismarineServer.LOGGER.warn("An exception occurred while performing \"{}\": {}",
+				command, e.toString());
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**

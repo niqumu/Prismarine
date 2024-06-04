@@ -1538,7 +1538,8 @@ public class PrismarineWorld implements World {
 	@Override
 	public boolean setSpawnLocation(int x, int y, int z) {
 		this.spawnLocation = new Location(this, x, y, z, 0, 0);
-		return true;	}
+		return true;
+	}
 
 	/**
 	 * Gets the relative in-game time of this world.
