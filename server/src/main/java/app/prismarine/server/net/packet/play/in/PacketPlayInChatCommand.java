@@ -1,24 +1,18 @@
-package app.prismarine.server.net.packet.play.out;
+package app.prismarine.server.net.packet.play.in;
 
-import app.prismarine.server.PrismarineServer;
-import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
-import dev.dewy.nbt.tags.collection.CompoundTag;
-import dev.dewy.nbt.tags.primitive.StringTag;
-import lombok.AllArgsConstructor;
+import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Data;
-import lombok.SneakyThrows;
 
 @Data
-@AllArgsConstructor
-public class PacketPlayOutDisconnect implements Packet {
+public class PacketPlayInChatCommand implements Packet {
 
-	private final String reason;
+	private final String command;
 
-	public PacketPlayOutDisconnect(ByteBufWrapper bytes) {
-		this.reason = bytes.readString();
+	public PacketPlayInChatCommand(ByteBufWrapper bytes) {
+		this.command = bytes.readString();
 	}
 
 	/**
@@ -27,7 +21,7 @@ public class PacketPlayOutDisconnect implements Packet {
 	 */
 	@Override
 	public PacketDirection getDirection() {
-		return PacketDirection.OUT;
+		return PacketDirection.IN;
 	}
 
 	/**
@@ -44,20 +38,16 @@ public class PacketPlayOutDisconnect implements Packet {
 	 */
 	@Override
 	public int getID() {
-		return 0x1d;
+		return 0x4;
 	}
 
 	/**
 	 * @return The packet in raw, serialized form
 	 */
-	@Override @SneakyThrows
+	@Override
 	public byte[] serialize() {
 		ByteBufWrapper bytes = new ByteBufWrapper();
-
-		CompoundTag root = new CompoundTag("");
-		root.put("text", new StringTag(this.reason));
-		bytes.writeBytes(PrismarineServer.NBT.toNetworkByteArray(root));
-
+		bytes.writeString(this.command);
 		return bytes.getBytes();
 	}
 }

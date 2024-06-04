@@ -15,10 +15,11 @@ import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.*;
-import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
+import org.bukkit.command.*;
+import org.bukkit.command.defaults.PluginsCommand;
+import org.bukkit.command.defaults.ReloadCommand;
+import org.bukkit.command.defaults.TimingsCommand;
+import org.bukkit.command.defaults.VersionCommand;
 import org.bukkit.entity.*;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -34,6 +35,7 @@ import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
+import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.messaging.ChannelNotRegisteredException;
 import org.bukkit.plugin.messaging.MessageTooLargeException;
 import org.bukkit.plugin.messaging.Messenger;
@@ -52,10 +54,11 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Consumer;
 
 /**
@@ -122,6 +125,16 @@ public final class PrismarineServer implements Server {
 	private ServerConfig config;
 
 	/**
+	 * The server's {@link CommandMap} implementation instance
+	 */
+	private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
+
+	/**
+	 * The server's {@link PluginManager} implementation instance
+	 */
+	private final SimplePluginManager pluginManager = new SimplePluginManager(this, this.commandMap);
+
+	/**
 	 * The server's {@link EventManager} instance, responsible for creating, managing, and calling events
 	 */
 	@Getter
@@ -177,10 +190,18 @@ public final class PrismarineServer implements Server {
 		this.worldManager.discoverWorlds();
 
 		// Ensure at least one world exists
-//		if (this.getWorlds().isEmpty()) {
-//			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to generate worlds yet.");
-//			return;
-//		}
+		if (this.getWorlds().isEmpty()) {
+			LOGGER.error("No worlds were found! Prismarine doesn't have the ability to generate worlds yet.");
+			return;
+		}
+
+		// Read and load plugins
+		Files.createDirectories(Paths.get("plugins"));
+		this.pluginManager.loadPlugins(new File("plugins"));
+		LOGGER.info("Loaded {} plugins", this.pluginManager.getPlugins().length);
+
+		// Register commands
+		this.registerCommands();
 
 		// Start the netty server
 		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
@@ -215,8 +236,22 @@ public final class PrismarineServer implements Server {
 		this.config.save();
 	}
 
+	/**
+	 * Entry point for Prismarine
+	 * @param args Command line args
+	 */
 	public static void main(String[] args) {
 		new PrismarineServer().startup();
+	}
+
+	private void registerCommands() {
+		this.commandMap.clearCommands();
+
+		// Bukkit commands
+		this.commandMap.register("bukkit", new VersionCommand("version"));
+		this.commandMap.register("bukkit", new ReloadCommand("reload"));
+		this.commandMap.register("bukkit", new PluginsCommand("plugins"));
+		this.commandMap.register("bukkit", new TimingsCommand("timings"));
 	}
 
 	/**
@@ -565,7 +600,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public String getUpdateFolder() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return "update";
 	}
 
 	/**
@@ -576,7 +611,13 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public File getUpdateFolderFile() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		try {
+			Files.createDirectories(Paths.get("update"));
+		} catch (Exception e) {
+			LOGGER.error("Failed to create update folder: {}", e.toString());
+		}
+
+		return new File("update");
 	}
 
 	/**
@@ -818,7 +859,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public PluginManager getPluginManager() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.pluginManager;
 	}
 
 	/**
@@ -898,7 +939,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public World getWorld(@NotNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.worldManager.getWorld(name);
 	}
 
 	/**
@@ -909,7 +950,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Nullable
 	public World getWorld(@NotNull UUID uid) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.worldManager.getWorld(uid);
 	}
 
 	/**
@@ -1054,7 +1095,8 @@ public final class PrismarineServer implements Server {
 	@Override
 	public boolean dispatchCommand(@NotNull CommandSender sender,
 	                               @NotNull String commandLine) throws CommandException {
-		throw new UnsupportedOperationException("Not yet implemented");
+		LOGGER.info("{} executed server command: \"{}\"", sender.getName(), commandLine);
+		return this.commandMap.dispatch(sender, commandLine);
 	}
 
 	/**

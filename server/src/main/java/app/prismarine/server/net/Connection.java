@@ -9,6 +9,7 @@ import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisc
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutDisconnect;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutKeepAlive;
+import app.prismarine.server.world.PrismarineWorld;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Getter;
@@ -115,10 +116,10 @@ public class Connection {
 			}
 		});
 
-		// Create the player
-//		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
-		Location spawnLocation = new Location(null, 0, 64, 0);
+		// Create the player and register them with the world
+		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 		this.player = new PrismarinePlayer(Bukkit.getServer(), spawnLocation, profile, this);
+		this.player.getWorld().addEntity(this.player);
 
 		// Register the player with the server's entity manager
 		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
@@ -197,7 +198,10 @@ public class Connection {
 		this.nettyServer.getConnections().remove(this);
 
 		if (this.player != null) {
+
+			// Remove the player from the global entity manager and the player's world
 			((PrismarineServer) Bukkit.getServer()).getEntityManager().free((PrismarineEntity) this.player);
+			this.player.getWorld().getPlayers().remove(this.player);
 
 			// Create and fire a new player quit event
 			PlayerQuitEvent playerQuitEvent = ((PrismarineServer) Bukkit.getServer()).

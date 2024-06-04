@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.IOException;
@@ -32,7 +33,9 @@ public class HandlerConfigurationAcknowledgeFinish implements PacketHandler<Pack
 		connection.sendPacket(new PacketPlayOutLogin(connection.getPlayer()));
 
 		// Set the player position
-		connection.sendPacket(new PacketPlayOutSyncPlayerPosition(0, 64, 0, 0, 0));
+		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+		connection.sendPacket(new PacketPlayOutSyncPlayerPosition(spawnLocation.getX(), spawnLocation.getY(),
+			spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation.getPitch()));
 
 		// Fetch player textures
 		String url = "https://sessionserver.mojang.com/session/minecraft/profile/" +

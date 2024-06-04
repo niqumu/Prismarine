@@ -25,10 +25,6 @@ public class EntityManager {
 
 	private final AtomicInteger lastID = new AtomicInteger(1);
 
-	public void tick() {
-		this.entities.values().forEach(PrismarineEntity::tick);
-	}
-
 	/**
 	 * Gets an entity by its entity ID
 	 * @param id The ID of the entity to retrieve

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -199,7 +200,7 @@ public class PrismarineEntity implements Entity {
 	 */
 	@Override @NotNull
 	public World getWorld() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return Objects.requireNonNull(this.location.getWorld());
 	}
 
 	/**
@@ -1217,7 +1218,7 @@ public class PrismarineEntity implements Entity {
 	 */
 	@Override
 	public boolean hasPermission(@NotNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return true; // TODO: everyone can do everything right now!
 	}
 
 	/**

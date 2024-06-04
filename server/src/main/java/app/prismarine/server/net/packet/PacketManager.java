@@ -83,6 +83,8 @@ public class PacketManager {
 		registerOutbound(PacketConfigurationOutPacks.class, CONFIGURATION, 0xe);
 
 		// Play in
+		registerInbound(PacketPlayInChatCommand.class, new HandlerPlayChatCommand(), PLAY, 0x4);
+
 		registerInbound(PacketPlayInChatMessage.class, new HandlerPlayChatMessage(), PLAY, 0x6);
 
 		registerInbound(PacketPlayInKeepAlive.class, new HandlerPlayKeepAlive(), PLAY, 0x18);

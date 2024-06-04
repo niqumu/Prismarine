@@ -1003,6 +1003,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public void chat(@NotNull String msg) {
+
 		AsyncPlayerChatEvent event = ((PrismarineServer) Bukkit.getServer()).
 			getEventManager().onPlayerChat(this, msg);
 
@@ -1022,7 +1023,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public boolean performCommand(@NotNull String command) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return Bukkit.getServer().dispatchCommand(this, command);
 	}
 
 	/**

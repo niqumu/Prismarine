@@ -51,6 +51,13 @@ public class PrismarineWorld implements World {
 	 */
 	private final UUID uuid = UUID.randomUUID();
 
+	private Location spawnLocation = new Location(this, 0, 64, 0);
+
+	/**
+	 * A list of players in this world
+	 */
+	private final List<Player> players = new ArrayList<>();
+
 	public PrismarineWorld(PrismarineServer server, WorldCreator creator) {
 		this.server = server;
 		this.creator = creator;
@@ -61,7 +68,7 @@ public class PrismarineWorld implements World {
 	public void tick() {
 
 		// Tick players
-		this.getPlayers().forEach(player -> ((PrismarinePlayer) player).tick());
+		this.players.forEach(player -> ((PrismarinePlayer) player).tick());
 	}
 
 	/**
@@ -503,7 +510,14 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public <T extends Entity> @NotNull T addEntity(@NotNull T entity) {
-		return null;
+
+		if (entity instanceof Player) {
+			this.players.add((Player) entity);
+			return entity;
+		}
+
+		throw new UnsupportedOperationException("Not yet implemented");
+		// TODO
 	}
 
 	/**
@@ -1184,7 +1198,7 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public @NotNull List<Player> getPlayers() {
-		return null;
+		return this.players;
 	}
 
 	/**
@@ -1477,7 +1491,7 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public @NotNull Location getSpawnLocation() {
-		return null;
+		return this.spawnLocation;
 	}
 
 	/**
@@ -1490,6 +1504,11 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public boolean setSpawnLocation(@NotNull Location location) {
+		if (location.getWorld() == this) {
+			this.spawnLocation = location;
+			return true;
+		}
+
 		return false;
 	}
 
@@ -1504,7 +1523,8 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public boolean setSpawnLocation(int x, int y, int z, float angle) {
-		return false;
+		this.spawnLocation = new Location(this, x, y, z, angle, 0);
+		return true;
 	}
 
 	/**
@@ -1517,8 +1537,8 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public boolean setSpawnLocation(int x, int y, int z) {
-		return false;
-	}
+		this.spawnLocation = new Location(this, x, y, z, 0, 0);
+		return true;	}
 
 	/**
 	 * Gets the relative in-game time of this world.

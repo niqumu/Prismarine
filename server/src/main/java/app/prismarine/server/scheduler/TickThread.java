@@ -48,8 +48,7 @@ public class TickThread extends Thread {
 		final long tickStartTime = System.currentTimeMillis();
 
 		// tick
-//		Bukkit.getServer().getWorlds().forEach(world -> ((PrismarineWorld) world).tick());
-		((PrismarineServer) Bukkit.getServer()).getEntityManager().tick();
+		Bukkit.getServer().getWorlds().forEach(world -> ((PrismarineWorld) world).tick());
 
 		this.lastTickTime = System.currentTimeMillis() - tickStartTime;
 	}
