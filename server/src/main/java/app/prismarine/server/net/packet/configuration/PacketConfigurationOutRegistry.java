@@ -186,7 +186,7 @@ public class PacketConfigurationOutRegistry implements Packet {
 				this.registryEntries.add(new RegistryEntry("unpacked"));
 				this.registryEntries.add(new RegistryEntry("void"));
 				this.registryEntries.add(new RegistryEntry("wanderer"));
-				this.registryEntries.add(new RegistryEntry("waste"));
+				this.registryEntries.add(new RegistryEntry("wasteland"));
 				this.registryEntries.add(new RegistryEntry("water"));
 				this.registryEntries.add(new RegistryEntry("wind"));
 				this.registryEntries.add(new RegistryEntry("wither"));
@@ -201,6 +201,7 @@ public class PacketConfigurationOutRegistry implements Packet {
 				this.registryEntries.add(new RegistryEntry("arrow"));
 				this.registryEntries.add(new RegistryEntry("bad_respawn_point"));
 				this.registryEntries.add(new RegistryEntry("cactus"));
+				this.registryEntries.add(new RegistryEntry("campfire"));
 				this.registryEntries.add(new RegistryEntry("cramming"));
 				this.registryEntries.add(new RegistryEntry("dragon_breath"));
 				this.registryEntries.add(new RegistryEntry("drown"));
@@ -289,13 +290,10 @@ public class PacketConfigurationOutRegistry implements Packet {
 				this.registryEntries.add(new RegistryEntry("triangles_top"));
 			}
 			case ENCHANTMENT -> {
-
+				this.registryEntries.add(new RegistryEntry("aqua_affinity"));
 			}
 			case JUKEBOX_SONG -> {
-
-			}
-			case ENTITY_TYPE -> {
-
+				this.registryEntries.add(new RegistryEntry("11"));
 			}
 		}
 	}
@@ -354,8 +352,7 @@ public class PacketConfigurationOutRegistry implements Packet {
 		DAMAGE_TYPE("damage_type"),
 		BANNER_PATTERN("banner_pattern"),
 		ENCHANTMENT("enchantment"),
-		JUKEBOX_SONG("jukebox_song"),
-		ENTITY_TYPE("entity_type");
+		JUKEBOX_SONG("jukebox_song");
 
 		private final String identifier;
 	}
