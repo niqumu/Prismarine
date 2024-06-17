@@ -3,6 +3,7 @@ package app.prismarine.server.entity;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.Connection;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutSyncPlayerPosition;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutSystemMessage;
 import app.prismarine.server.player.PlayerConfiguration;
 import app.prismarine.server.player.PrismarineOfflinePlayer;
@@ -77,6 +78,33 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	public void tick() {
 		this.connection.tick();
 		super.tick();
+	}
+
+	/**
+	 * Teleports this entity to the given location. If this entity is riding a
+	 * vehicle, it will be dismounted prior to teleportation.
+	 *
+	 * @param location New location to teleport this entity to
+	 * @return <code>true</code> if the teleport was successful
+	 */
+	@Override
+	public boolean teleport(@NotNull Location location) {
+
+		if (location.getWorld() != this.location.getWorld()) {
+			// todo: teleporting between worlds
+			throw new UnsupportedOperationException("Not yet implemented");
+		}
+
+		this.location.setX(location.getX());
+		this.location.setY(location.getY());
+		this.location.setZ(location.getZ());
+		this.location.setPitch(location.getPitch());
+		this.location.setYaw(location.getYaw());
+
+		this.connection.sendPacket(new PacketPlayOutSyncPlayerPosition(location.getX(), location.getY(),
+			location.getZ(), location.getYaw(), location.getPitch()));
+
+		return true;
 	}
 
 	/**

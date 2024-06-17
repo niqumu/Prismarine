@@ -136,8 +136,7 @@ public class Connection {
 
 		// Set the player position
 		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
-		this.sendPacket(new PacketPlayOutSyncPlayerPosition(spawnLocation.getX(), spawnLocation.getY(),
-			spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation.getPitch()));
+		this.player.teleport(spawnLocation);
 
 		// Fetch player textures
 		String textures = MojangUtil.fetchTextures(this.player);

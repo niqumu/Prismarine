@@ -139,6 +139,58 @@ public class PacketConfigurationOutRegistry implements Packet {
 				this.registryEntries.add(new RegistryEntry("striped"));
 				this.registryEntries.add(new RegistryEntry("woods"));
 			}
+			case PAINTING_VARIANT -> {
+				this.registryEntries.add(new RegistryEntry("alban"));
+				this.registryEntries.add(new RegistryEntry("aztec"));
+				this.registryEntries.add(new RegistryEntry("aztec2"));
+				this.registryEntries.add(new RegistryEntry("backyard"));
+				this.registryEntries.add(new RegistryEntry("baroque"));
+				this.registryEntries.add(new RegistryEntry("bomb"));
+				this.registryEntries.add(new RegistryEntry("bouquet"));
+				this.registryEntries.add(new RegistryEntry("burning_skull"));
+				this.registryEntries.add(new RegistryEntry("bust"));
+				this.registryEntries.add(new RegistryEntry("cavebird"));
+				this.registryEntries.add(new RegistryEntry("changing"));
+				this.registryEntries.add(new RegistryEntry("cotan"));
+				this.registryEntries.add(new RegistryEntry("courbet"));
+				this.registryEntries.add(new RegistryEntry("creebet"));
+				this.registryEntries.add(new RegistryEntry("donkey_kong"));
+				this.registryEntries.add(new RegistryEntry("earth"));
+				this.registryEntries.add(new RegistryEntry("endboss"));
+				this.registryEntries.add(new RegistryEntry("fern"));
+				this.registryEntries.add(new RegistryEntry("fighters"));
+				this.registryEntries.add(new RegistryEntry("finding"));
+				this.registryEntries.add(new RegistryEntry("fire"));
+				this.registryEntries.add(new RegistryEntry("graham"));
+				this.registryEntries.add(new RegistryEntry("humble"));
+				this.registryEntries.add(new RegistryEntry("kebab"));
+				this.registryEntries.add(new RegistryEntry("lowmist"));
+				this.registryEntries.add(new RegistryEntry("match"));
+				this.registryEntries.add(new RegistryEntry("meditative"));
+				this.registryEntries.add(new RegistryEntry("orb"));
+				this.registryEntries.add(new RegistryEntry("owlemons"));
+				this.registryEntries.add(new RegistryEntry("passage"));
+				this.registryEntries.add(new RegistryEntry("pigscene"));
+				this.registryEntries.add(new RegistryEntry("plant"));
+				this.registryEntries.add(new RegistryEntry("pointer"));
+				this.registryEntries.add(new RegistryEntry("pond"));
+				this.registryEntries.add(new RegistryEntry("pool"));
+				this.registryEntries.add(new RegistryEntry("prairie_ride"));
+				this.registryEntries.add(new RegistryEntry("sea"));
+				this.registryEntries.add(new RegistryEntry("skeleton"));
+				this.registryEntries.add(new RegistryEntry("skull_and_roses"));
+				this.registryEntries.add(new RegistryEntry("stage"));
+				this.registryEntries.add(new RegistryEntry("sunflowers"));
+				this.registryEntries.add(new RegistryEntry("sunset"));
+				this.registryEntries.add(new RegistryEntry("tides"));
+				this.registryEntries.add(new RegistryEntry("unpacked"));
+				this.registryEntries.add(new RegistryEntry("void"));
+				this.registryEntries.add(new RegistryEntry("wanderer"));
+				this.registryEntries.add(new RegistryEntry("waste"));
+				this.registryEntries.add(new RegistryEntry("water"));
+				this.registryEntries.add(new RegistryEntry("wind"));
+				this.registryEntries.add(new RegistryEntry("wither"));
+			}
 			case DIMENSION_TYPE -> {
 				this.registryEntries.add(new RegistryEntry("overworld"));
 				this.registryEntries.add(new RegistryEntry("overworld_caves"));
@@ -191,8 +243,60 @@ public class PacketConfigurationOutRegistry implements Packet {
 				this.registryEntries.add(new RegistryEntry("wither"));
 				this.registryEntries.add(new RegistryEntry("wither_skull"));
 			}
+			case BANNER_PATTERN -> {
+				this.registryEntries.add(new RegistryEntry("base"));
+				this.registryEntries.add(new RegistryEntry("border"));
+				this.registryEntries.add(new RegistryEntry("bricks"));
+				this.registryEntries.add(new RegistryEntry("circle"));
+				this.registryEntries.add(new RegistryEntry("creeper"));
+				this.registryEntries.add(new RegistryEntry("cross"));
+				this.registryEntries.add(new RegistryEntry("curly_border"));
+				this.registryEntries.add(new RegistryEntry("diagonal_left"));
+				this.registryEntries.add(new RegistryEntry("diagonal_right"));
+				this.registryEntries.add(new RegistryEntry("diagonal_up_left"));
+				this.registryEntries.add(new RegistryEntry("diagonal_up_right"));
+				this.registryEntries.add(new RegistryEntry("flow"));
+				this.registryEntries.add(new RegistryEntry("flower"));
+				this.registryEntries.add(new RegistryEntry("globe"));
+				this.registryEntries.add(new RegistryEntry("gradient"));
+				this.registryEntries.add(new RegistryEntry("gradient_up"));
+				this.registryEntries.add(new RegistryEntry("guster"));
+				this.registryEntries.add(new RegistryEntry("half_horizontal"));
+				this.registryEntries.add(new RegistryEntry("half_horizontal_bottom"));
+				this.registryEntries.add(new RegistryEntry("half_vertical"));
+				this.registryEntries.add(new RegistryEntry("half_vertical_right"));
+				this.registryEntries.add(new RegistryEntry("mojang"));
+				this.registryEntries.add(new RegistryEntry("piglin"));
+				this.registryEntries.add(new RegistryEntry("rhombus"));
+				this.registryEntries.add(new RegistryEntry("skull"));
+				this.registryEntries.add(new RegistryEntry("small_stripes"));
+				this.registryEntries.add(new RegistryEntry("square_bottom_left"));
+				this.registryEntries.add(new RegistryEntry("square_bottom_right"));
+				this.registryEntries.add(new RegistryEntry("square_top_left"));
+				this.registryEntries.add(new RegistryEntry("square_top_right"));
+				this.registryEntries.add(new RegistryEntry("straight_cross"));
+				this.registryEntries.add(new RegistryEntry("stripe_bottom"));
+				this.registryEntries.add(new RegistryEntry("stripe_center"));
+				this.registryEntries.add(new RegistryEntry("stripe_downleft"));
+				this.registryEntries.add(new RegistryEntry("stripe_downright"));
+				this.registryEntries.add(new RegistryEntry("stripe_left"));
+				this.registryEntries.add(new RegistryEntry("stripe_middle"));
+				this.registryEntries.add(new RegistryEntry("stripe_right"));
+				this.registryEntries.add(new RegistryEntry("stripe_top"));
+				this.registryEntries.add(new RegistryEntry("triangle_bottom"));
+				this.registryEntries.add(new RegistryEntry("triangle_top"));
+				this.registryEntries.add(new RegistryEntry("triangles_bottom"));
+				this.registryEntries.add(new RegistryEntry("triangles_top"));
+			}
+			case ENCHANTMENT -> {
 
-			// TODO banner pattern (log from vanilla)
+			}
+			case JUKEBOX_SONG -> {
+
+			}
+			case ENTITY_TYPE -> {
+
+			}
 		}
 	}
 
@@ -245,9 +349,13 @@ public class PacketConfigurationOutRegistry implements Packet {
 		TRIM_PATTERN("trim_pattern"),
 		TRIM_MATERIAL("trim_material"),
 		WOLF_VARIANT("wolf_variant"),
+		PAINTING_VARIANT("painting_variant"),
 		DIMENSION_TYPE("dimension_type"),
 		DAMAGE_TYPE("damage_type"),
-		BANNER_PATTERN("banner_pattern");
+		BANNER_PATTERN("banner_pattern"),
+		ENCHANTMENT("enchantment"),
+		JUKEBOX_SONG("jukebox_song"),
+		ENTITY_TYPE("entity_type");
 
 		private final String identifier;
 	}

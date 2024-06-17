@@ -39,7 +39,7 @@ public class PrismarineEntity implements Entity {
 	/**
 	 * The current location of the entity
 	 */
-	private Location location;
+	protected final Location location;
 
 	/**
 	 * The number of ticks that the entity has been alive for

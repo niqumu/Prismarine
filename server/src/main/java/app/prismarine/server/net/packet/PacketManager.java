@@ -1,12 +1,12 @@
 package app.prismarine.server.net.packet;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.net.handler.configuration.HandlerConfigurationPacks;
 import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.net.Connection;
 import app.prismarine.server.net.ConnectionState;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationAcknowledgeFinish;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationConfig;
-import app.prismarine.server.net.handler.configuration.HandlerConfigurationPacks;
 import app.prismarine.server.net.handler.configuration.HandlerConfigurationPluginMessage;
 import app.prismarine.server.net.handler.handshake.HandlerHandshake;
 import app.prismarine.server.net.handler.login.HandlerLoginAcknowledge;

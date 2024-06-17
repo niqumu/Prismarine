@@ -1,5 +1,6 @@
 package app.prismarine.server;
 
+import app.prismarine.server.command.vanilla.TpCommand;
 import app.prismarine.server.entity.EntityManager;
 import app.prismarine.server.event.EventManager;
 import app.prismarine.server.lists.PlayerWhitelist;
@@ -70,18 +71,18 @@ public final class PrismarineServer implements Server {
 	 * The name and version of the server implementation
 	 */
 	public static final String SERVER_IMPLEMENTATION = "Prismarine";
-	public static final String SERVER_VERSION = "1.0-SNAPSHOT";
+	public static final String SERVER_VERSION = "1.21-R0.1-SNAPSHOT";
 
 	/**
 	 * The Spigot API version
 	 */
-	public static final String API_VERSION = "1.20.6-R0.1-SNAPSHOT";
+	public static final String API_VERSION = "1.21-R0.1-SNAPSHOT";
 
 	/**
 	 * The game and protocol version the server is targeting
 	 */
-	public static final String GAME_VERSION = "1.20.6";
-	public static final int PROTOCOL_VERSION = 766;
+	public static final String GAME_VERSION = "1.21";
+	public static final int PROTOCOL_VERSION = 767;
 
 	/**
 	 * The global logger
@@ -252,6 +253,9 @@ public final class PrismarineServer implements Server {
 		this.commandMap.register("bukkit", new ReloadCommand("reload"));
 		this.commandMap.register("bukkit", new PluginsCommand("plugins"));
 		this.commandMap.register("bukkit", new TimingsCommand("timings"));
+
+		// Vanilla commands
+		this.commandMap.register("minecraft", new TpCommand());
 	}
 
 	/**
