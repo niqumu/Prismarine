@@ -3,6 +3,7 @@ package app.prismarine.server.entity;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.Connection;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutEntityTeleport;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutSpawnEntity;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutSyncPlayerPosition;
 import app.prismarine.server.net.packet.play.out.PacketPlayOutSystemMessage;
@@ -87,14 +88,20 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 			double distance = entity.getLocation().distance(this.location);
 			double entityRenderDistance = Bukkit.getServer().getViewDistance() * 16;
 
-			// If the entity is newly in render distance
-			if (distance < entityRenderDistance && !this.visibleEntities.contains(entity)) {
-				this.visibleEntities.add(entity);
-				this.connection.sendPacket(new PacketPlayOutSpawnEntity(entity));
+			// If the entity is in render distance
+			if (distance < entityRenderDistance) {
+
+				// If the entity just entered render distance for the first time
+				if (!this.visibleEntities.contains(entity)) {
+					this.visibleEntities.add(entity);
+					this.connection.sendPacket(new PacketPlayOutSpawnEntity(entity));
+				}
+
+				this.connection.sendPacket(new PacketPlayOutEntityTeleport(entity));
 			}
 
 			// Remove the entity if it is not in render distance
-			if (distance > entityRenderDistance) {
+			if (distance > entityRenderDistance && this.visibleEntities.contains(entity)) {
 				this.visibleEntities.remove(entity);
 				// TODO send remove entity
 			}

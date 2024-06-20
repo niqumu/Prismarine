@@ -148,11 +148,11 @@ public class ByteBufWrapper {
 	}
 
 	public void writeAngle(double angle) {
-		this.writeDouble(angle * (256f / 360f));
+		this.writeByte((int) (angle * (256f / 360f)));
 	}
 
 	public double readAngle() {
-		return this.readDouble() / (256f / 360f);
+		return this.readByte() / (256f / 360f);
 	}
 
 	public int readInt() {

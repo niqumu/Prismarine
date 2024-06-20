@@ -39,7 +39,7 @@ public class PrismarineEntity implements Entity {
 	/**
 	 * The current location of the entity
 	 */
-	protected final Location location;
+	protected Location location;
 
 	/**
 	 * The number of ticks that the entity has been alive for
@@ -87,13 +87,8 @@ public class PrismarineEntity implements Entity {
 	 *
 	 * @param location The new location of the entity
 	 */
-	public void setLocation(Location location) {
-		this.location.setWorld(location.getWorld());
-		this.location.setX(location.getX());
-		this.location.setY(location.getY());
-		this.location.setZ(location.getZ());
-		this.location.setYaw(location.getYaw());
-		this.location.setPitch(location.getPitch());
+	public void setLocation(@NotNull Location location) {
+		this.location = location;
 	}
 
 	/**

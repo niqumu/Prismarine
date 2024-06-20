@@ -112,13 +112,9 @@ public class Connection {
 			}
 		});
 
-		// Create the player and register them with the world
+		// Create the player
 		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 		this.player = new PrismarinePlayer(Bukkit.getServer(), spawnLocation, profile, this);
-		this.player.getWorld().addEntity(this.player);
-
-		// Register the player with the server's entity manager
-		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
 	}
 
 	/**
@@ -130,8 +126,14 @@ public class Connection {
 		// Send login packet
 		this.sendPacket(new PacketPlayOutLogin(this.player));
 
-		// Set the player position
+		// Register the player with the world
 		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
+		this.player.getWorld().addEntity(this.player);
+
+		// Register the player with the server's entity manager
+		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
+
+		// Set the player position
 		this.player.teleport(spawnLocation);
 
 		// Fetch player textures

@@ -116,6 +116,8 @@ public class PacketManager {
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x54);
 
 		registerOutbound(PacketPlayOutSystemMessage.class, PLAY, 0x6c);
+
+		registerOutbound(PacketPlayOutEntityTeleport.class, PLAY, 0x70);
 	}
 
 	/**
