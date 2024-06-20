@@ -1,6 +1,7 @@
 package app.prismarine.server.net;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.ServerConfig;
 import app.prismarine.server.entity.PrismarineEntity;
 import app.prismarine.server.entity.PrismarinePlayer;
 import app.prismarine.server.net.packet.Packet;
@@ -271,13 +272,21 @@ public class Connection {
 
 	/**
 	 * Gets the most appropriate String representation of this Connection given its state
-	 * @return If this connection has a player associated with it, the player name, otherwise the remote address.
+	 * @return If this connection has a player associated with it, the player name, otherwise the remote address if
+	 *         permitted. If printing the address is not allowed ({@link ServerConfig#isLogIPs()}, a * is returned.
 	 */
 	public String getName() {
+
+		// Return the name if possible
 		if (this.player != null) {
 			return this.player.getName();
 		}
 
-		return this.getAddress().toString();
+		// Return the remote address if possible
+		if (this.nettyServer.getServer().isLoggingIPs()) {
+			return this.getAddress().toString();
+		}
+
+		return "*"; // Fallback
 	}
 }

@@ -58,14 +58,14 @@ import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 /**
  * Main class of the Prismarine server
  */
 public final class PrismarineServer implements Server {
+
+	// Static members
 
 	/**
 	 * The name and version of the server implementation
@@ -104,11 +104,7 @@ public final class PrismarineServer implements Server {
 		SLF4JBridgeHandler.install();
 	}
 
-	/**
-	 * The global single-thread executor service
-	 */
-	public static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
-
+	// Instanced members
 
 	/**
 	 * Whether the server is currently alive or not
@@ -205,7 +201,7 @@ public final class PrismarineServer implements Server {
 		this.registerCommands();
 
 		// Start the netty server
-		LOGGER.info("Starting server at {}:{}", this.config.getIp(), this.config.getPort());
+		LOGGER.info("Starting server at {}:{}", this.config.getServerIP(), this.config.getServerPort());
 		this.nettyServer = new NettyServer(this);
 		this.nettyServer.startup();
 
@@ -325,7 +321,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override
 	public int getPort() {
-		return this.config.getPort();
+		return this.config.getServerPort();
 	}
 
 	/**
@@ -357,7 +353,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public String getIp() {
-		return this.config.getIp();
+		return this.config.getServerIP();
 	}
 
 	/**
@@ -417,7 +413,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override
 	public boolean isLoggingIPs() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.config.isLogIPs();
 	}
 
 	/**
@@ -842,7 +838,22 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public List<Player> matchPlayer(@NotNull String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+
+		// If the player exists, return just the one player
+		if (this.getPlayerExact(name) != null) {
+			return new ArrayList<>() {{
+				add(getPlayerExact(name));
+			}};
+		}
+
+		// Otherwise, return all players that start with the provided name
+		ArrayList<Player> players = new ArrayList<>();
+		this.getOnlinePlayers().forEach(player -> {
+			if (player.getName().startsWith(name)) {
+				players.add(player);
+			}
+		});
+		return players;
 	}
 
 	/**

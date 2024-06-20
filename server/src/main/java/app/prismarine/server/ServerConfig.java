@@ -12,22 +12,10 @@ import java.util.Properties;
 public class ServerConfig {
 
 	/**
-	 * The IP address the server is running on
+	 * If disabled, client IP addresses are not logged to the console or any output files
 	 */
 	@Getter
-	private final String ip;
-
-	/**
-	 * The port the server is running on
-	 */
-	@Getter
-	private final int port;
-
-	/**
-	 * The server's message of the day (MOTD)
-	 */
-	@Getter @Setter
-	private String motd;
+	private final boolean logIPs;
 
 	/**
 	 * The maximum number of players permitted on the server at one time
@@ -36,10 +24,22 @@ public class ServerConfig {
 	private int maxPlayers;
 
 	/**
-	 * The amount of world data the server sends the client, measured in chunks in each direction of the player
+	 * The server's message of the day (MOTD)
 	 */
 	@Getter @Setter
-	private int viewDistance;
+	private String motd;
+
+	/**
+	 * The IP address the server is running on
+	 */
+	@Getter
+	private final String serverIP;
+
+	/**
+	 * The port the server is running on
+	 */
+	@Getter
+	private final int serverPort;
 
 	/**
 	 * The maximum distance from players, in chunks, that living entities may be located in order to be updated by
@@ -47,6 +47,12 @@ public class ServerConfig {
 	 */
 	@Getter @Setter
 	private int simulationDistance;
+
+	/**
+	 * The amount of world data the server sends the client, measured in chunks in each direction of the player
+	 */
+	@Getter @Setter
+	private int viewDistance;
 
 	/**
 	 * Whether players must be included on the server's whitelist to connect
@@ -64,8 +70,9 @@ public class ServerConfig {
 
 		configProperties.load(new FileInputStream(configFile));
 
-		this.ip = configProperties.getProperty("server-ip", "");
-		this.port = Integer.parseInt(configProperties.getProperty("server-port", "25565"));
+		this.logIPs = Boolean.parseBoolean(configProperties.getProperty("log-ips", "true"));
+		this.serverIP = configProperties.getProperty("server-ip", "");
+		this.serverPort = Integer.parseInt(configProperties.getProperty("server-port", "25565"));
 		this.motd = configProperties.getProperty("motd", "A Prismarine server");
 		this.maxPlayers = Integer.parseInt(configProperties.getProperty("max-players", "20"));
 		this.simulationDistance = Integer.parseInt(configProperties.getProperty("simulation-distance", "10"));
@@ -80,8 +87,9 @@ public class ServerConfig {
 
 	@SneakyThrows
 	public void save() {
-		configProperties.setProperty("server-ip", this.ip);
-		configProperties.setProperty("server-port", String.valueOf(this.port));
+		configProperties.setProperty("log-ips", String.valueOf(this.logIPs));
+		configProperties.setProperty("server-ip", this.serverIP);
+		configProperties.setProperty("server-port", String.valueOf(this.serverPort));
 		configProperties.setProperty("motd", this.motd);
 		configProperties.setProperty("max-players", String.valueOf(this.maxPlayers));
 		configProperties.setProperty("simulation-distance", String.valueOf(this.simulationDistance));
