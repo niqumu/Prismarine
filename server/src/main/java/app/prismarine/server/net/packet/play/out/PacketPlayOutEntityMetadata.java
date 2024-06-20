@@ -6,11 +6,9 @@ import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Data;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 
 @Data
-public class PacketPlayOutSpawnEntity implements Packet {
+public class PacketPlayOutEntityMetadata implements Packet {
 
     private final Entity entity;
 
@@ -37,7 +35,7 @@ public class PacketPlayOutSpawnEntity implements Packet {
      */
     @Override
     public int getID() {
-        return 0x1;
+        return 0x58;
     }
 
     /**
@@ -46,20 +44,8 @@ public class PacketPlayOutSpawnEntity implements Packet {
     @Override
     public byte[] serialize() {
         ByteBufWrapper bytes = new ByteBufWrapper();
-        bytes.writeVarInt(entity.getEntityId());
-        bytes.writeUUID(entity.getUniqueId());
-        bytes.writeVarInt(128); // TODO TESTING - this only works with players!!
-        bytes.writeDouble(entity.getLocation().getX());
-        bytes.writeDouble(entity.getLocation().getY());
-        bytes.writeDouble(entity.getLocation().getZ());
-        bytes.writeAngle(entity.getLocation().getPitch());
-        bytes.writeAngle(entity.getLocation().getYaw());
-//        bytes.writeAngle(entity instanceof LivingEntity le ? le.getEyeLocation().getYaw() : entity.getLocation().getYaw());
-        bytes.writeAngle(entity.getLocation().getYaw());
-        bytes.writeVarInt(0);
-        bytes.writeShort(0);
-        bytes.writeShort(0);
-        bytes.writeShort(0);
+        bytes.writeVarInt(this.entity.getEntityId());
+        bytes.writeByte(0xff);
         return bytes.getBytes();
     }
 }

@@ -9,6 +9,7 @@ import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.net.packet.configuration.PacketConfigurationOutDisconnect;
 import app.prismarine.server.net.packet.login.PacketLoginOutDisconnect;
 import app.prismarine.server.net.packet.play.out.*;
+import app.prismarine.server.util.ByteBufWrapper;
 import app.prismarine.server.util.MojangUtil;
 import app.prismarine.server.world.PrismarineChunk;
 import io.netty.channel.Channel;
@@ -26,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 
 /**
  * A remote connection to the server, which may or may not belong to a player
@@ -234,6 +236,20 @@ public class Connection {
 		}
 
 		return this.channel.writeAndFlush(packet);
+	}
+
+	/**
+	 * Sends a bundle of packets to a client over this connection
+	 * @param packets The packets to send to the client
+	 */
+	public void sendPacketBundle(@NotNull Packet... packets) {
+		if (!this.channel.isOpen()) {
+			throw new IllegalStateException("Cannot write to a closed channel!");
+		}
+
+		this.sendPacket(new PacketPlayOutDelimiter());
+		Arrays.stream(packets).forEach(this::sendPacket);
+		this.sendPacket(new PacketPlayOutDelimiter());
 	}
 
 	/**

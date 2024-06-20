@@ -1,6 +1,7 @@
 package app.prismarine.server.entity;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.net.packet.play.out.PacketPlayOutRemoveEntity;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
@@ -85,5 +86,11 @@ public class EntityManager {
 		if (entity instanceof PrismarinePlayer player) {
 			this.onlinePlayers.remove(player.getUniqueId());
 		}
+
+		this.onlinePlayers.values().forEach(player -> {
+			if (player.canSee(entity)) {
+				player.getConnection().sendPacket(new PacketPlayOutRemoveEntity(entity));
+			}
+		});
 	}
 }

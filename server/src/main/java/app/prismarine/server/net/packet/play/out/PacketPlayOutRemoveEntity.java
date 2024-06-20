@@ -5,14 +5,23 @@ import app.prismarine.server.net.packet.Packet;
 import app.prismarine.server.net.packet.PacketDirection;
 import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-public class PacketPlayOutSpawnEntity implements Packet {
+@RequiredArgsConstructor
+public class PacketPlayOutRemoveEntity implements Packet {
 
-    private final Entity entity;
+    private final List<Entity> entities;
+
+    public PacketPlayOutRemoveEntity(Entity entity) {
+        this(new ArrayList<>() {{
+            add(entity);
+        }});
+    }
 
     /**
      * @return The direction of the packet - either client -> server (in), or vice versa
@@ -37,7 +46,7 @@ public class PacketPlayOutSpawnEntity implements Packet {
      */
     @Override
     public int getID() {
-        return 0x1;
+        return 0x42;
     }
 
     /**
@@ -46,20 +55,8 @@ public class PacketPlayOutSpawnEntity implements Packet {
     @Override
     public byte[] serialize() {
         ByteBufWrapper bytes = new ByteBufWrapper();
-        bytes.writeVarInt(entity.getEntityId());
-        bytes.writeUUID(entity.getUniqueId());
-        bytes.writeVarInt(128); // TODO TESTING - this only works with players!!
-        bytes.writeDouble(entity.getLocation().getX());
-        bytes.writeDouble(entity.getLocation().getY());
-        bytes.writeDouble(entity.getLocation().getZ());
-        bytes.writeAngle(entity.getLocation().getPitch());
-        bytes.writeAngle(entity.getLocation().getYaw());
-//        bytes.writeAngle(entity instanceof LivingEntity le ? le.getEyeLocation().getYaw() : entity.getLocation().getYaw());
-        bytes.writeAngle(entity.getLocation().getYaw());
-        bytes.writeVarInt(0);
-        bytes.writeShort(0);
-        bytes.writeShort(0);
-        bytes.writeShort(0);
+        bytes.writeVarInt(this.entities.size());
+        this.entities.forEach(entity -> bytes.writeVarInt(entity.getEntityId()));
         return bytes.getBytes();
     }
 }

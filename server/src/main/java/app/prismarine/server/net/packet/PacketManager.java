@@ -96,6 +96,7 @@ public class PacketManager {
 		registerInbound(PacketPlayInRotation.class, new HandlerPlayRotation(), PLAY, 0x1c);
 
 		// Play out
+		registerOutbound(PacketPlayOutDelimiter.class, PLAY, 0x0);
 		registerOutbound(PacketPlayOutSpawnEntity.class, PLAY, 0x1);
 
 		registerOutbound(PacketPlayOutCommandSuggestions.class, PLAY, 0x10);
@@ -113,7 +114,11 @@ public class PacketManager {
 
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x40);
 
+		registerOutbound(PacketPlayOutRemoveEntity.class, PLAY, 0x42);
+
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x54);
+
+		registerOutbound(PacketPlayOutEntityMetadata.class, PLAY, 0x58);
 
 		registerOutbound(PacketPlayOutSystemMessage.class, PLAY, 0x6c);
 

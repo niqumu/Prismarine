@@ -3,10 +3,7 @@ package app.prismarine.server.entity;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.Connection;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutEntityTeleport;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutSpawnEntity;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutSyncPlayerPosition;
-import app.prismarine.server.net.packet.play.out.PacketPlayOutSystemMessage;
+import app.prismarine.server.net.packet.play.out.*;
 import app.prismarine.server.player.PlayerConfiguration;
 import app.prismarine.server.player.PrismarineOfflinePlayer;
 import lombok.Getter;
@@ -60,6 +57,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	/**
 	 * The {@link Connection} this player is connecting through
 	 */
+	@Getter
 	private final Connection connection;
 
 	/**
@@ -95,6 +93,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 				if (!this.visibleEntities.contains(entity)) {
 					this.visibleEntities.add(entity);
 					this.connection.sendPacket(new PacketPlayOutSpawnEntity(entity));
+					this.connection.sendPacket(new PacketPlayOutEntityMetadata(entity));
 				}
 
 				this.connection.sendPacket(new PacketPlayOutEntityTeleport(entity));
@@ -103,7 +102,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 			// Remove the entity if it is not in render distance
 			if (distance > entityRenderDistance && this.visibleEntities.contains(entity)) {
 				this.visibleEntities.remove(entity);
-				// TODO send remove entity
+				this.connection.sendPacket(new PacketPlayOutRemoveEntity(entity));
 			}
 		});
 
@@ -2338,7 +2337,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public boolean canSee(@NotNull Entity entity) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.visibleEntities.contains(entity);
 	}
 
 	/**
