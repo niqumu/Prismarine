@@ -2301,7 +2301,7 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 	 */
 	@Override
 	public boolean canSee(@NotNull Player player) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.visibleEntities.contains(player);
 	}
 
 	/**

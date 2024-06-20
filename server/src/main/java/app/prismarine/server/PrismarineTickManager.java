@@ -309,7 +309,11 @@ public class PrismarineTickManager implements ServerTickManager {
          * Execute a server tick
          */
         private void tick() {
-            Bukkit.getServer().getWorlds().forEach(world -> ((PrismarineWorld) world).tick());
+            try {
+                Bukkit.getServer().getWorlds().forEach(world -> ((PrismarineWorld) world).tick());
+            } catch (Exception e) {
+                PrismarineServer.LOGGER.error("Exception encountered while ticking!", e);
+            }
         }
     }
 }
