@@ -20,18 +20,6 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 			System.out.println("(" + connection.getAddress() + "/OUT): " + in.toString());
 		}
 
-		byte[] serializedPacket = in.serialize();
-
-		ByteBufWrapper idBuffer = new ByteBufWrapper();
-		idBuffer.writeVarInt(in.getID());
-		byte[] idBytes = idBuffer.getBytes();
-
-		ByteBufWrapper wrappedOut = new ByteBufWrapper();
-
-		wrappedOut.writeVarInt(serializedPacket.length + idBytes.length);
-		wrappedOut.writeBytes(idBytes);
-		wrappedOut.writeBytes(serializedPacket);
-
-		out.writeBytes(wrappedOut.getBytes());
+		out.writeBytes(in.serializeRaw());
 	}
 }

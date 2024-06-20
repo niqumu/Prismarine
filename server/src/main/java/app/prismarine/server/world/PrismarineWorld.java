@@ -1,6 +1,7 @@
 package app.prismarine.server.world;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.entity.PrismarineEntity;
 import app.prismarine.server.entity.PrismarinePlayer;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
@@ -70,7 +71,13 @@ public class PrismarineWorld implements World {
 	public void tick() {
 
 		// Tick players TODO not thread safe throws CME with players joining!
-		this.players.forEach(player -> ((PrismarinePlayer) player).tick());
+		this.players.forEach(player -> {
+			PrismarinePlayer prismarinePlayer = (PrismarinePlayer) player;
+
+			if (prismarinePlayer.getConnection().isFinishedLogin()) {
+				prismarinePlayer.tick();
+			}
+		});
 	}
 
 	/**
@@ -513,13 +520,13 @@ public class PrismarineWorld implements World {
 	@Override
 	public <T extends Entity> @NotNull T addEntity(@NotNull T entity) {
 
-		if (entity instanceof Player player) {
+		if (entity instanceof PrismarinePlayer player) {
 			this.players.add(player);
 		}
 
 		// todo update entity world? idk
 
-		this.entities.add(entity);
+		this.entities.add((PrismarineEntity) entity);
 		return entity;
 	}
 

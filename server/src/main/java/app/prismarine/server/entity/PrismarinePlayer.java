@@ -83,6 +83,11 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 		// Update entity visibility
 		this.getWorld().getEntities().forEach(entity -> {
 
+			// Don't send the player themselves
+			if (entity.equals(this)) {
+				return;
+			}
+
 			double distance = entity.getLocation().distance(this.location);
 			double entityRenderDistance = Bukkit.getServer().getViewDistance() * 16;
 
@@ -94,6 +99,10 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 					this.visibleEntities.add(entity);
 					this.connection.sendPacket(new PacketPlayOutSpawnEntity(entity));
 					this.connection.sendPacket(new PacketPlayOutEntityMetadata(entity));
+//					this.connection.sendPacketBundle(
+//						new PacketPlayOutSpawnEntity(entity),
+//						new PacketPlayOutEntityMetadata(entity)
+//					);
 				}
 
 				this.connection.sendPacket(new PacketPlayOutEntityTeleport(entity));

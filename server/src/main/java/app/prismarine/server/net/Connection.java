@@ -84,6 +84,7 @@ public class Connection {
 	 */
 	private long lastKeepAliveTime = System.currentTimeMillis();
 
+	private boolean finishedLogin = false;
 
 	/**
 	 * Create a new client-server connection based on the netty server and channel
@@ -178,6 +179,8 @@ public class Connection {
 				this.sendPacket(new PacketPlayOutChunkData(new PrismarineChunk(x, z, null)));
 			}
 		}
+
+		this.finishedLogin = true;
 	}
 
 	/**
@@ -247,9 +250,12 @@ public class Connection {
 			throw new IllegalStateException("Cannot write to a closed channel!");
 		}
 
-		this.sendPacket(new PacketPlayOutDelimiter());
-		Arrays.stream(packets).forEach(this::sendPacket);
-		this.sendPacket(new PacketPlayOutDelimiter());
+		ByteBufWrapper bytes = new ByteBufWrapper();
+		bytes.writeBytes(new PacketPlayOutDelimiter().serializeRaw());
+		Arrays.stream(packets).forEach(packet -> bytes.writeBytes(packet.serializeRaw()));
+		bytes.writeBytes(new PacketPlayOutDelimiter().serializeRaw());
+
+		this.channel.writeAndFlush(bytes.getBytes());
 	}
 
 	/**

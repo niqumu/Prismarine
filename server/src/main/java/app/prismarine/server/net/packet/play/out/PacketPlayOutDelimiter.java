@@ -39,6 +39,6 @@ public class PacketPlayOutDelimiter implements Packet {
      */
     @Override
     public byte[] serialize() {
-        return new byte[]{ 0x1, 0x0 };
+        return new byte[0];
     }
 }
