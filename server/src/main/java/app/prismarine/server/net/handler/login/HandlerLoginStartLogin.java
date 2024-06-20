@@ -18,8 +18,12 @@ public class HandlerLoginStartLogin implements PacketHandler<PacketLoginInLoginS
 	@Override
 	public void handle(Connection connection, PacketLoginInLoginStart packet) {
 
-		PrismarineServer.LOGGER.info("{} ({}) is logging into the server",
-			packet.getName(), connection.getAddress());
+		if (Bukkit.getServer().isLoggingIPs()) {
+			PrismarineServer.LOGGER.info("{} ({}) is logging into the server",
+				packet.getName(), connection.getAddress());
+		} else {
+			PrismarineServer.LOGGER.info("{} is logging into the server", packet.getName());
+		}
 
 		// The player that's trying to connect
 		OfflinePlayer offlinePlayer = new PrismarineOfflinePlayer(

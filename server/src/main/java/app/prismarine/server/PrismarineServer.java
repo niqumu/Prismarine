@@ -7,7 +7,6 @@ import app.prismarine.server.lists.PlayerWhitelist;
 import app.prismarine.server.net.NettyServer;
 import app.prismarine.server.net.packet.PacketManager;
 import app.prismarine.server.player.PrismarinePlayerProfile;
-import app.prismarine.server.scheduler.TickThread;
 import app.prismarine.server.world.WorldManager;
 import dev.dewy.nbt.Nbt;
 import lombok.Getter;
@@ -132,6 +131,11 @@ public final class PrismarineServer implements Server {
 	private final SimplePluginManager pluginManager = new SimplePluginManager(this, this.commandMap);
 
 	/**
+	 * The server's {@link ServerTickManager} implementation instance
+	 */
+	private final PrismarineTickManager tickManager = new PrismarineTickManager();
+
+	/**
 	 * The server's {@link EventManager} instance, responsible for creating, managing, and calling events
 	 */
 	@Getter
@@ -149,12 +153,6 @@ public final class PrismarineServer implements Server {
 	 */
 	@Getter
 	private final WorldManager worldManager = new WorldManager();
-
-	/**
-	 * The server's {@link TickThread} instance
-	 */
-	@Getter
-	private final TickThread tickThread = new TickThread();
 
 	/**
 	 * The server whitelist
@@ -207,8 +205,8 @@ public final class PrismarineServer implements Server {
 
 		PacketManager.registerPackets();
 
-		// Ignite the tick thread
-		this.tickThread.start();
+		// Start ticking
+		this.tickManager.start();
 
 		this.running = true;
 		Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
@@ -227,10 +225,27 @@ public final class PrismarineServer implements Server {
 		this.nettyServer.shutdown();
 
 		// Stop ticking
-		this.tickThread.shutdown();
+		this.tickManager.stop();
 
 		// Save the server state
 		this.config.save();
+	}
+
+	/**
+	 * Reloads the server, refreshing settings and plugin information.
+	 */
+	@Override
+	public void reload() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	/**
+	 * Reload only the Minecraft data for the server. This includes custom
+	 * advancements and loot tables.
+	 */
+	@Override
+	public void reloadData() {
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
 	/**
@@ -453,7 +468,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @NotNull
 	public ServerTickManager getServerTickManager() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.tickManager;
 	}
 
 	/**
@@ -1048,23 +1063,6 @@ public final class PrismarineServer implements Server {
 	@Override @NotNull
 	public ItemStack createExplorerMap(@NotNull World world, @NotNull Location location,
 	                                   @NotNull StructureType structureType, int radius, boolean findUnexplored) {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	/**
-	 * Reloads the server, refreshing settings and plugin information.
-	 */
-	@Override
-	public void reload() {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	/**
-	 * Reload only the Minecraft data for the server. This includes custom
-	 * advancements and loot tables.
-	 */
-	@Override
-	public void reloadData() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
