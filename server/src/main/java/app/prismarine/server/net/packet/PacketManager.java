@@ -87,6 +87,8 @@ public class PacketManager {
 
 		registerInbound(PacketPlayInChatMessage.class, new HandlerPlayChatMessage(), PLAY, 0x6);
 
+		registerInbound(PacketPlayInCommandSuggestions.class, new HandlerPlayCommandSuggestions(), PLAY, 0xb);
+
 		registerInbound(PacketPlayInKeepAlive.class, new HandlerPlayKeepAlive(), PLAY, 0x18);
 
 		registerInbound(PacketPlayInPosition.class, new HandlerPlayPosition(), PLAY, 0x1a);
@@ -94,6 +96,8 @@ public class PacketManager {
 		registerInbound(PacketPlayInRotation.class, new HandlerPlayRotation(), PLAY, 0x1c);
 
 		// Play out
+		registerOutbound(PacketPlayOutCommandSuggestions.class, PLAY, 0x10);
+
 		registerOutbound(PacketPlayOutDisconnect.class, PLAY, 0x1d);
 
 		registerOutbound(PacketPlayOutGameEvent.class, PLAY, 0x22);

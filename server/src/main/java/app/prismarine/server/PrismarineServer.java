@@ -1,5 +1,6 @@
 package app.prismarine.server;
 
+import app.prismarine.server.command.vanilla.StopCommand;
 import app.prismarine.server.command.vanilla.TpCommand;
 import app.prismarine.server.entity.EntityManager;
 import app.prismarine.server.event.EventManager;
@@ -16,10 +17,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.*;
 import org.bukkit.command.*;
-import org.bukkit.command.defaults.PluginsCommand;
-import org.bukkit.command.defaults.ReloadCommand;
-import org.bukkit.command.defaults.TimingsCommand;
-import org.bukkit.command.defaults.VersionCommand;
+import org.bukkit.command.defaults.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -264,8 +262,10 @@ public final class PrismarineServer implements Server {
 		this.commandMap.register("bukkit", new ReloadCommand("reload"));
 		this.commandMap.register("bukkit", new PluginsCommand("plugins"));
 		this.commandMap.register("bukkit", new TimingsCommand("timings"));
+		this.commandMap.register("bukkit", new HelpCommand());
 
 		// Vanilla commands
+		this.commandMap.register("minecraft", new StopCommand());
 		this.commandMap.register("minecraft", new TpCommand());
 	}
 
@@ -910,6 +910,15 @@ public final class PrismarineServer implements Server {
 	@Override @NotNull
 	public ServicesManager getServicesManager() {
 		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	/**
+	 * Gets the command map
+	 * @return The command map for this server
+	 */
+	@NotNull
+	public CommandMap getCommandMap() {
+		return this.commandMap;
 	}
 
 	/**
