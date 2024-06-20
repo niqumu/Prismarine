@@ -83,6 +83,20 @@ public class PrismarineEntity implements Entity {
 	}
 
 	/**
+	 * Sets the entity's current position. This method does not teleport the player, it only updates their state
+	 *
+	 * @param location The new location of the entity
+	 */
+	public void setLocation(Location location) {
+		this.location.setWorld(location.getWorld());
+		this.location.setX(location.getX());
+		this.location.setY(location.getY());
+		this.location.setZ(location.getZ());
+		this.location.setYaw(location.getYaw());
+		this.location.setPitch(location.getPitch());
+	}
+
+	/**
 	 * Gets the entity's current position
 	 *
 	 * @return a new copy of Location containing the position of this entity

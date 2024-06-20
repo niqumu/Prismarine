@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.profile.PlayerProfile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
 
@@ -30,6 +31,7 @@ import java.net.InetSocketAddress;
  * A remote connection to the server, which may or may not belong to a player
  */
 @Getter
+@Setter
 public class Connection {
 
 	private static final long KEEP_ALIVE_FREQUENCY = 10000;
@@ -37,49 +39,42 @@ public class Connection {
 	/**
 	 * The {@link ConnectionState} that this connection is currently in
 	 */
-	@Getter @Setter
 	private ConnectionState state = ConnectionState.HANDSHAKING;
 
 	/**
 	 * The size, in bytes, for a packet to be before it is compressed
 	 */
-	@Getter @Setter
 	private int compressionThreshold = 0;
 
 	/**
 	 * The {@link NettyServer} the remote client is connected to
 	 */
-	@Getter
 	private final NettyServer nettyServer;
 
 	/**
 	 * The channel that the remote client is connected to the server over
 	 */
-	@Getter
 	private final Channel channel;
 
 	/**
 	 * The remote address of the client
 	 */
-	@Getter
 	private final InetSocketAddress address;
 
 	/**
 	 * The protocol version of the client
 	 */
-	@Getter @Setter
 	private int protocolVersion;
 
 	/**
 	 * The latency of the connection
 	 */
-	@Getter @Setter
 	private int latency;
 
 	/**
 	 * The player associated with the connection, or null if none exists
 	 */
-	@Getter @Setter
+	@Nullable
 	private Player player;
 
 	/**
@@ -258,6 +253,7 @@ public class Connection {
 			// Remove the player from the global entity manager and the player's world
 			((PrismarineServer) Bukkit.getServer()).getEntityManager().free((PrismarineEntity) this.player);
 			this.player.getWorld().getPlayers().remove(this.player);
+			this.player.getWorld().getEntities().remove(this.player);
 
 			// Create and fire a new player quit event
 			PlayerQuitEvent playerQuitEvent = ((PrismarineServer) Bukkit.getServer()).

@@ -58,6 +58,8 @@ public class PrismarineWorld implements World {
 	 */
 	private final List<Player> players = new ArrayList<>();
 
+	private final List<Entity> entities = new ArrayList<>();
+
 	public PrismarineWorld(PrismarineServer server, WorldCreator creator) {
 		this.server = server;
 		this.creator = creator;
@@ -67,7 +69,7 @@ public class PrismarineWorld implements World {
 
 	public void tick() {
 
-		// Tick players
+		// Tick players TODO not thread safe throws CME with players joining!
 		this.players.forEach(player -> ((PrismarinePlayer) player).tick());
 	}
 
@@ -511,13 +513,14 @@ public class PrismarineWorld implements World {
 	@Override
 	public <T extends Entity> @NotNull T addEntity(@NotNull T entity) {
 
-		if (entity instanceof Player) {
-			this.players.add((Player) entity);
-			return entity;
+		if (entity instanceof Player player) {
+			this.players.add(player);
 		}
 
-		throw new UnsupportedOperationException("Not yet implemented");
-		// TODO
+		// todo update entity world? idk
+
+		this.entities.add(entity);
+		return entity;
 	}
 
 	/**
@@ -1139,7 +1142,7 @@ public class PrismarineWorld implements World {
 	 */
 	@Override
 	public @NotNull List<Entity> getEntities() {
-		return null;
+		return this.entities;
 	}
 
 	/**

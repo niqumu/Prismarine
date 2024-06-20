@@ -302,7 +302,7 @@ public class PrismarineTickManager implements ServerTickManager {
             this.tick();
 
             long elapsedTickTime = System.currentTimeMillis() - tickStartTime;
-            Thread.sleep(expectedTickTime - elapsedTickTime);
+            Thread.sleep(Math.max(0, expectedTickTime - elapsedTickTime));
         }
 
         /**

@@ -45,5 +45,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		if (NettyServer.ENABLE_PACKET_LOGGING) {
 			System.out.println("(" + connection.getAddress() + "/IN): " + packet.toString());
 		}
+
+		copy.getByteBuf().release();
 	}
 }
