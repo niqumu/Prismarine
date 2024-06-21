@@ -88,6 +88,11 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 				return;
 			}
 
+			// Don't send the player players who haven't finished logging in
+			if (entity instanceof PrismarinePlayer pPlayer && !pPlayer.getConnection().isFinishedLogin()) {
+				return;
+			}
+
 			double distance = entity.getLocation().distance(this.location);
 			double entityRenderDistance = Bukkit.getServer().getViewDistance() * 16;
 

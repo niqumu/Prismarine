@@ -174,7 +174,7 @@ public final class PrismarineServer implements Server {
 		Bukkit.setServer(this);
 
 		final long startTime = System.currentTimeMillis();
-		LOGGER.info("Starting Prismarine!");
+		LOGGER.info("Launching Prismarine!");
 
 		// Read the configuration
 		this.config = new ServerConfig();
@@ -244,14 +244,6 @@ public final class PrismarineServer implements Server {
 	@Override
 	public void reloadData() {
 		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	/**
-	 * Entry point for Prismarine
-	 * @param args Command line args
-	 */
-	public static void main(String[] args) {
-		new PrismarineServer().startup();
 	}
 
 	private void registerCommands() {

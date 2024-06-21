@@ -51,8 +51,8 @@ public class WorldManager {
 
 		CompoundTag data = PrismarineServer.NBT.fromFile(new File(directory, "level.dat")).getCompound("Data");
 
-		PrismarineWorld world = new PrismarineWorld((PrismarineServer) Bukkit.getServer(),
-			new WorldCreator(data.getString("LevelName").getValue()));
+		PrismarineWorld world = new PrismarineWorld(new WorldCreator(data.getString("LevelName").getValue()),
+			new WorldProvider(directory));
 
 		world.setDifficulty(Objects.requireNonNull(Difficulty.getByValue(data.getByte("Difficulty").getValue())));
 		world.setHardcore(data.getByte("hardcore").getValue() == 1);

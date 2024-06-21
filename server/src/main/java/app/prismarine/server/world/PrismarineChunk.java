@@ -2,6 +2,7 @@ package app.prismarine.server.world;
 
 import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Chunk;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.World;
@@ -31,15 +32,15 @@ public class PrismarineChunk implements Chunk {
 	/**
 	 * The world this chunk belongs to
 	 */
-	private final World world;
+	private final PrismarineWorld world;
 
 	/**
 	 * The {@link ChunkSection}s that comprise this chunk, or null if the chunk isn't loaded
 	 */
-	@Getter
+	@Getter @Setter
 	private List<ChunkSection> sections = new ArrayList<>();
 
-	public PrismarineChunk(int x, int z, World world) {
+	public PrismarineChunk(int x, int z, PrismarineWorld world) {
 		this.x = x;
 		this.z = z;
 		this.world = world;
@@ -52,16 +53,12 @@ public class PrismarineChunk implements Chunk {
 
 	public byte[] getSerializedData() {
 		if (!this.isLoaded()) {
-			return new byte[]{};
+			return new byte[0];
+		} else {
+			ByteBufWrapper data = new ByteBufWrapper();
+			this.sections.forEach(section -> data.writeBytes(section.getSerializedData()));
+			return data.getBytes();
 		}
-
-		ByteBufWrapper data = new ByteBufWrapper();
-
-		for (ChunkSection section : this.sections) {
-			data.writeBytes(section.getSerializedData());
-		}
-
-		return data.getBytes();
 	}
 
 	/**
@@ -194,7 +191,7 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean load(boolean generate) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.world.getProvider().loadChunk(this);
 	}
 
 	/**
@@ -204,7 +201,7 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean load() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.load(false);
 	}
 
 	/**
@@ -215,7 +212,12 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean unload(boolean save) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		if (save) {
+			return this.world.getProvider().saveChunk(this);
+		} else {
+			this.sections = null;
+			return true;
+		}
 	}
 
 	/**
@@ -225,7 +227,7 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean unload() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.unload(false);
 	}
 
 	/**

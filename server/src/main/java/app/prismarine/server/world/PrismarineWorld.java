@@ -3,6 +3,7 @@ package app.prismarine.server.world;
 import app.prismarine.server.PrismarineServer;
 import app.prismarine.server.entity.PrismarineEntity;
 import app.prismarine.server.entity.PrismarinePlayer;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -38,34 +39,41 @@ import java.util.function.Predicate;
 public class PrismarineWorld implements World {
 
 	/**
-	 * The server this world belongs to
-	 */
-	private final PrismarineServer server;
-
-	/**
 	 * The {@link WorldCreator} that created this world
 	 */
+	@Getter
 	private final WorldCreator creator;
+
+	/**
+	 * The {@link WorldProvider} for this world, responsible for abstracting reading/writing to disk
+	 */
+	@Getter
+	private final WorldProvider provider;
 
 	/**
 	 * Random non-persistent UUID used to identify this world
 	 */
 	private final UUID uuid = UUID.randomUUID();
 
-	private Location spawnLocation = new Location(this, 0, 64, 0);
+	/**
+	 * The player spawn location of this world
+	 */
+	private Location spawnLocation = new Location(this, 0, 64, 0); // Default fallback
 
 	/**
 	 * A list of players in this world
 	 */
 	private final List<Player> players = new ArrayList<>();
 
+	/**
+	 * A list of entities in this world
+	 */
 	private final List<Entity> entities = new ArrayList<>();
 
-	public PrismarineWorld(PrismarineServer server, WorldCreator creator) {
-		this.server = server;
+	public PrismarineWorld(WorldCreator creator, WorldProvider provider) {
 		this.creator = creator;
-
-		server.getWorldManager().addWorld(this);
+		this.provider = provider;
+		((PrismarineServer) Bukkit.getServer()).getWorldManager().addWorld(this);
 	}
 
 	public void tick() {
@@ -533,7 +541,7 @@ public class PrismarineWorld implements World {
 
 		// todo update entity world? idk
 
-		this.entities.add((PrismarineEntity) entity);
+		this.entities.add(entity);
 		return entity;
 	}
 
