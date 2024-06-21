@@ -130,13 +130,13 @@ public class Connection {
 		this.sendPacket(new PacketPlayOutLogin(this.player));
 
 		// Register the player with the world
-		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 		this.player.getWorld().addEntity(this.player);
 
 		// Register the player with the server's entity manager
 		((PrismarineServer) Bukkit.getServer()).getEntityManager().register((PrismarineEntity) this.player);
 
 		// Set the player position
+		Location spawnLocation = Bukkit.getServer().getWorlds().get(0).getSpawnLocation();
 		this.player.teleport(spawnLocation);
 
 		// Fetch player textures

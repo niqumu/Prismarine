@@ -78,6 +78,13 @@ public class PrismarineWorld implements World {
 				prismarinePlayer.tick();
 			}
 		});
+
+		// Mark entities as having been updated (ticked)
+		this.entities.forEach(entity -> {
+			PrismarineEntity prismarineEntity = (PrismarineEntity) entity;
+			prismarineEntity.setRotated(false);
+			prismarineEntity.setMoved(false);
+		});
 	}
 
 	/**

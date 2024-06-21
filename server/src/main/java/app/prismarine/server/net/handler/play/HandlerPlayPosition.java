@@ -24,5 +24,6 @@ public class HandlerPlayPosition implements PacketHandler<PacketPlayInPosition> 
 			oldLocation.getYaw(), oldLocation.getPitch());
 
 		player.setLocation(newLocation);
+		player.setMoved(true);
 	}
 }

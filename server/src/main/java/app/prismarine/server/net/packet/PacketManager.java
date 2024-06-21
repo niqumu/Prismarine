@@ -120,6 +120,8 @@ public class PacketManager {
 
 		registerOutbound(PacketPlayOutRemoveEntity.class, PLAY, 0x42);
 
+		registerOutbound(PacketPlayOutEntityHeadYaw.class, PLAY, 0x48);
+
 		registerOutbound(PacketPlayOutSyncPlayerPosition.class, PLAY, 0x54);
 
 		registerOutbound(PacketPlayOutEntityMetadata.class, PLAY, 0x58);

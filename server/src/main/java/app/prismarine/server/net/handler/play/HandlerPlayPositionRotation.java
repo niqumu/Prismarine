@@ -23,5 +23,7 @@ public class HandlerPlayPositionRotation implements PacketHandler<PacketPlayInPo
 			packet.getYaw(), packet.getPitch());
 
 		player.setLocation(newLocation);
+		player.setMoved(true);
+		player.setRotated(true);
 	}
 }

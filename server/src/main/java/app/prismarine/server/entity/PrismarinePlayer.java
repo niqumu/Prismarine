@@ -98,14 +98,17 @@ public class PrismarinePlayer extends PrismarineHumanEntity implements Player {
 				if (!this.visibleEntities.contains(entity)) {
 					this.visibleEntities.add(entity);
 					this.connection.sendPacket(new PacketPlayOutSpawnEntity(entity));
-					this.connection.sendPacket(new PacketPlayOutEntityMetadata(entity));
-//					this.connection.sendPacketBundle(
-//						new PacketPlayOutSpawnEntity(entity),
-//						new PacketPlayOutEntityMetadata(entity)
-//					);
+					this.connection.sendPacket(new PacketPlayOutEntityMetadata(entity)); // todo proper metadata packet
 				}
 
-				this.connection.sendPacket(new PacketPlayOutEntityTeleport(entity));
+				if (((PrismarineEntity) entity).isMoved()) {
+					this.connection.sendPacket(new PacketPlayOutEntityTeleport(
+						entity, entity.getLocation(), entity.isOnGround()));
+				}
+
+				if (((PrismarineEntity) entity).isRotated()) {
+					this.connection.sendPacket(new PacketPlayOutEntityHeadYaw(entity, entity.getLocation().getYaw()));
+				}
 			}
 
 			// Remove the entity if it is not in render distance

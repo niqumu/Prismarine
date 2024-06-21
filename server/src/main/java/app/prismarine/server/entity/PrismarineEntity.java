@@ -1,5 +1,7 @@
 package app.prismarine.server.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
@@ -60,6 +62,18 @@ public class PrismarineEntity implements Entity {
 	 * The distance the entity has fallen since they were last on the ground
 	 */
 	private float fallDistance;
+
+	/**
+	 * Whether the entity has rotated since its state was last sent to players
+	 */
+	@Getter @Setter
+	private boolean rotated = false;
+
+	/**
+	 * Whether the entity has moved since its state was last sent to players
+	 */
+	@Getter @Setter
+	private boolean moved = false;
 
 	/**
 	 * Create a new PrismarineEntity given the entity's server and location
