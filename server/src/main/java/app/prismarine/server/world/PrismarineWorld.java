@@ -70,10 +70,19 @@ public class PrismarineWorld implements World {
 	 */
 	private final List<Entity> entities = new ArrayList<>();
 
+	/**
+	 * An unsorted list of chunks in this world
+	 */
+	private final List<Chunk> chunks = new ArrayList<>();
+
 	public PrismarineWorld(WorldCreator creator, WorldProvider provider) {
 		this.creator = creator;
 		this.provider = provider;
 		((PrismarineServer) Bukkit.getServer()).getWorldManager().addWorld(this);
+
+		// TODO testing
+		this.chunks.add(new PrismarineChunk(0, 0, this));
+		this.chunks.get(0).load();
 	}
 
 	public void tick() {
@@ -92,6 +101,11 @@ public class PrismarineWorld implements World {
 			PrismarineEntity prismarineEntity = (PrismarineEntity) entity;
 			prismarineEntity.setRotated(false);
 			prismarineEntity.setMoved(false);
+		});
+
+		// Load chunks with players in them
+		this.players.forEach(player -> {
+			// todo
 		});
 	}
 

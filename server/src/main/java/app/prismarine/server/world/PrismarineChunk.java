@@ -1,6 +1,7 @@
 package app.prismarine.server.world;
 
 import app.prismarine.server.util.ByteBufWrapper;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Chunk;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 public class PrismarineChunk implements Chunk {
 
 	/**
@@ -46,9 +48,10 @@ public class PrismarineChunk implements Chunk {
 		this.world = world;
 
 		// todo testing
-		for (int layer = 0; layer < 24; layer++) {
-			this.sections.add(new ChunkSection(this, layer));
-		}
+//		for (int layer = 0; layer < 24; layer++) {
+//			this.sections.add(new ChunkSection(this, layer));
+//		}
+		this.load();
 	}
 
 	public byte[] getSerializedData() {

@@ -1,6 +1,7 @@
 package app.prismarine.server.world;
 
 import app.prismarine.server.PrismarineServer;
+import app.prismarine.server.util.BinaryUtil;
 import app.prismarine.server.util.ByteBufWrapper;
 import lombok.Getter;
 import org.bukkit.Chunk;
@@ -27,6 +28,11 @@ public class Region {
      * The size, in bytes, of a chunk header in the region file
      */
     private static final int CHUNK_HEADER_SIZE = 5;
+
+    /**
+     * The size, in bytes, of a single disk sector, used in the region file
+     */
+    private static final int SECTOR_SIZE = 4096;
 
     /**
      * The coordinates of this region
@@ -85,7 +91,7 @@ public class Region {
      * @return The name of the file on disk representing this region
      */
     public String getFileName() {
-        return String.format("r.%d.%d.mcr", this.x, this.z);
+        return String.format("r.%d.%d.mca", this.x, this.z);
     }
 
     /**
@@ -101,7 +107,7 @@ public class Region {
      * @param chunk The chunk to analyze
      * @return The byte offset of the chunk in this region file
      */
-    public int getChunkOffset(Chunk chunk) {
+    public int getChunkOffset(@NotNull Chunk chunk) {
         return this.locationTable.getChunkOffset(chunk);
     }
 
@@ -110,8 +116,21 @@ public class Region {
      * @param chunk The chunk to analyze
      * @return The byte size of the chunk in the region file
      */
-    public int getChunkSize(Chunk chunk) {
+    public int getChunkSize(@NotNull Chunk chunk) {
         return this.locationTable.getChunkSize(chunk);
+    }
+
+    /**
+     * Reads the compressed bytes of a chunk belonging to this region.
+     * @param chunk The chunk to read
+     * @return The compressed bytes of the chunk, <b>including the header</b>
+     */
+    public byte[] readPackedChunk(@NotNull Chunk chunk) {
+        int chunkOffset = this.getChunkOffset(chunk);
+        int chunkSize = this.getChunkSize(chunk);
+
+        this.wrappedData.getByteBuf().readerIndex(chunkOffset);
+        return this.wrappedData.readBytes(chunkSize);
     }
 
     /**
@@ -137,15 +156,14 @@ public class Region {
          * @param chunk The chunk to analyze
          * @return The byte offset of the chunk in the region file
          */
-        public int getChunkOffset(Chunk chunk) {
+        public int getChunkOffset(@NotNull Chunk chunk) {
             int chunkOffset = 0;
-            int entry = ((chunk.getX() % 32) + ((chunk.getZ() % 32) * 32) * 4);
+            int entry = 4 * ((chunk.getX() & 31) + (chunk.getZ() & 31) * 32);
 
-            chunkOffset |= bytes[entry] << 16;
-            chunkOffset |= bytes[entry + 1] << 8;
-            chunkOffset |= bytes[entry + 2] ;
-
-            return chunkOffset * 4096;
+            chunkOffset |= BinaryUtil.readUnsigned(bytes[entry]) << 16;
+            chunkOffset |= BinaryUtil.readUnsigned(bytes[entry + 1]) << 8;
+            chunkOffset |= BinaryUtil.readUnsigned(bytes[entry + 2]);
+            return chunkOffset * SECTOR_SIZE;
         }
 
         /**
@@ -153,9 +171,9 @@ public class Region {
          * @param chunk The chunk to analyze
          * @return The byte size of the chunk in the region file
          */
-        public int getChunkSize(Chunk chunk) {
-            int entry = ((chunk.getX() % 32) + ((chunk.getZ() % 32) * 32) * 4);
-            return this.bytes[entry + 3];
+        public int getChunkSize(@NotNull Chunk chunk) {
+            int entry = 4 * ((chunk.getX() & 31) + (chunk.getZ() & 31) * 32);
+            return BinaryUtil.readUnsigned(this.bytes[entry + 3]) * SECTOR_SIZE;
         }
     }
 
