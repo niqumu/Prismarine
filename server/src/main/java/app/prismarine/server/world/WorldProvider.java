@@ -1,43 +1,39 @@
 package app.prismarine.server.world;
 
-import lombok.Getter;
-
 import java.io.File;
 
+/**
+ * Class responsible for handling the abstraction of worlds from their on-disk storage
+ * @author chloe
+ */
 public class WorldProvider {
+
+    /**
+     * The top-level directory of the world
+     */
     private final File worldDirectory;
 
+    /**
+     * The regions directory of the world
+     */
     private final File regionsDirectory;
 
+    /**
+     * Construct a new WorldProvider given the top-level directory of the world
+     * @param worldDirectory The top-level directory of the world
+     */
     public WorldProvider(File worldDirectory) {
         this.worldDirectory = worldDirectory;
         this.regionsDirectory = new File(worldDirectory, "region");
     }
 
-    public boolean loadChunk(PrismarineChunk chunk) {
+    public boolean loadChunk(PrismarineChunk chunk, boolean generate) {
+        Region chunkRegion = new Region(chunk.getX(), chunk.getZ(), this.regionsDirectory);
+
         return false; // TODO
     }
 
     public boolean saveChunk(PrismarineChunk chunk) {
         return false; // TODO
-    }
-
-    @Getter
-    private class Region {
-
-        private final int x, z;
-
-        public Region(int chunkX, int chunkZ) {
-            this.x = (int) Math.floor(chunkX / 32d);
-            this.z = (int) Math.floor(chunkZ / 32d);
-        }
-
-        public String getFileName() {
-            return String.format("r.%d.%d.mcr", this.x, this.z);
-        }
-
-        public File getFile() {
-            return new File(regionsDirectory, this.getFileName());
-        }
     }
 }

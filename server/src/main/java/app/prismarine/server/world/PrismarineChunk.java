@@ -191,7 +191,7 @@ public class PrismarineChunk implements Chunk {
 	 */
 	@Override
 	public boolean load(boolean generate) {
-		return this.world.getProvider().loadChunk(this);
+		return this.world.getProvider().loadChunk(this, generate);
 	}
 
 	/**
