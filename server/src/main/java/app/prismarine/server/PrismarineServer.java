@@ -34,6 +34,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.SimplePluginManager;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.messaging.ChannelNotRegisteredException;
 import org.bukkit.plugin.messaging.MessageTooLargeException;
 import org.bukkit.plugin.messaging.Messenger;
@@ -119,6 +120,11 @@ public final class PrismarineServer implements Server {
 	private ServerConfig config;
 
 	/**
+	 * The main server thread
+	 */
+	private Thread serverThread;
+
+	/**
 	 * The server's {@link CommandMap} implementation instance
 	 */
 	private final SimpleCommandMap commandMap = new SimpleCommandMap(this);
@@ -127,6 +133,12 @@ public final class PrismarineServer implements Server {
 	 * The server's {@link PluginManager} implementation instance
 	 */
 	private final SimplePluginManager pluginManager = new SimplePluginManager(this, this.commandMap);
+
+	/**
+	 * The server's {@link UnsafeValues} implementation instance
+	 */
+	@SuppressWarnings("deprecation") // we still need to provide this deprecated api
+	private final UnsafeValues unsafeValues = new PrismarineUnsafeValues();
 
 	/**
 	 * The server's {@link ServerTickManager} implementation instance
@@ -164,6 +176,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@SneakyThrows
 	public void startup() {
+		serverThread = Thread.currentThread();
 
 		// Ensure that the server hasn't already been started
 		if (this.running) {
@@ -190,8 +203,15 @@ public final class PrismarineServer implements Server {
 
 		// Read and load plugins
 		Files.createDirectories(Paths.get("plugins"));
+		this.pluginManager.registerInterface(JavaPluginLoader.class);
 		this.pluginManager.loadPlugins(new File("plugins"));
 		LOGGER.info("Loaded {} plugins", this.pluginManager.getPlugins().length);
+
+		// Enable plugins
+		LOGGER.info("Enabling loaded plugins");
+		for (Plugin plugin : this.pluginManager.getPlugins()) {
+			this.pluginManager.enablePlugin(plugin);
+		}
 
 		// Register commands
 		this.registerCommands();
@@ -1884,7 +1904,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override
 	public boolean isPrimaryThread() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return Thread.currentThread().equals(this.serverThread);
 	}
 
 	/**
@@ -2356,7 +2376,7 @@ public final class PrismarineServer implements Server {
 	 */
 	@Override @Deprecated @NotNull
 	public UnsafeValues getUnsafe() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.unsafeValues;
 	}
 
 	/**
